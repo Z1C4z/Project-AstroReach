@@ -33,7 +33,9 @@ func _process(_delta):
 		var error = json.parse(message)
 		
 		if error == OK:
-			process_hand_data(json.data)
+			if not json.data.has("ipd"):
+				print("a")
+				process_hand_data(json.data)
 		else:
 			push_error("Erro ao analisar JSON: ", json.get_error_message())
 
@@ -52,7 +54,7 @@ func process_hand_data(hand_data):
 	hands.clear()
 	for hand in hand_data.keys():
 		var raw_landmarks = hand_data[hand]["landmarks"]
-		print(hand_data[hand]['pose'])
+		#print(hand_data[hand]['pose'])
 		var screen_landmarks = []
 		
 		for lm in raw_landmarks:

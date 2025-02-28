@@ -3,10 +3,12 @@ extends CharacterBody3D
 @export var gyroCam: Camera3D  # Referência para a câmera que será controlada
 
 var udp = PacketPeerUDP.new()
-var listening_port = 5005
+var listening_port = 6000
 
 func _ready():
-	udp.bind(listening_port)
+	if udp.bind(listening_port) != OK:
+		push_error("Falha ao vincular à porta UDP")
+		return
 	print("Aguardando Sinais")
 	# Configuração inicial da câmera
 
@@ -16,8 +18,12 @@ func _process(_delta):
 		var message = packet.get_string_from_utf8()
 		var sinal = JSON.parse_string(message)
 		
-		if sinal:
-			print(sinal);
+		if sinal:  # Check if parsing was successful
+			print(sinal)
+			if sinal.has("reset"):
+				reset_gyro_camera()
+			elif sinal.has("ipd"):
+				updateData(sinal)
 
 func reset_gyro_camera():
 	if gyroCam and gyroCam.has_method("reset_rotation"):
@@ -26,7 +32,5 @@ func reset_gyro_camera():
 	else:
 		print("Erro: gyroCam não tem um método reset_rotation ou não foi atribuído")
 		
-func change_divide_value(value: float):
-	$SubViewport/GyroCam.divide_value = value
-	$SubViewport/GyroCam._ready()
-	print($SubViewport/GyroCam.divide_value)
+func updateData(data: Dictionary):
+	$SubViewport/GyroCam.setValues(data)

@@ -2,3 +2,7 @@
 .godot/
 /android/
 /venv/
+/python/main/build
+/python/main/dist
+/python/main/main.spec
+presets.json
