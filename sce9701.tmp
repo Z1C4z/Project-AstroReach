@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=3 uid="uid://m31rhbfn524l"]
+[gd_scene load_steps=18 format=3 uid="uid://m31rhbfn524l"]
 
 [ext_resource type="Script" path="res://VR_camera.gd" id="1_1yb1c"]
 [ext_resource type="Texture2D" uid="uid://dls825ytmfehm" path="res://images/NightSkyHDRI001_2K-HDR.exr" id="1_q74fe"]
@@ -44,6 +44,12 @@ albedo_color = Color(0.975664, 4.57242e-06, 1.54018e-06, 1)
 
 [sub_resource type="SphereMesh" id="SphereMesh_vb6w4"]
 material = SubResource("StandardMaterial3D_jdo4e")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_7bkug"]
+albedo_color = Color(1, 0.305882, 1, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_fiq1i"]
+material = SubResource("StandardMaterial3D_7bkug")
 
 [node name="Node3D" type="Node3D"]
 
@@ -143,7 +149,7 @@ text = "RHPS: None"
 [node name="SubViewport" type="SubViewport" parent="player"]
 
 [node name="GyroCam" type="Camera3D" parent="player/SubViewport" node_paths=PackedStringArray("left_eye_control", "right_eye_control", "subview_port")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 13, 0)
+transform = Transform3D(-0.798772, 0, 0.601634, 0, 1, 0, -0.601634, 0, -0.798772, 0, 13, 0)
 script = ExtResource("1_1yb1c")
 left_eye_control = NodePath("../../UI/Left_eye_control")
 right_eye_control = NodePath("../../UI/Right_eye_control")
@@ -153,8 +159,12 @@ subview_port = NodePath("..")
 script = ExtResource("4_tlulx")
 
 [node name="box2" type="MeshInstance3D" parent="."]
-transform = Transform3D(0.898775, 0.395749, 0.188651, 0.163503, 0.0966892, -0.981792, -0.406785, 0.913254, 0.0221956, -1.5494, 13.733, -3.84353)
+transform = Transform3D(0.898775, 0.395749, 0.188651, 0.163503, 0.0966892, -0.981792, -0.406785, 0.913254, 0.0221956, -3.18403, 14.3286, 3.60298)
 mesh = SubResource("SphereMesh_vb6w4")
-skeleton = NodePath("")
+skeleton = NodePath("../box")
+
+[node name="box" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.970406, 0.163503, 0.177708, 0, 0.735908, -0.677081, -0.241482, 0.657043, 0.714129, -5.6086, 13.7327, 2.70777)
+mesh = SubResource("BoxMesh_fiq1i")
 
 [connection signal="pressed" from="player/UI/Left_eye_control/Button" to="player/SubViewport/GyroCam" method="reset_rotation"]
