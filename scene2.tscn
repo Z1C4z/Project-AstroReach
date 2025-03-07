@@ -1,8 +1,13 @@
+<<<<<<< Updated upstream:scene2.tscn
 [gd_scene load_steps=16 format=3 uid="uid://m31rhbfn524l"]
+=======
+[gd_scene load_steps=21 format=3 uid="uid://c4dvk3uc61r3t"]
+>>>>>>> Stashed changes:Object 3D/scene2.tscn
 
 [ext_resource type="Script" path="res://VR_camera.gd" id="1_1yb1c"]
 [ext_resource type="Texture2D" uid="uid://dls825ytmfehm" path="res://images/NightSkyHDRI001_2K-HDR.exr" id="1_q74fe"]
 [ext_resource type="Script" path="res://conectSever.gd" id="2_4soh0"]
+[ext_resource type="Script" path="res://Object 3D/ui.gd" id="3_kxvg8"]
 [ext_resource type="Script" path="res://hands.gd" id="4_tlulx"]
 
 [sub_resource type="PanoramaSkyMaterial" id="PanoramaSkyMaterial_cucev"]
@@ -65,6 +70,7 @@ gyroCam = NodePath("SubViewport/GyroCam")
 
 [node name="UI" type="CanvasLayer" parent="player"]
 follow_viewport_enabled = true
+script = ExtResource("3_kxvg8")
 
 [node name="Background" type="Control" parent="player/UI"]
 layout_mode = 3
@@ -139,6 +145,10 @@ offset_top = -192.0
 offset_right = 256.0
 offset_bottom = -161.0
 text = "RHPS: None"
+
+[node name="Label" type="Label" parent="player/UI"]
+offset_right = 40.0
+offset_bottom = 23.0
 
 [node name="SubViewport" type="SubViewport" parent="player"]
 
