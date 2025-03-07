@@ -123,7 +123,7 @@ func arrastar_objeto(obj: Node3D):
 		var distancia_fixa = obj.global_transform.origin.distance_to(camera_3d.global_transform.origin)
 		var target_position = ray_origin + (ray_dir.normalized() * distancia_fixa)
 		target_position.z = -4.0
-		
+		print(target_position.length())
 		# Interpolação para suavizar o movimento
 		var velocidade_real = velocidade * 0.1
 		var nova_posicao = obj.global_transform.origin.lerp(target_position, velocidade_real)
@@ -132,4 +132,4 @@ func arrastar_objeto(obj: Node3D):
 		obj.global_transform.origin = nova_posicao
 
 		# Debug: Se a distância mudar, ainda tem algo errado
-		print("Escala:", obj.scale, " | Posição:", obj.position , " | Distância da câmera:", obj.global_transform.origin.distance_to(camera_3d.global_transform.origin))
+		print("Escala:", obj.scale, " | Posição:", obj.position , " | Distância da câmera:", camera_3d.global_transform.origin.distance_to(obj.global_transform.origin))
