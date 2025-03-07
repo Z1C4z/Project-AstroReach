@@ -6,251 +6,342 @@ import cv2
 import mediapipe as mp
 import numpy as np
 from threading import Thread
- 
-from PyQt5 import QtWidgets, QtCore
+
+from PyQt5 import QtWidgets, QtCore, QtGui
 from PyQt5.QtWidgets import (
     QApplication, QMainWindow, QWidget, QLabel, QPushButton,
-    QVBoxLayout, QHBoxLayout, QInputDialog, QMessageBox
+    QVBoxLayout, QHBoxLayout, QInputDialog, QMessageBox, QTabWidget, QStatusBar
 )
-from PyQt5.QtGui import QImage, QPixmap
+from PyQt5.QtGui import QImage, QPixmap, QFont
 from PyQt5.QtCore import QTimer, Qt, pyqtSignal
- 
+
 # Cria o socket UDP que será compartilhado
 sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
- 
-###############################
-# Painel de Controle - Código 1
-###############################
+
+##############################################
+# Estilos Minimalistas para Tema Claro e Escuro
+##############################################
+light_stylesheet = """
+QMainWindow, QWidget {
+    background-color: #ffffff;
+    color: #000;
+    font-family: "Segoe UI", sans-serif;
+    font-size: 10pt;
+}
+QPushButton {
+    background-color: #e6e6e6;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    padding: 5px 10px;
+}
+QPushButton:hover {
+    background-color: #d9d9d9;
+}
+QLineEdit, QComboBox, QSlider {
+    background-color: #ffffff;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    padding: 3px;
+}
+QLabel {
+    color: #000;
+}
+QTabWidget::pane {
+    border: none;
+    background-color: #ffffff;
+}
+QTabBar::tab {
+    background: #e6e6e6;
+    padding: 8px;
+    margin: 2px;
+    border-radius: 3px;
+    color: #000;
+}
+QTabBar::tab:selected {
+    background: #ffffff;
+    border-bottom: 2px solid #0078d7;
+}
+"""
+
+dark_stylesheet = """
+QMainWindow, QWidget {
+    background-color: #121212;
+    color: #e0e0e0;
+    font-family: "Segoe UI", sans-serif;
+    font-size: 10pt;
+}
+QPushButton {
+    background-color: #2a2a2a;
+    border: 1px solid #333;
+    border-radius: 3px;
+    padding: 5px 10px;
+}
+QPushButton:hover {
+    background-color: #333333;
+}
+QLineEdit, QComboBox, QSlider {
+    background-color: #1e1e1e;
+    border: 1px solid #333;
+    border-radius: 3px;
+    padding: 3px;
+    color: #e0e0e0;
+}
+QLabel {
+    color: #e0e0e0;
+}
+QTabWidget::pane {
+    border: none;
+    background-color: #121212;
+}
+QTabBar::tab {
+    background: #1e1e1e;
+    padding: 8px;
+    margin: 2px;
+    border-radius: 3px;
+    color: #e0e0e0;
+}
+QTabBar::tab:selected {
+    background: #121212;
+    border-bottom: 2px solid #0078d7;
+}
+"""
+
+##############################################
+# Painel de Controle - Versão Minimalista
+##############################################
 class CameraControllerApp(QWidget):
     message_signal = pyqtSignal(str, str)  # (tipo, mensagem)
- 
+
     def __init__(self):
         super().__init__()
         self.setWindowTitle("Godot Camera Controller")
-        self.layout = QVBoxLayout(self)
+        layout = QVBoxLayout(self)
+        layout.setContentsMargins(10, 10, 10, 10)
         self.message_signal.connect(self.show_message)
- 
-        # Barra superior com combobox e botões
-        self.top_bar_layout = QHBoxLayout()
+
+        # Combobox de predefinições e botões (sem sombras ou ícones)
+        top_layout = QHBoxLayout()
         self.preset_combobox = QtWidgets.QComboBox()
         self.preset_combobox.addItem("Selecione Predefinição")
         self.preset_combobox.currentIndexChanged.connect(self.load_preset)
-        self.top_bar_layout.addWidget(self.preset_combobox)
- 
-        self.save_button = QtWidgets.QPushButton("Salvar Predefinição")
+        top_layout.addWidget(self.preset_combobox)
+
+        self.save_button = QPushButton("Salvar")
         self.save_button.clicked.connect(self.save_preset)
-        self.delete_button = QtWidgets.QPushButton("Excluir Predefinição")
+        top_layout.addWidget(self.save_button)
+
+        self.delete_button = QPushButton("Excluir")
         self.delete_button.clicked.connect(self.delete_preset)
-        self.top_bar_layout.addWidget(self.save_button)
-        self.top_bar_layout.addWidget(self.delete_button)
-        self.layout.addLayout(self.top_bar_layout)
- 
-        # Campo para IP
-        self.ip_entry = QtWidgets.QLineEdit("192.168.0.102")
-        self.layout.addWidget(QtWidgets.QLabel("IP do Dispositivo Godot:"))
-        self.layout.addWidget(self.ip_entry)
- 
+        top_layout.addWidget(self.delete_button)
+        layout.addLayout(top_layout)
+
+        # Campo para IP do dispositivo Godot
+        layout.addWidget(QLabel("IP do Dispositivo Godot:"))
+        self.ip_entry = QtWidgets.QLineEdit("127.0.0.1")
+        layout.addWidget(self.ip_entry)
+
         # Botão de reset
-        self.reset_button = QtWidgets.QPushButton("Resetar Rotação")
+        self.reset_button = QPushButton("Resetar Rotação")
         self.reset_button.clicked.connect(self.on_reset_click)
-        self.layout.addWidget(self.reset_button)
- 
+        layout.addWidget(self.reset_button)
+
         # Slider IPD
+        self.ipd_label = QLabel("Distância IPD: 2.0")
+        layout.addWidget(self.ipd_label)
         self.ipd_scale = QtWidgets.QSlider(QtCore.Qt.Horizontal)
         self.ipd_scale.setRange(0, 200)
         self.ipd_scale.setValue(20)
-        self.ipd_label = QtWidgets.QLabel(f"Distância IPD: {self.ipd_scale.value() / 10}")
         self.ipd_scale.valueChanged.connect(self.update_ipd_label)
-        self.layout.addWidget(self.ipd_label)
-        self.layout.addWidget(self.ipd_scale)
- 
+        layout.addWidget(self.ipd_scale)
+
         # Slider Subviewport Scale
+        self.svs_label = QLabel("Subviewport Scale: 1.5")
+        layout.addWidget(self.svs_label)
         self.svs_scale = QtWidgets.QSlider(QtCore.Qt.Horizontal)
-        self.svs_scale.setRange(10, 30)
+        self.svs_scale.setRange(10, 30)  # 10 -> 1.0, 30 -> 3.0
         self.svs_scale.setValue(15)
-        self.svs_label = QtWidgets.QLabel(f"Subviewport Scale: {self.svs_scale.value()}")
         self.svs_scale.valueChanged.connect(self.update_svs_label)
-        self.layout.addWidget(self.svs_label)
-        self.layout.addWidget(self.svs_scale)
- 
-        # Slider Vr Filter Strength
-        self.vfs_scale = QtWidgets.QSlider(QtCore.Qt.Horizontal)
-        self.vfs_scale.setRange(0, 100)
-        self.vfs_scale.setValue(0)
-        self.vfs_label = QtWidgets.QLabel(f"Vr Filter Strength: {self.vfs_scale.value()}")
-        self.vfs_scale.valueChanged.connect(self.update_vfs_label)
-        self.layout.addWidget(self.vfs_label)
-        self.layout.addWidget(self.vfs_scale)
- 
+        layout.addWidget(self.svs_scale)
+
         # Slider Gyro Sensitive
+        self.gs_label = QLabel("Gyro Sensitive: 50")
+        layout.addWidget(self.gs_label)
         self.gs_scale = QtWidgets.QSlider(QtCore.Qt.Horizontal)
         self.gs_scale.setRange(0, 100)
         self.gs_scale.setValue(50)
-        self.gs_label = QtWidgets.QLabel(f"Gyro Sensitive: {self.gs_scale.value()}")
         self.gs_scale.valueChanged.connect(self.update_gs_label)
-        self.layout.addWidget(self.gs_label)
-        self.layout.addWidget(self.gs_scale)
- 
-        # Botão para enviar valores ajustados
-        self.send_values_button = QtWidgets.QPushButton("Enviar Valores Ajustados")
+        layout.addWidget(self.gs_scale)
+
+        # Botão para enviar valores (usa a porta 6000)
+        self.send_values_button = QPushButton("Enviar Valores")
         self.send_values_button.clicked.connect(self.on_send_values_click)
-        self.layout.addWidget(self.send_values_button)
- 
+        layout.addWidget(self.send_values_button)
+
         self.load_presets()
- 
+
     def show_message(self, msg_type, message):
         if msg_type == "info":
             QMessageBox.information(self, "Sucesso", message)
         elif msg_type == "error":
             QMessageBox.critical(self, "Erro", message)
- 
+
     def update_ipd_label(self):
-        self.ipd_label.setText(f"Distância IPD: {self.ipd_scale.value() / 10}")
- 
+        self.ipd_label.setText(f"Distância IPD: {self.ipd_scale.value() / 10:.1f}")
+
     def update_svs_label(self):
-        self.svs_label.setText(f"Subviewport Scale: {self.svs_scale.value()}")
- 
-    def update_vfs_label(self):
-        self.vfs_label.setText(f"Vr Filter Strength: {self.vfs_scale.value()}")
- 
+        self.svs_label.setText(f"Subviewport Scale: {self.svs_scale.value() / 10:.1f}")
+
     def update_gs_label(self):
         self.gs_label.setText(f"Gyro Sensitive: {self.gs_scale.value()}")
- 
+
     def load_presets(self):
         if os.path.exists("presets.json"):
             with open("presets.json", "r") as f:
                 presets = json.load(f)
             for preset in presets:
                 self.preset_combobox.addItem(preset)
- 
+
     def save_presets(self, preset_name, values):
         presets = self.load_presets_from_file()
         presets[preset_name] = values
         with open("presets.json", "w") as f:
             json.dump(presets, f)
- 
+
     def load_presets_from_file(self):
         if os.path.exists("presets.json"):
             with open("presets.json", "r") as f:
                 return json.load(f)
         return {}
- 
+
     def save_preset(self):
         preset_name, ok = QInputDialog.getText(self, "Salvar Predefinição", "Nome da predefinição:")
         if ok and preset_name:
             values = {
                 "ipd": self.ipd_scale.value() / 10,
-                "subviewport_scale": self.svs_scale.value(),
-                "vr_filter_strength": self.vfs_scale.value(),
-                "gyro_sensitive": self.gs_scale.value()
+                "subviewport_scale": self.svs_scale.value() / 10,
+                "gyro_sensitivity": self.gs_scale.value()
             }
             self.save_presets(preset_name, values)
             self.preset_combobox.addItem(preset_name)
             self.message_signal.emit("info", "Predefinição salva com sucesso!")
- 
+
     def delete_preset(self):
         preset_name = self.preset_combobox.currentText()
         if preset_name == "Selecione Predefinição":
             self.message_signal.emit("error", "Selecione uma predefinição para excluir.")
             return
- 
+
         presets = self.load_presets_from_file()
         if preset_name in presets:
             del presets[preset_name]
             with open("presets.json", "w") as f:
                 json.dump(presets, f)
- 
             self.preset_combobox.removeItem(self.preset_combobox.currentIndex())
             self.message_signal.emit("info", "Predefinição excluída com sucesso!")
- 
+
     def load_preset(self):
         preset_name = self.preset_combobox.currentText()
         if preset_name == "Selecione Predefinição":
             return
- 
         presets = self.load_presets_from_file()
         if preset_name in presets:
             values = presets[preset_name]
             self.ipd_scale.setValue(int(values["ipd"] * 10))
-            self.svs_scale.setValue(values["subviewport_scale"])
-            self.vfs_scale.setValue(values["vr_filter_strength"])
-            self.gs_scale.setValue(values["gyro_sensitive"])
- 
-    def send_reset(self, ip, port=57387):
+            self.svs_scale.setValue(int(values["subviewport_scale"] * 10))
+            self.gs_scale.setValue(values["gyro_sensitivity"])
+
+    def send_reset(self, ip, port=6000):
         self.send_message({"reset": 0}, ip, port)
- 
-    def send_message(self, message, ip, port=57387):
+
+    def send_message(self, message, ip, port=6000):
         try:
             data = json.dumps(message)
             sock.sendto(data.encode("utf-8"), (ip, port))
             self.message_signal.emit("info", "Sinal enviado com sucesso!")
         except Exception as e:
             self.message_signal.emit("error", f"Erro na conexão: {str(e)}")
- 
+
     def on_reset_click(self):
         ip = self.ip_entry.text()
         if ip:
             Thread(target=self.send_reset, args=(ip,)).start()
- 
+
     def on_send_values_click(self):
         ip = self.ip_entry.text()
         data = {
             "ipd": self.ipd_scale.value() / 10,
-            "subviewport_scale": self.svs_scale.value(),
-            "vr_filter_strength": self.vfs_scale.value(),
-            "gyro_sensitive": self.gs_scale.value()
+            "subviewport_scale": self.svs_scale.value() / 10,
+            "gyro_sensitivity": self.gs_scale.value()
         }
-        Thread(target=self.send_message, args=(data, ip)).start()
- 
-#######################################
-# Área de Hand Tracking - Código 2 (Adaptado)
-#######################################
+        Thread(target=self.send_message, args=(data, ip, 6000)).start()
+
+##############################################
+# Área de Hand Tracking - Versão Minimalista
+##############################################
 class HandTrackingWidget(QWidget):
-    def __init__(self):
+    message_signal = pyqtSignal(str, str)  # (tipo, mensagem)
+    def __init__(self, ip_getter):
+        """
+        ip_getter: função que retorna o valor atual do IP (do campo ip_entry)
+        """
         super().__init__()
         self.setWindowTitle("Hand Pose Detection")
- 
-        # Widgets
+        self.ip_getter = ip_getter
+        layout = QVBoxLayout(self)
+        layout.setContentsMargins(10, 10, 10, 10)
+        
+        # Área de vídeo com placeholder
         self.video_label = QLabel()
+        self.video_label.setFixedSize(640, 480)
         self.video_label.setAlignment(Qt.AlignCenter)
+        self.set_placeholder()
+        layout.addWidget(self.video_label, alignment=Qt.AlignCenter)
+        
+        # Rótulo de pose detectada
         self.pose_label = QLabel("Pose da Mão: Desconhecida")
         self.pose_label.setAlignment(Qt.AlignCenter)
- 
-        self.start_button = QPushButton("Iniciar Rastreamento")
-        self.stop_button = QPushButton("Parar Rastreamento")
+        self.pose_label.setFont(QFont("Segoe UI", 12))
+        layout.addWidget(self.pose_label)
+        
+        # Botões de controle
+        buttons_layout = QHBoxLayout()
+        self.start_button = QPushButton("Iniciar")
         self.start_button.clicked.connect(self.start_tracking)
+        buttons_layout.addWidget(self.start_button)
+        
+        self.stop_button = QPushButton("Parar")
         self.stop_button.clicked.connect(self.stop_tracking)
- 
-        # Layout
-        button_layout = QHBoxLayout()
-        button_layout.addWidget(self.start_button)
-        button_layout.addWidget(self.stop_button)
- 
-        main_layout = QVBoxLayout()
-        main_layout.addWidget(self.video_label)
-        main_layout.addWidget(self.pose_label)
-        main_layout.addLayout(button_layout)
-        self.setLayout(main_layout)
- 
+        buttons_layout.addWidget(self.stop_button)
+        layout.addLayout(buttons_layout)
+        
         # Variáveis de controle
         self.cap = None
         self.timer = QTimer(self)
         self.timer.timeout.connect(self.update_frame)
- 
-        # Configurações de socket e MediaPipe
-        self.UDP_IP = "192.168.0.102"
-        self.UDP_PORT = 5005
+        
+        # Configuração do MediaPipe
         self.sock = sock
         self.mp_hands = mp.solutions.hands
         self.mp_drawing = mp.solutions.drawing_utils
         self.mp_drawing_styles = mp.solutions.drawing_styles
         self.hands = self.mp_hands.Hands(min_detection_confidence=0.5, min_tracking_confidence=0.5)
- 
+
+    def set_placeholder(self):
+        placeholder_color = QtGui.QColor("#cccccc")
+        image = QImage(640, 480, QImage.Format_RGB888)
+        image.fill(placeholder_color)
+        self.video_label.setPixmap(QPixmap.fromImage(image))
+
     def start_tracking(self):
-        if self.cap is None:
-            self.cap = cv2.VideoCapture(0)
+        self.cap = cv2.VideoCapture(0)
         self.timer.start(30)
- 
+
+    def show_message(self, msg_type, message):
+        if msg_type == "info":
+            QMessageBox.information(self, "Sucesso", message)
+        elif msg_type == "error":
+            QMessageBox.critical(self, "Erro", message)
+
     def update_frame(self):
         if self.cap is not None and self.cap.isOpened():
             ret, frame = self.cap.read()
@@ -281,8 +372,13 @@ class HandTrackingWidget(QWidget):
                     cv2.putText(frame, f"{label}: {pose}", pos, cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0), 2)
  
             if hand_data:
+                udp_ip = self.ip_getter()
                 message = json.dumps(hand_data)
-                self.sock.sendto(message.encode(), (self.UDP_IP, self.UDP_PORT))
+                try:
+                    self.sock.sendto(message.encode(), (udp_ip, 5005))
+                except:
+                    print("break")
+                    self.stop_tracking()
  
             self.pose_label.setText(f"Pose da Mão: {pose}")
  
@@ -292,20 +388,20 @@ class HandTrackingWidget(QWidget):
             bytes_per_line = ch * w
             qt_image = QImage(rgb_image.data, w, h, bytes_per_line, QImage.Format_RGB888)
             self.video_label.setPixmap(QPixmap.fromImage(qt_image))
- 
+
     def stop_tracking(self):
         self.timer.stop()
         if self.cap is not None:
             self.cap.release()
             self.cap = None
-        self.video_label.clear()
- 
+        self.set_placeholder()
+
     def is_finger_extended(self, hand_landmarks, finger_tip, finger_dip):
         return hand_landmarks.landmark[finger_tip].y < hand_landmarks.landmark[finger_dip].y
- 
+    
     def distance(self, a, b):
         return np.sqrt((a.x - b.x) ** 2 + (a.y - b.y) ** 2)
- 
+
     def detect_gesture(self, hand_landmarks):
         indicador = self.is_finger_extended(hand_landmarks, 8, 6)
         medio = self.is_finger_extended(hand_landmarks, 12, 10)
@@ -326,30 +422,61 @@ class HandTrackingWidget(QWidget):
             return "two"
         else:
             return "unknow"
- 
-#######################################
-# Janela Principal com Layout Horizontal
-#######################################
+
+##############################################
+# Janela Principal Minimalista com Abas e Status Bar
+##############################################
 class MainWindow(QMainWindow):
     def __init__(self):
         super().__init__()
         self.setWindowTitle("Aplicativo Unificado")
- 
-        central_widget = QWidget()
-        layout = QHBoxLayout(central_widget)
- 
+        self.setFixedSize(800, 600)
+
+        # Aplica o tema claro como padrão
+        self.current_theme = "light"
+        QApplication.instance().setStyleSheet(light_stylesheet)
+
+        # Cria abas simples para os módulos
+        self.tabs = QTabWidget()
         self.camera_controller = CameraControllerApp()
-        self.hand_tracking = HandTrackingWidget()
- 
-        layout.addWidget(self.camera_controller)
-        layout.addWidget(self.hand_tracking)
- 
-        self.setCentralWidget(central_widget)
-        self.resize(900, 500)
- 
+        self.hand_tracking = HandTrackingWidget(ip_getter=lambda: self.camera_controller.ip_entry.text())
+        self.tabs.addTab(self.camera_controller, "Controles")
+        self.tabs.addTab(self.hand_tracking, "Hand Tracking")
+        self.setCentralWidget(self.tabs)
+
+        # Menu de opções minimalista
+        self.create_menu()
+
+        # Barra de status
+        self.status_bar = QStatusBar()
+        self.setStatusBar(self.status_bar)
+
+    def create_menu(self):
+        menu_bar = self.menuBar()
+        theme_menu = menu_bar.addMenu("Tema")
+        light_action = theme_menu.addAction("Tema Claro")
+        dark_action = theme_menu.addAction("Tema Escuro")
+        light_action.triggered.connect(self.set_light_theme)
+        dark_action.triggered.connect(self.set_dark_theme)
+        help_menu = menu_bar.addMenu("Ajuda")
+        about_action = help_menu.addAction("Sobre")
+        about_action.triggered.connect(self.show_about)
+
+    def set_light_theme(self):
+        QApplication.instance().setStyleSheet(light_stylesheet)
+        self.current_theme = "light"
+        self.status_bar.showMessage("Tema claro ativado", 3000)
+
+    def set_dark_theme(self):
+        QApplication.instance().setStyleSheet(dark_stylesheet)
+        self.current_theme = "dark"
+        self.status_bar.showMessage("Tema escuro ativado", 3000)
+
+    def show_about(self):
+        QMessageBox.information(self, "Sobre", "Aplicativo Unificado\nVersão 1.0\nDesenvolvido com PyQt5.")
+
 if __name__ == "__main__":
     app = QApplication(sys.argv)
     window = MainWindow()
     window.show()
     sys.exit(app.exec_())
- 

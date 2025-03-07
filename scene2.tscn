@@ -1,9 +1,9 @@
 [gd_scene load_steps=16 format=3 uid="uid://m31rhbfn524l"]
 
-[ext_resource type="Script" path="res://VR_camera.gd" id="1_1yb1c"]
+[ext_resource type="Script" uid="uid://guerlmmhgfi0" path="res://VR_camera.gd" id="1_1yb1c"]
 [ext_resource type="Texture2D" uid="uid://dls825ytmfehm" path="res://images/NightSkyHDRI001_2K-HDR.exr" id="1_q74fe"]
-[ext_resource type="Script" path="res://conectSever.gd" id="2_4soh0"]
-[ext_resource type="Script" path="res://hands.gd" id="4_tlulx"]
+[ext_resource type="Script" uid="uid://bd4hf51k4svov" path="res://conectSever.gd" id="2_4soh0"]
+[ext_resource type="Script" uid="uid://cb80v883xuqpo" path="res://hands.gd" id="4_tlulx"]
 
 [sub_resource type="PanoramaSkyMaterial" id="PanoramaSkyMaterial_cucev"]
 panorama = ExtResource("1_q74fe")
@@ -58,10 +58,9 @@ shadow_enabled = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 6, 0)
 mesh = SubResource("SphereMesh_3fuc5")
 
-[node name="player" type="CharacterBody3D" parent="." node_paths=PackedStringArray("gyroCam")]
+[node name="player" type="CharacterBody3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 11.7708, 0)
 script = ExtResource("2_4soh0")
-gyroCam = NodePath("SubViewport/GyroCam")
 
 [node name="UI" type="CanvasLayer" parent="player"]
 follow_viewport_enabled = true

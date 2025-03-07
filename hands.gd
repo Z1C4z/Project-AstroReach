@@ -55,7 +55,6 @@ func _process(_delta):
 				if (mao_sobre_objeto == "Right" and right_handpose == "close") or \
 				   (mao_sobre_objeto == "Left" and left_handpose == "close"):
 					if not arrastando:
-						print("Arrastando com:", mao_sobre_objeto)
 						arrastando = true
 						mao_selecionada = mao_sobre_objeto  # Define a mão que está controlando o objeto
 					arrastar_objeto(obj)
@@ -95,6 +94,9 @@ func _draw():
 
 func detectar_mao_no_objeto(object_3d: Node3D, camera: Camera3D) -> String:
 	var screen_pos = world_to_screen(object_3d, camera)
+	if screen_pos == Vector2.ZERO:
+		return ""  # Posição inválida ou atrás da câmera
+	
 	var hitbox_radius = 100  # Aumente para expandir a hitbox
 
 	for hand_name in hands.keys():
@@ -106,9 +108,12 @@ func detectar_mao_no_objeto(object_3d: Node3D, camera: Camera3D) -> String:
 	return ""  # Nenhuma mão está sobre o objeto
 
 func world_to_screen(object_3d: Node3D, camera: Camera3D) -> Vector2:
-	if camera:
-		return camera.unproject_position(object_3d.global_transform.origin)
-	return Vector2.ZERO
+	if not camera:
+		return Vector2.ZERO
+	var global_pos = object_3d.global_transform.origin
+	if camera.is_position_behind(global_pos):
+		return Vector2.ZERO
+	return camera.unproject_position(global_pos)
 
 func arrastar_objeto(obj: Node3D):
 	# O objeto só segue a mão que está sobre ele
