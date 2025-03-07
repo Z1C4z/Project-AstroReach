@@ -176,10 +176,10 @@ class CameraControllerApp(QWidget):
             self.vfs_scale.setValue(values["vr_filter_strength"])
             self.gs_scale.setValue(values["gyro_sensitive"])
  
-    def send_reset(self, ip, port=5005):
+    def send_reset(self, ip, port=57387):
         self.send_message({"reset": 0}, ip, port)
  
-    def send_message(self, message, ip, port=5005):
+    def send_message(self, message, ip, port=57387):
         try:
             data = json.dumps(message)
             sock.sendto(data.encode("utf-8"), (ip, port))
