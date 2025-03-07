@@ -1,9 +1,10 @@
-[gd_scene load_steps=16 format=3 uid="uid://m31rhbfn524l"]
+[gd_scene load_steps=19 format=3 uid="uid://m31rhbfn524l"]
 
 [ext_resource type="Script" path="res://VR_camera.gd" id="1_1yb1c"]
 [ext_resource type="Texture2D" uid="uid://dls825ytmfehm" path="res://images/NightSkyHDRI001_2K-HDR.exr" id="1_q74fe"]
 [ext_resource type="Script" path="res://conectSever.gd" id="2_4soh0"]
 [ext_resource type="Script" path="res://hands.gd" id="4_tlulx"]
+[ext_resource type="Script" path="res://pontodechegada.gd" id="5_r5it0"]
 
 [sub_resource type="PanoramaSkyMaterial" id="PanoramaSkyMaterial_cucev"]
 panorama = ExtResource("1_q74fe")
@@ -17,16 +18,6 @@ sky = SubResource("Sky_de2jx")
 tonemap_mode = 2
 glow_enabled = true
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_a612y"]
-albedo_color = Color(1, 1, 0.560784, 1)
-
-[sub_resource type="SphereMesh" id="SphereMesh_3fuc5"]
-material = SubResource("StandardMaterial3D_a612y")
-radius = 4.0
-height = 7.0
-radial_segments = 8
-rings = 8
-
 [sub_resource type="Gradient" id="Gradient_0nfo8"]
 colors = PackedColorArray(0, 0, 0, 1, 0, 0, 0, 1)
 
@@ -39,11 +30,25 @@ viewport_path = NodePath("player/SubViewport")
 [sub_resource type="ViewportTexture" id="ViewportTexture_j2r7a"]
 viewport_path = NodePath("player/SubViewport")
 
+[sub_resource type="SphereShape3D" id="SphereShape3D_4q5m0"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_8mi3u"]
+
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_jdo4e"]
 albedo_color = Color(0.975664, 4.57242e-06, 1.54018e-06, 1)
 
 [sub_resource type="SphereMesh" id="SphereMesh_vb6w4"]
 material = SubResource("StandardMaterial3D_jdo4e")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_a612y"]
+albedo_color = Color(1, 1, 0.560784, 1)
+
+[sub_resource type="SphereMesh" id="SphereMesh_3fuc5"]
+material = SubResource("StandardMaterial3D_a612y")
+radius = 4.0
+height = 7.0
+radial_segments = 8
+rings = 8
 
 [node name="Node3D" type="Node3D"]
 
@@ -53,10 +58,6 @@ environment = SubResource("Environment_00r57")
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(-0.999328, 0.0337307, -0.0143178, -0.0195542, -0.16043, 0.986854, 0.0309903, 0.986471, 0.160982, 0, 29.8726, 0)
 shadow_enabled = true
-
-[node name="planet" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 6, 0)
-mesh = SubResource("SphereMesh_3fuc5")
 
 [node name="player" type="CharacterBody3D" parent="." node_paths=PackedStringArray("gyroCam")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 11.7708, 0)
@@ -152,9 +153,27 @@ subview_port = NodePath("..")
 [node name="Hands" type="Node2D" parent="player/SubViewport/GyroCam"]
 script = ExtResource("4_tlulx")
 
-[node name="box2" type="MeshInstance3D" parent="."]
+[node name="Area3D" type="Area3D" parent="."]
+collision_mask = 2
+script = ExtResource("5_r5it0")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.25617, 14.2894, -3.88288)
+shape = SubResource("SphereShape3D_4q5m0")
+
+[node name="Area3D2" type="Area3D" parent="."]
+collision_mask = 2
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D2"]
+shape = SubResource("SphereShape3D_8mi3u")
+
+[node name="box2" type="MeshInstance3D" parent="Area3D2"]
 transform = Transform3D(0.898775, 0.395749, 0.188651, 0.163503, 0.0966892, -0.981792, -0.406785, 0.913254, 0.0221956, -1.5494, 13.733, -3.84353)
 mesh = SubResource("SphereMesh_vb6w4")
 skeleton = NodePath("")
+
+[node name="planet" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 6, 0)
+mesh = SubResource("SphereMesh_3fuc5")
 
 [connection signal="pressed" from="player/UI/Left_eye_control/Button" to="player/SubViewport/GyroCam" method="reset_rotation"]
