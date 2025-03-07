@@ -16,7 +16,7 @@
 
 ## 🛰 Visão Geral do Projeto
 **AstroReach** é uma ferramenta terapêutica interestelar que combina:
-- 🕹 Aplicativo Mobile VR Godot (v4.4 Stable)
+- 🕹 Aplicativo Mobile VR Godot (v4.3 Stable)
 - 🤖 Núcleo de Visão Computacional em Python 3.12.9
 - 📡 Sistema de comunicação entre dispositivos
 - 📊 Nebulosa de Acompanhamento de Progresso
@@ -28,8 +28,9 @@ Ajude astronautas com desafios motores a navegar por objetos celestiais usando m
 ## 🪐 Guia de Instalação
 
 ### 🚀 Pré-requisitos
-- [Godot Engine 4.4 Stable](https://godotengine.org/download/windows/)
+- [Godot Engine 4.3 Stable](https://godotengine.org/download/windows/)
 - Python 3.12.9 ([Instalador Windows](https://www.python.org/downloads/release/python-3129/))
+- [Microsoft Visual C++ 2019 Redistributable](https://aka.ms/vs/16/release/vc_redist.x64.exe)
 - Gerenciador de pacotes pip
 - Webcam/Câmera USB
 - Conexão Wi-Fi estável (para comunicação entre dispositivos)
