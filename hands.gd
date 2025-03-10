@@ -8,6 +8,7 @@ var right_handpose = "unknow"
 var arrastando = false
 var velocidade = 1.5  # Velocidade fixa do objeto
 var mao_selecionada = null  # Armazena qual mão está controlando o objeto
+var camera_rotation_speed = 0.005  # Velocidade de rotação da câmera
 
 var connections = [
 	[0,1], [1,2], [2,3], [3,4],         # Polegar
@@ -19,12 +20,18 @@ var connections = [
 
 @onready var camera_3d = get_node_or_null("/root/Node3D/player/SubViewport/GyroCam")
 @onready var objetos_3d = []  # Lista para armazenar todos os MeshInstance3D
+@onready var label_mensagem = $CanvasLayer/Label
+@onready var box2_area = get_node_or_null("/root/Node3D/box2/Area3D")
+@onready var boxfinish_area = get_node_or_null("/root/Node3D/boxfinish/Area3D")
 
 func _ready():
 	if udp.bind(listening_port) != OK:
 		push_error("Falha ao vincular à porta UDP")
 		return
 	print("Aguardando dados da mão...")
+	
+	if box2_area and boxfinish_area:
+		boxfinish_area.connect("area_entered", _on_boxfinish_collided)
 
 	# Buscar todos os MeshInstance3D na cena
 	var root_node = get_tree().get_root().get_node("Node3D")
@@ -62,6 +69,44 @@ func _process(_delta):
 			else:
 				arrastando = false
 				mao_selecionada = null  # Reseta a mão controladora
+
+	# Controle da câmera com setas do teclado
+	if camera_3d:
+		if Input.is_action_pressed("ui_left"):
+			camera_3d.rotation_degrees.y += camera_rotation_speed * 100
+		if Input.is_action_pressed("ui_right"):
+			camera_3d.rotation_degrees.y -= camera_rotation_speed * 100
+		if Input.is_action_pressed("ui_up"):
+			camera_3d.rotation_degrees.x += camera_rotation_speed * 100
+		if Input.is_action_pressed("ui_down"):
+			camera_3d.rotation_degrees.x -= camera_rotation_speed * 100
+
+	# Aqui, você adiciona a rotação no eixo Z
+	if InputMap.has_action("ui_rotate_z") and Input.is_action_pressed("ui_rotate_z"):
+		camera_3d.rotation_degrees.z += camera_rotation_speed * 100
+
+
+	if udp.get_available_packet_count() > 0:
+		var packet = udp.get_packet()
+		var message = packet.get_string_from_utf8()
+		var json = JSON.new()
+		var error = json.parse(message)
+
+		if error == OK:
+			process_hand_data(json.data)
+		else:
+			push_error("Erro ao analisar JSON: ", json.get_error_message())
+
+func _on_boxfinish_collided(area):
+	if area == box2_area:
+		exibir_mensagem("O box2 chegou ao destino!")
+
+func exibir_mensagem(texto: String):
+	label_mensagem.text = texto
+	label_mensagem.visible = true
+	get_tree().create_timer(2.0).timeout.connect(func():
+		label_mensagem.visible = false
+)
 
 func process_hand_data(hand_data):
 	hands.clear()
@@ -123,7 +168,7 @@ func arrastar_objeto(obj: Node3D):
 		var distancia_fixa = obj.global_transform.origin.distance_to(camera_3d.global_transform.origin)
 		var target_position = ray_origin + (ray_dir.normalized() * distancia_fixa)
 		target_position.z = -4.0
-		print(target_position.length())
+		
 		# Interpolação para suavizar o movimento
 		var velocidade_real = velocidade * 0.1
 		var nova_posicao = obj.global_transform.origin.lerp(target_position, velocidade_real)
