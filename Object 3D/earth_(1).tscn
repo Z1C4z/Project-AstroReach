@@ -1,0 +1,12 @@
+[gd_scene load_steps=3 format=3 uid="uid://d4k4evgyiq1eo"]
+
+[ext_resource type="PackedScene" uid="uid://c6kfbubyev6h5" path="res://Object 3D/Earth (1).glb" id="1_qgygk"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_6f3tn"]
+radius = 0.581591
+
+[node name="Earth (1)" instance=ExtResource("1_qgygk")]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="GeoSphere001" index="0"]
+transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 1.24117, 0)
+shape = SubResource("SphereShape3D_6f3tn")

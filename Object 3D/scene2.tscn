@@ -1,17 +1,17 @@
 [gd_scene load_steps=20 format=3 uid="uid://c4dvk3uc61r3t"]
 
 [ext_resource type="Script" path="res://VR_camera.gd" id="1_1yb1c"]
-[ext_resource type="Texture2D" uid="uid://dls825ytmfehm" path="res://images/NightSkyHDRI001_2K-HDR.exr" id="1_q74fe"]
+[ext_resource type="Texture2D" uid="uid://dn7hfswsthchr" path="res://images/NightSkyHDRI003_1K-TONEMAPPED.jpg" id="1_a6lsj"]
 [ext_resource type="Script" path="res://conectSever.gd" id="2_4soh0"]
+[ext_resource type="Script" path="res://Object 3D/ui.gd" id="3_vsw7i"]
 [ext_resource type="Script" path="res://hands.gd" id="4_tlulx"]
 [ext_resource type="Script" path="res://redoma_area_3d.gd" id="5_b10ws"]
-[ext_resource type="PackedScene" uid="uid://dt561ya0sritx" path="res://Object 3D/Asteroid (1).glb" id="6_e0erc"]
-[ext_resource type="PackedScene" uid="uid://c6kfbubyev6h5" path="res://Object 3D/Earth (1).glb" id="7_em75w"]
-[ext_resource type="PackedScene" uid="uid://bv7ynqc53vg21" path="res://Object 3D/Jupiter (1).glb" id="8_hmk05"]
-[ext_resource type="PackedScene" uid="uid://cywvyaq4oohkb" path="res://Object 3D/ricks ufo (1).glb" id="9_mrb4d"]
+[ext_resource type="PackedScene" uid="uid://dlh05laiopdk3" path="res://Object 3D/asteroid_(1).tscn" id="7_26ncv"]
+[ext_resource type="PackedScene" uid="uid://d4k4evgyiq1eo" path="res://Object 3D/earth_(1).tscn" id="8_ofikv"]
+[ext_resource type="PackedScene" uid="uid://crcvs3wskexrt" path="res://Object 3D/root_scene.tscn" id="9_et0hl"]
 
 [sub_resource type="PanoramaSkyMaterial" id="PanoramaSkyMaterial_cucev"]
-panorama = ExtResource("1_q74fe")
+panorama = ExtResource("1_a6lsj")
 
 [sub_resource type="Sky" id="Sky_de2jx"]
 sky_material = SubResource("PanoramaSkyMaterial_cucev")
@@ -69,6 +69,7 @@ gyroCam = NodePath("SubViewport/GyroCam")
 
 [node name="UI" type="CanvasLayer" parent="player"]
 follow_viewport_enabled = true
+script = ExtResource("3_vsw7i")
 
 [node name="Background" type="Control" parent="player/UI"]
 layout_mode = 3
@@ -144,6 +145,10 @@ offset_right = 256.0
 offset_bottom = -161.0
 text = "RHPS: None"
 
+[node name="Label" type="Label" parent="player/UI"]
+offset_right = 40.0
+offset_bottom = 23.0
+
 [node name="SubViewport" type="SubViewport" parent="player"]
 
 [node name="GyroCam" type="Camera3D" parent="player/SubViewport" node_paths=PackedStringArray("left_eye_control", "right_eye_control", "subview_port")]
@@ -156,12 +161,13 @@ subview_port = NodePath("..")
 [node name="Hands" type="Node2D" parent="player/SubViewport/GyroCam"]
 script = ExtResource("4_tlulx")
 
-[node name="RedomaArea3D" type="Area3D" parent="."]
+[node name="RedomaArea3D" type="Area3D" parent="." node_paths=PackedStringArray("redoma")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0338345, 12.9882, -0.0478802)
 script = ExtResource("5_b10ws")
-obstaculo_scenes = Array[PackedScene]([ExtResource("6_e0erc"), ExtResource("8_hmk05")])
-terra_scene = ExtResource("7_em75w")
-nave_scene = ExtResource("9_mrb4d")
+asteroid_scene = ExtResource("7_26ncv")
+terra_scene = ExtResource("8_ofikv")
+nave_scene = ExtResource("9_et0hl")
+redoma = NodePath("CollisionShape3D")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="RedomaArea3D"]
 shape = SubResource("CylinderShape3D_0051r")

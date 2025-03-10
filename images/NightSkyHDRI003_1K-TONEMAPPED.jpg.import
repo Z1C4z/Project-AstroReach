@@ -2,21 +2,18 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://b27mwtvvjcdou"
-path.s3tc="res://.godot/imported/Jupiter (1)_1225 Jupiter.png-cc079b756208250816f49783b578290e.s3tc.ctex"
-path.etc2="res://.godot/imported/Jupiter (1)_1225 Jupiter.png-cc079b756208250816f49783b578290e.etc2.ctex"
+uid="uid://dn7hfswsthchr"
+path.s3tc="res://.godot/imported/NightSkyHDRI003_1K-TONEMAPPED.jpg-ead2956fba07492015088e2844657432.s3tc.ctex"
+path.etc2="res://.godot/imported/NightSkyHDRI003_1K-TONEMAPPED.jpg-ead2956fba07492015088e2844657432.etc2.ctex"
 metadata={
 "imported_formats": ["s3tc_bptc", "etc2_astc"],
 "vram_texture": true
 }
-generator_parameters={
-"md5": "f793448b9295ccf873f613aad9c531d6"
-}
 
 [deps]
 
-source_file="res://Object 3D/Jupiter (1)_1225 Jupiter.png"
-dest_files=["res://.godot/imported/Jupiter (1)_1225 Jupiter.png-cc079b756208250816f49783b578290e.s3tc.ctex", "res://.godot/imported/Jupiter (1)_1225 Jupiter.png-cc079b756208250816f49783b578290e.etc2.ctex"]
+source_file="res://images/NightSkyHDRI003_1K-TONEMAPPED.jpg"
+dest_files=["res://.godot/imported/NightSkyHDRI003_1K-TONEMAPPED.jpg-ead2956fba07492015088e2844657432.s3tc.ctex", "res://.godot/imported/NightSkyHDRI003_1K-TONEMAPPED.jpg-ead2956fba07492015088e2844657432.etc2.ctex"]
 
 [params]
 

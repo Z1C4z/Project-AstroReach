@@ -1,0 +1,12 @@
+[gd_scene load_steps=4 format=3 uid="uid://dlh05laiopdk3"]
+
+[ext_resource type="PackedScene" path="res://Object 3D/Asteroid (1).glb" id="1_upjwc"]
+[ext_resource type="Script" path="res://Object 3D/asteroid_(1).gd" id="2_8noaq"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_kmxbb"]
+
+[node name="Asteroid (1)" instance=ExtResource("1_upjwc")]
+script = ExtResource("2_8noaq")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Asteroid_Icosphere" index="0"]
+shape = SubResource("SphereShape3D_kmxbb")

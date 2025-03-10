@@ -1,0 +1,11 @@
+[gd_scene load_steps=3 format=3 uid="uid://crcvs3wskexrt"]
+
+[ext_resource type="PackedScene" uid="uid://c07attteasgh4" path="res://Object 3D/ricks ufo (1).glb" id="1_2e67r"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_qt7dl"]
+radius = 0.460211
+
+[node name="Root Scene" instance=ExtResource("1_2e67r")]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="RootNode/polySurface551" index="0"]
+shape = SubResource("SphereShape3D_qt7dl")

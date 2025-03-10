@@ -3,7 +3,7 @@
 importer="scene"
 importer_version=1
 type="PackedScene"
-uid="uid://dt561ya0sritx"
+uid="uid://b77fwdtlfrip8"
 path="res://.godot/imported/Asteroid (1).glb-a49beb23dffd62a377401d4076802067.scn"
 
 [deps]
@@ -16,7 +16,7 @@ dest_files=["res://.godot/imported/Asteroid (1).glb-a49beb23dffd62a377401d407680
 nodes/root_type=""
 nodes/root_name=""
 nodes/apply_root_scale=true
-nodes/root_scale=0.6
+nodes/root_scale=0.85
 nodes/import_as_skeleton_bones=false
 meshes/ensure_tangents=true
 meshes/generate_lods=true
