@@ -2,3 +2,4 @@
 .godot/
 /android/
 /python/mediapipe_env
+/python/breakdown test/__pycache__
