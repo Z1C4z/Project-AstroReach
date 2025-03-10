@@ -1,0 +1,85 @@
+[gd_scene load_steps=8 format=3 uid="uid://n7nu58sat7i4"]
+
+[ext_resource type="Script" uid="uid://b1601oq0j453e" path="res://player/conectSever.gd" id="1_g1dw6"]
+[ext_resource type="Script" uid="uid://cfgx1ui3p75ik" path="res://player/VR_camera.gd" id="2_yw30f"]
+[ext_resource type="Script" uid="uid://cam3p8w0k6qs0" path="res://player/hands.gd" id="3_qjkh3"]
+
+[sub_resource type="Gradient" id="Gradient_0nfo8"]
+colors = PackedColorArray(0, 0, 0, 1, 0, 0, 0, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_7ugu7"]
+gradient = SubResource("Gradient_0nfo8")
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_x3h5r"]
+viewport_path = NodePath("SubViewport")
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_j2r7a"]
+viewport_path = NodePath("SubViewport")
+
+[node name="player" type="CharacterBody3D"]
+script = ExtResource("1_g1dw6")
+
+[node name="UI" type="CanvasLayer" parent="."]
+follow_viewport_enabled = true
+
+[node name="Background" type="Control" parent="UI"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="TextureRect" type="TextureRect" parent="UI/Background"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = SubResource("GradientTexture1D_7ugu7")
+
+[node name="Left_eye_control" type="Control" parent="UI"]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="TextureRect" type="TextureRect" parent="UI/Left_eye_control"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset = Vector2(256, 256)
+texture = SubResource("ViewportTexture_x3h5r")
+
+[node name="Right_eye_control" type="Control" parent="UI"]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="TextureRect" type="TextureRect" parent="UI/Right_eye_control"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset = Vector2(256, 256)
+texture = SubResource("ViewportTexture_j2r7a")
+
+[node name="SubViewport" type="SubViewport" parent="."]
+auto_translate_mode = 1
+
+[node name="GyroCam" type="Camera3D" parent="SubViewport" node_paths=PackedStringArray("left_eye_control", "right_eye_control", "subview_port")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 13, 0)
+script = ExtResource("2_yw30f")
+left_eye_control = NodePath("../../UI/Left_eye_control")
+right_eye_control = NodePath("../../UI/Right_eye_control")
+subview_port = NodePath("..")
+
+[node name="Hands" type="Node2D" parent="SubViewport/GyroCam"]
+script = ExtResource("3_qjkh3")
