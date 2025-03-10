@@ -302,6 +302,13 @@ class HandTrackingWidget(QWidget):
         self.pose_label.setAlignment(Qt.AlignCenter)
         self.pose_label.setFont(QFont("Segoe UI", 12))
         layout.addWidget(self.pose_label)
+
+        # Rótulo de pose detectada
+        self.conectionLabel = QLabel("Dispositivo não conectado!")
+        self.conectionLabel.setAlignment(Qt.AlignCenter)
+        self.conectionLabel.setFont(QFont("Segoe UI", 12))
+        self.conectionLabel.setVisible(False)
+        layout.addWidget(self.conectionLabel)
         
         # Botões de controle
         buttons_layout = QHBoxLayout()
@@ -376,9 +383,10 @@ class HandTrackingWidget(QWidget):
                 message = json.dumps(hand_data)
                 try:
                     self.sock.sendto(message.encode(), (udp_ip, 5005))
+                    self.coneectionLabel.setVisible(False)
                 except:
-                    print("break")
-                    self.stop_tracking()
+                    self.coneectionLabel.setVisible(True)
+                    
  
             self.pose_label.setText(f"Pose da Mão: {pose}")
  
@@ -390,11 +398,12 @@ class HandTrackingWidget(QWidget):
             self.video_label.setPixmap(QPixmap.fromImage(qt_image))
 
     def stop_tracking(self):
+        self.set_placeholder()
         self.timer.stop()
         if self.cap is not None:
             self.cap.release()
             self.cap = None
-        self.set_placeholder()
+        
 
     def is_finger_extended(self, hand_landmarks, finger_tip, finger_dip):
         return hand_landmarks.landmark[finger_tip].y < hand_landmarks.landmark[finger_dip].y
