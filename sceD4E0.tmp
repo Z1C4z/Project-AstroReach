@@ -4,8 +4,6 @@
 [ext_resource type="Texture2D" uid="uid://dls825ytmfehm" path="res://images/NightSkyHDRI001_2K-HDR.exr" id="1_q74fe"]
 [ext_resource type="Script" path="res://conectSever.gd" id="2_4soh0"]
 [ext_resource type="Script" path="res://hands.gd" id="4_tlulx"]
-[ext_resource type="Script" path="res://box_2.gd" id="6_nf5da"]
-[ext_resource type="ArrayMesh" uid="uid://t8pc84ubux63" path="res://images/ricks ufo.obj" id="7_r7avy"]
 
 [sub_resource type="PanoramaSkyMaterial" id="PanoramaSkyMaterial_cucev"]
 panorama = ExtResource("1_q74fe")
@@ -41,25 +39,12 @@ viewport_path = NodePath("player/SubViewport")
 [sub_resource type="ViewportTexture" id="ViewportTexture_j2r7a"]
 viewport_path = NodePath("player/SubViewport")
 
-<<<<<<< Updated upstream
-=======
-[sub_resource type="SphereShape3D" id="SphereShape3D_buk27"]
-
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_jdo4e"]
 albedo_color = Color(0.975664, 4.57242e-06, 1.54018e-06, 1)
 
 [sub_resource type="SphereMesh" id="SphereMesh_vb6w4"]
 material = SubResource("StandardMaterial3D_jdo4e")
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_4nfag"]
-albedo_color = Color(2.40654e-06, 0.519333, 0.0761747, 1)
-
-[sub_resource type="SphereMesh" id="SphereMesh_111d3"]
-material = SubResource("StandardMaterial3D_4nfag")
-
-[sub_resource type="SphereShape3D" id="SphereShape3D_edaxu"]
-
->>>>>>> Stashed changes
 [node name="Node3D" type="Node3D"]
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
@@ -167,42 +152,9 @@ subview_port = NodePath("..")
 [node name="Hands" type="Node2D" parent="player/SubViewport/GyroCam"]
 script = ExtResource("4_tlulx")
 
-<<<<<<< Updated upstream
 [node name="box2" type="MeshInstance3D" parent="."]
-transform = Transform3D(5.1423, 3.51508, 5.02005, 0, 6.55322, -4.58861, -6.12836, 2.9495, 4.21233, -1.5494, 13.733, -3.84353)
-mesh = ExtResource("7_r7avy")
-skeleton = NodePath("")
-script = ExtResource("6_nf5da")
-
-[node name="Area3D" type="Area3D" parent="box2"]
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="box2/Area3D"]
-
-[node name="StaticBody3D" type="StaticBody3D" parent="."]
-=======
-[node name="Area3D Vermelho" type="Area3D" parent="."]
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D Vermelho"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.55019, 13.7285, -3.84887)
-shape = SubResource("SphereShape3D_buk27")
-
-[node name="box2" type="MeshInstance3D" parent="Area3D Vermelho"]
-transform = Transform3D(0.898775, 0.395749, 0.188651, 0.163503, 0.0966892, -0.981792, -0.406785, 0.913254, 0.0221956, -1.549, 13.733, -6)
+transform = Transform3D(0.898775, 0.395749, 0.188651, 0.163503, 0.0966892, -0.981792, -0.406785, 0.913254, 0.0221956, -1.5494, 13.733, -3.84353)
 mesh = SubResource("SphereMesh_vb6w4")
 skeleton = NodePath("")
-
-[node name="Area3D2" type="Area3D" parent="."]
-script = ExtResource("5_r5it0")
-
-[node name="ponto de chegada" type="MeshInstance3D" parent="Area3D2"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.615, 13.712, -6)
-mesh = SubResource("SphereMesh_111d3")
-skeleton = NodePath("../..")
-script = ExtResource("6_pvl4p")
->>>>>>> Stashed changes
-
-[node name="Area3D" type="Area3D" parent="StaticBody3D"]
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D/Area3D"]
 
 [connection signal="pressed" from="player/UI/Left_eye_control/Button" to="player/SubViewport/GyroCam" method="reset_rotation"]
