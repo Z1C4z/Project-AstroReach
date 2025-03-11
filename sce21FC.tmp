@@ -1,23 +1,12 @@
-<<<<<<< Updated upstream
-[gd_scene load_steps=19 format=3 uid="uid://m31rhbfn524l"]
-=======
 [gd_scene load_steps=21 format=3 uid="uid://m31rhbfn524l"]
->>>>>>> Stashed changes
 
 [ext_resource type="Script" path="res://VR_camera.gd" id="1_1yb1c"]
 [ext_resource type="Texture2D" uid="uid://dls825ytmfehm" path="res://images/NightSkyHDRI001_2K-HDR.exr" id="1_q74fe"]
 [ext_resource type="Script" path="res://conectSever.gd" id="2_4soh0"]
 [ext_resource type="Script" path="res://hands.gd" id="4_tlulx"]
 [ext_resource type="Script" path="res://box_2.gd" id="6_nf5da"]
-<<<<<<< Updated upstream
-[ext_resource type="Script" path="res://gpu_particles_3d.gd" id="7_g4ka6"]
-[ext_resource type="ArrayMesh" uid="uid://dxgo6tpfqsoef" path="res://images/ricks ufo.obj" id="7_r7avy"]
-[ext_resource type="ArrayMesh" uid="uid://bic5yulwjpc3i" path="res://images/Earth.obj" id="7_su7ac"]
-[ext_resource type="Script" path="res://mesh_instance_3d.gd" id="8_ncbsl"]
-=======
 [ext_resource type="Script" path="res://chegada.gd" id="7_2i1x2"]
 [ext_resource type="ArrayMesh" uid="uid://t8pc84ubux63" path="res://images/ricks ufo.obj" id="7_r7avy"]
->>>>>>> Stashed changes
 
 [sub_resource type="PanoramaSkyMaterial" id="PanoramaSkyMaterial_cucev"]
 panorama = ExtResource("1_q74fe")
@@ -169,11 +158,7 @@ subview_port = NodePath("..")
 script = ExtResource("4_tlulx")
 
 [node name="carga" type="MeshInstance3D" parent="."]
-<<<<<<< Updated upstream
-transform = Transform3D(5.1423, 3.51508, 5.02005, 0, 6.55322, -4.58861, -6.12836, 2.9495, 4.21233, -1.5494, 13.733, -3.84353)
-=======
 transform = Transform3D(5.1423, 3.51508, 5.02005, 0, 6.55322, -4.58861, -6.12836, 2.9495, 4.21233, -1.549, 13.733, -6)
->>>>>>> Stashed changes
 mesh = ExtResource("7_r7avy")
 skeleton = NodePath("")
 script = ExtResource("6_nf5da")
@@ -181,22 +166,6 @@ script = ExtResource("6_nf5da")
 [node name="Area3D" type="Area3D" parent="carga"]
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="carga/Area3D"]
-<<<<<<< Updated upstream
-
-[node name="GPUParticles3D" type="GPUParticles3D" parent="carga"]
-transform = Transform3D(1, 1.19209e-07, 0, -2.98023e-08, 0.999999, 2.98023e-08, -2.98023e-08, -1.04308e-07, 1, -0.0283762, 0.0465428, -0.0615575)
-amount = 100
-script = ExtResource("7_g4ka6")
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
-transform = Transform3D(0.25, 0, 0, 0, 0.226577, -0.105655, 0, 0.105655, 0.226577, 29.3248, 10.1588, -65.4291)
-mesh = ExtResource("7_su7ac")
-script = ExtResource("8_ncbsl")
-
-[node name="Area3D" type="Area3D" parent="MeshInstance3D"]
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="MeshInstance3D/Area3D"]
-=======
 shape = SubResource("BoxShape3D_511dp")
 
 [node name="Point" type="StaticBody3D" parent="."]
@@ -212,12 +181,5 @@ skeleton = NodePath("")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Point/Area3D"]
 shape = SubResource("SphereShape3D_rbpms")
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
-
-[node name="StaticBody3D" type="StaticBody3D" parent="MeshInstance3D"]
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="MeshInstance3D/StaticBody3D"]
->>>>>>> Stashed changes
 
 [connection signal="pressed" from="player/UI/Left_eye_control/Button" to="player/SubViewport/GyroCam" method="reset_rotation"]

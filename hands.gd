@@ -62,7 +62,6 @@ func _process(_delta):
 				if (mao_sobre_objeto == "Right" and right_handpose == "close") or \
 				   (mao_sobre_objeto == "Left" and left_handpose == "close"):
 					if not arrastando:
-						print("Arrastando com:", mao_sobre_objeto)
 						arrastando = true
 						mao_selecionada = mao_sobre_objeto  # Define a mão que está controlando o objeto
 					arrastar_objeto(obj)
@@ -166,8 +165,9 @@ func arrastar_objeto(obj: Node3D):
 
 		# Aqui garantimos que a distância fique EXATAMENTE a mesma do início
 		var distancia_fixa = obj.global_transform.origin.distance_to(camera_3d.global_transform.origin)
+		if distancia_fixa != 6:
+			distancia_fixa = 6
 		var target_position = ray_origin + (ray_dir.normalized() * distancia_fixa)
-		target_position.z = -4.0
 		
 		# Interpolação para suavizar o movimento
 		var velocidade_real = velocidade * 0.1
@@ -177,4 +177,3 @@ func arrastar_objeto(obj: Node3D):
 		obj.global_transform.origin = nova_posicao
 
 		# Debug: Se a distância mudar, ainda tem algo errado
-		print("Escala:", obj.scale, " | Posição:", obj.position , " | Distância da câmera:", camera_3d.global_transform.origin.distance_to(obj.global_transform.origin))
