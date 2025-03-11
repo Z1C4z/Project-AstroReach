@@ -9,7 +9,6 @@ var arrastando = false
 var velocidade = 1.5  # Velocidade fixa do objeto
 var mao_selecionada = null  # Armazena qual mão está controlando o objeto
 var camera_rotation_speed = 0.005  # Velocidade de rotação da câmera
-var distancia_fixa = 6
 
 var connections = [
 	[0,1], [1,2], [2,3], [3,4],         # Polegar
@@ -38,10 +37,8 @@ func _ready():
 	var root_node = get_tree().get_root().get_node("Node3D")
 	if root_node:
 		for child in root_node.get_children():
-			if child is Area3D:
-				for children in child.get_children():
-					if children is MeshInstance3D:
-						objetos_3d.append(children)
+			if child is MeshInstance3D:
+				objetos_3d.append(child)
 
 func _process(_delta):
 	if udp.get_available_packet_count() > 0:
@@ -72,12 +69,6 @@ func _process(_delta):
 			else:
 				arrastando = false
 				mao_selecionada = null  # Reseta a mão controladora
-				
-	for objt in objetos_3d:
-		distancia_fixa = objt.global_transform.origin.distance_to(camera_3d.global_transform.origin)
-		print("distancia da camera ao obj:", distancia_fixa)
-		if distancia_fixa != 6:
-			distancia_fixa = 6
 
 	# Controle da câmera com setas do teclado
 	if camera_3d:
@@ -148,42 +139,17 @@ func _draw():
 			draw_circle(point, 5, Color(0, 1, 0))
 
 func detectar_mao_no_objeto(object_3d: Node3D, camera: Camera3D) -> String:
-	# Converte a posição do objeto 3D para coordenadas 2D da tela
 	var screen_pos = world_to_screen(object_3d, camera)
-	
-	# Calcula o tamanho aproximado do objeto na tela (em pixels)
-	var object_size = calcular_tamanho_objeto_na_tela(object_3d, camera)
-	
-	# Define o raio da hitbox como uma fração do tamanho do objeto (por exemplo, 80%)
-	var hitbox_radius = object_size * 0.4  # 40% do tamanho do objeto (ajuste conforme necessário)
-	
-	# Itera sobre as mãos disponíveis
+	var hitbox_radius = 100  # Aumente para expandir a hitbox
+
 	for hand_name in hands.keys():
 		var hand = hands[hand_name]
-		
-		# Verifica cada ponto da mão
 		for point in hand:
-			# Calcula a distância entre o ponto da mão e a posição do objeto na tela
 			if point.distance_to(screen_pos) <= hitbox_radius:
 				return hand_name  # Retorna "Right" ou "Left" se a mão estiver na hitbox
 	
-	# Retorna uma string vazia se nenhuma mão estiver sobre o objeto
-	return ""
+	return ""  # Nenhuma mão está sobre o objeto
 
-func calcular_tamanho_objeto_na_tela(object_3d: Node3D, camera: Camera3D) -> float:
-	# Obtém o tamanho do objeto no mundo 3D (assumindo que o objeto tem uma escala definida)
-	var object_scale = object_3d.scale.length()
-	
-	# Converte o tamanho do objeto para coordenadas da tela
-	var object_position = object_3d.global_transform.origin
-	var screen_position = camera.unproject_position(object_position)
-	var screen_position_offset = camera.unproject_position(object_position + Vector3(object_scale, 0, 0))
-	
-	# Calcula a diferença entre as posições para obter o tamanho aproximado na tela
-	var screen_size = screen_position.distance_to(screen_position_offset)
-	
-	return screen_size
-	
 func world_to_screen(object_3d: Node3D, camera: Camera3D) -> Vector2:
 	if camera:
 		return camera.unproject_position(object_3d.global_transform.origin)
@@ -199,6 +165,7 @@ func arrastar_objeto(obj: Node3D):
 		var ray_dir = camera_3d.project_ray_normal(screen_pos)
 
 		# Aqui garantimos que a distância fique EXATAMENTE a mesma do início
+		var distancia_fixa = obj.global_transform.origin.distance_to(camera_3d.global_transform.origin)
 		var target_position = ray_origin + (ray_dir.normalized() * distancia_fixa)
 		target_position.z = -4.0
 		
