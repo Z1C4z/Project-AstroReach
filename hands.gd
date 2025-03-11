@@ -8,8 +8,11 @@ var right_handpose = "unknow"
 var arrastando = false
 var velocidade = 1.5  # Velocidade fixa do objeto
 var mao_selecionada = null  # Armazena qual mão está controlando o objeto
+<<<<<<< Updated upstream
 var camera_rotation_speed = 0.005  # Velocidade de rotação da câmera
+=======
 var distancia_fixa = 6
+>>>>>>> Stashed changes
 
 var connections = [
 	[0,1], [1,2], [2,3], [3,4],         # Polegar
@@ -200,7 +203,10 @@ func arrastar_objeto(obj: Node3D):
 
 		# Aqui garantimos que a distância fique EXATAMENTE a mesma do início
 		var target_position = ray_origin + (ray_dir.normalized() * distancia_fixa)
+<<<<<<< Updated upstream
 		target_position.z = -4.0
+=======
+>>>>>>> Stashed changes
 		
 		# Interpolação para suavizar o movimento
 		var velocidade_real = velocidade * 0.1
@@ -210,4 +216,4 @@ func arrastar_objeto(obj: Node3D):
 		obj.global_transform.origin = nova_posicao
 
 		# Debug: Se a distância mudar, ainda tem algo errado
-		print("Escala:", obj.scale, " | Posição:", obj.position , " | Distância da câmera:", camera_3d.global_transform.origin.distance_to(obj.global_transform.origin))
+		
