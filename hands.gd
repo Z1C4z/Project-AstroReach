@@ -29,7 +29,7 @@ func _ready():
 		push_error("Falha ao vincular à porta UDP")
 		return
 	print("Aguardando dados da mão...")
-	
+
 	if box2_area and boxfinish_area:
 		boxfinish_area.connect("area_entered", _on_boxfinish_collided)
 

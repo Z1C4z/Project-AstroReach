@@ -158,4 +158,10 @@ script = ExtResource("6_nf5da")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="box2/Area3D"]
 
+[node name="StaticBody3D" type="StaticBody3D" parent="."]
+
+[node name="Area3D" type="Area3D" parent="StaticBody3D"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D/Area3D"]
+
 [connection signal="pressed" from="player/UI/Left_eye_control/Button" to="player/SubViewport/GyroCam" method="reset_rotation"]
