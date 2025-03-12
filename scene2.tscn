@@ -1,0 +1,240 @@
+[gd_scene load_steps=25 format=3 uid="uid://djjy4m0r80nm8"]
+
+[ext_resource type="Script" path="res://VR_camera.gd" id="1_1yb1c"]
+[ext_resource type="Script" uid="uid://dtqjme0rmkq35" path="res://scene_2.gd" id="1_n4bvh"]
+[ext_resource type="Texture2D" uid="uid://dls825ytmfehm" path="res://images/NightSkyHDRI001_2K-HDR.exr" id="1_q74fe"]
+[ext_resource type="Script" path="res://conectSever.gd" id="2_4soh0"]
+[ext_resource type="Script" path="res://hands.gd" id="4_tlulx"]
+[ext_resource type="Script" uid="uid://pjilwloubpbp" path="res://box_2.gd" id="6_nf5da"]
+[ext_resource type="Script" path="res://chegada.gd" id="7_2i1x2"]
+[ext_resource type="Script" path="res://gpu_particles_3d.gd" id="7_g4ka6"]
+[ext_resource type="ArrayMesh" path="res://images/ricks ufo.obj" id="7_r7avy"]
+[ext_resource type="ArrayMesh" path="res://images/Earth.obj" id="7_su7ac"]
+[ext_resource type="Script" path="res://mesh_instance_3d.gd" id="8_ncbsl"]
+
+[sub_resource type="PanoramaSkyMaterial" id="PanoramaSkyMaterial_cucev"]
+panorama = ExtResource("1_q74fe")
+
+[sub_resource type="Sky" id="Sky_de2jx"]
+sky_material = SubResource("PanoramaSkyMaterial_cucev")
+
+[sub_resource type="Environment" id="Environment_00r57"]
+background_mode = 2
+sky = SubResource("Sky_de2jx")
+tonemap_mode = 2
+glow_enabled = true
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_a612y"]
+albedo_color = Color(1, 1, 0.560784, 1)
+
+[sub_resource type="SphereMesh" id="SphereMesh_3fuc5"]
+material = SubResource("StandardMaterial3D_a612y")
+radius = 4.0
+height = 7.0
+radial_segments = 8
+rings = 8
+
+[sub_resource type="Gradient" id="Gradient_0nfo8"]
+colors = PackedColorArray(0, 0, 0, 1, 0, 0, 0, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_7ugu7"]
+gradient = SubResource("Gradient_0nfo8")
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_x3h5r"]
+viewport_path = NodePath("player/SubViewport")
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_j2r7a"]
+viewport_path = NodePath("player/SubViewport")
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_511dp"]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_vw8pd"]
+
+[sub_resource type="SphereMesh" id="SphereMesh_1v6fn"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_rbpms"]
+
+[node name="Node3D" type="Node3D"]
+script = ExtResource("1_n4bvh")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_00r57")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(-0.999328, 0.0337307, -0.0143178, -0.0195542, -0.16043, 0.986854, 0.0309903, 0.986471, 0.160982, 0, 29.8726, 0)
+shadow_enabled = true
+
+[node name="planet" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 6, 0)
+mesh = SubResource("SphereMesh_3fuc5")
+
+[node name="player" type="CharacterBody3D" parent="." node_paths=PackedStringArray("gyroCam")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 11.7708, 0)
+script = ExtResource("2_4soh0")
+gyroCam = NodePath("SubViewport/GyroCam")
+
+[node name="UI" type="CanvasLayer" parent="player"]
+follow_viewport_enabled = true
+
+[node name="Background" type="Control" parent="player/UI"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="TextureRect" type="TextureRect" parent="player/UI/Background"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = SubResource("GradientTexture1D_7ugu7")
+
+[node name="Left_eye_control" type="Control" parent="player/UI"]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="TextureRect" type="TextureRect" parent="player/UI/Left_eye_control"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset = Vector2(256, 256)
+texture = SubResource("ViewportTexture_x3h5r")
+
+[node name="Button" type="Button" parent="player/UI/Left_eye_control"]
+visibility_layer = 5
+layout_mode = 0
+offset_left = -178.0
+offset_top = -202.0
+offset_right = 8.0
+offset_bottom = -171.0
+text = "Reset Camera Rotation"
+
+[node name="Time" type="Label" parent="player/UI/Left_eye_control"]
+offset_left = 268.0
+offset_top = -346.0
+offset_right = 398.0
+offset_bottom = -315.0
+text = "Timer:"
+
+[node name="pontos" type="Label" parent="player/UI/Left_eye_control"]
+offset_left = 264.0
+offset_top = -313.0
+offset_right = 394.0
+offset_bottom = -282.0
+text = "Pontos:  0"
+
+[node name="Right_eye_control" type="Control" parent="player/UI"]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="TextureRect" type="TextureRect" parent="player/UI/Right_eye_control"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset = Vector2(256, 256)
+texture = SubResource("ViewportTexture_j2r7a")
+
+[node name="Left_handposeState" type="Label" parent="player/UI/Right_eye_control"]
+layout_mode = 0
+offset_left = 127.0
+offset_top = -224.0
+offset_right = 257.0
+offset_bottom = -193.0
+text = "LHPS: None"
+
+[node name="right_handposeState" type="Label" parent="player/UI/Right_eye_control"]
+layout_mode = 0
+offset_left = 126.0
+offset_top = -192.0
+offset_right = 256.0
+offset_bottom = -161.0
+text = "RHPS: None"
+
+[node name="Time" type="Label" parent="player/UI/Right_eye_control"]
+offset_left = 268.0
+offset_top = -346.0
+offset_right = 398.0
+offset_bottom = -315.0
+text = "Timer:"
+
+[node name="pontos" type="Label" parent="player/UI/Right_eye_control"]
+offset_left = 264.0
+offset_top = -313.0
+offset_right = 394.0
+offset_bottom = -282.0
+text = "Pontos:  0"
+
+[node name="SubViewport" type="SubViewport" parent="player"]
+
+[node name="GyroCam" type="Camera3D" parent="player/SubViewport" node_paths=PackedStringArray("left_eye_control", "right_eye_control", "subview_port")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 13, 0)
+script = ExtResource("1_1yb1c")
+left_eye_control = NodePath("../../UI/Left_eye_control")
+right_eye_control = NodePath("../../UI/Right_eye_control")
+subview_port = NodePath("..")
+
+[node name="Hands" type="Node2D" parent="player/SubViewport/GyroCam"]
+script = ExtResource("4_tlulx")
+
+[node name="carga" type="MeshInstance3D" parent="."]
+transform = Transform3D(5.1423, 3.51508, 5.02005, 0, 6.55322, -4.58861, -6.12836, 2.9495, 4.21233, -1.549, 13.733, -6)
+mesh = ExtResource("7_r7avy")
+skeleton = NodePath("")
+script = ExtResource("6_nf5da")
+
+[node name="Area3D" type="Area3D" parent="carga"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="carga/Area3D"]
+
+[node name="GPUParticles3D" type="GPUParticles3D" parent="carga"]
+transform = Transform3D(1, 1.19209e-07, 0, -2.98023e-08, 0.999999, 2.98023e-08, -2.98023e-08, -1.04308e-07, 1, -0.0283762, 0.0465428, -0.0615575)
+amount = 100
+script = ExtResource("7_g4ka6")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.25, 0, 0, 0, 0.226577, -0.105655, 0, 0.105655, 0.226577, 29.3248, 10.1588, -65.4291)
+mesh = ExtResource("7_su7ac")
+script = ExtResource("8_ncbsl")
+
+[node name="Area3D" type="Area3D" parent="MeshInstance3D"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="MeshInstance3D/Area3D"]
+shape = SubResource("BoxShape3D_511dp")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="MeshInstance3D"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="MeshInstance3D/StaticBody3D"]
+
+[node name="Point" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.285, 13.29, -6)
+physics_material_override = SubResource("PhysicsMaterial_vw8pd")
+
+[node name="Area3D" type="Area3D" parent="Point"]
+script = ExtResource("7_2i1x2")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Point/Area3D"]
+mesh = SubResource("SphereMesh_1v6fn")
+skeleton = NodePath("")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Point/Area3D"]
+shape = SubResource("SphereShape3D_rbpms")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="."]
+
+[node name="Timer" type="Timer" parent="."]
+
+[connection signal="pressed" from="player/UI/Left_eye_control/Button" to="player/SubViewport/GyroCam" method="reset_rotation"]

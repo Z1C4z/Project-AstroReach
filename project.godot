@@ -11,9 +11,14 @@ config_version=5
 [application]
 
 config/name="VRcameraControllerFinal"
-run/main_scene="res://Scenes/PlayScene/playScene.tscn"
+run/main_scene="res://scene2.tscn"
 config/features=PackedStringArray("4.4", "Mobile")
 config/icon="res://icon.svg"
+
+[layer_names]
+
+3d_physics/layer_1="player"
+3d_physics/layer_2="ponto de chegada"
 
 [rendering]
 
