@@ -30,12 +30,10 @@ func _process(delta):
 	# Rotaciona ao redor do eixo Y
 	rotate_y(rotation_speed * delta)
 
-<<<<<<< Updated upstream
 	# Posiciona a luz ao redor do objeto
 	if light:
 		light.global_transform.origin = global_transform.origin + Vector3(0, 1, 0)
-=======
+
 
 func _on_body_entered(body: Node3D) -> void:
 	pass # Replace with function body.
->>>>>>> Stashed changes

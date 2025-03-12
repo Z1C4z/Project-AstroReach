@@ -118,20 +118,6 @@ offset_right = 8.0
 offset_bottom = -171.0
 text = "Reset Camera Rotation"
 
-[node name="Time" type="Label" parent="player/UI/Left_eye_control"]
-offset_left = 268.0
-offset_top = -346.0
-offset_right = 398.0
-offset_bottom = -315.0
-text = "Timer:"
-
-[node name="pontos" type="Label" parent="player/UI/Left_eye_control"]
-offset_left = 264.0
-offset_top = -313.0
-offset_right = 394.0
-offset_bottom = -282.0
-text = "Pontos:  0"
-
 [node name="Right_eye_control" type="Control" parent="player/UI"]
 layout_mode = 3
 anchors_preset = 0
@@ -164,19 +150,12 @@ offset_right = 256.0
 offset_bottom = -161.0
 text = "RHPS: None"
 
-[node name="Time" type="Label" parent="player/UI/Right_eye_control"]
-offset_left = 268.0
-offset_top = -346.0
-offset_right = 398.0
-offset_bottom = -315.0
-text = "Timer:"
-
-[node name="pontos" type="Label" parent="player/UI/Right_eye_control"]
-offset_left = 264.0
-offset_top = -313.0
-offset_right = 394.0
-offset_bottom = -282.0
-text = "Pontos:  0"
+[node name="timer" type="Label" parent="player/UI/Right_eye_control"]
+offset_left = 126.0
+offset_top = -192.0
+offset_right = 256.0
+offset_bottom = -161.0
+text = "RHPS: None"
 
 [node name="SubViewport" type="SubViewport" parent="player"]
 
