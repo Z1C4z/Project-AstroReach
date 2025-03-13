@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://f4vlb2t2q4e6" path="res://VR_camera.gd" id="1_1yb1c"]
 [ext_resource type="Texture2D" uid="uid://dls825ytmfehm" path="res://images/NightSkyHDRI001_2K-HDR.exr" id="1_q74fe"]
-[ext_resource type="Script" uid="uid://dtqjme0rmkq35" path="res://scene_2.gd" id="1_vuhtq"]
+[ext_resource type="Script" path="res://scene_2.gd" id="1_vuhtq"]
 [ext_resource type="Script" uid="uid://h0ods0k72i8j" path="res://conectSever.gd" id="2_4soh0"]
 [ext_resource type="Script" uid="uid://dlxe4h5jm3kll" path="res://hands.gd" id="4_tlulx"]
 [ext_resource type="Script" uid="uid://cfbtovo11eon5" path="res://box_2.gd" id="6_nf5da"]
@@ -110,6 +110,7 @@ offset_bottom = -171.0
 text = "Reset Camera Rotation"
 
 [node name="Time" type="Label" parent="player/UI/Left_eye_control"]
+layout_mode = 0
 offset_left = 268.0
 offset_top = -365.0
 offset_right = 398.0
@@ -117,6 +118,7 @@ offset_bottom = -334.0
 text = "Timer:"
 
 [node name="pontos" type="Label" parent="player/UI/Left_eye_control"]
+layout_mode = 0
 offset_left = 271.0
 offset_top = -346.0
 offset_right = 401.0
@@ -156,6 +158,7 @@ offset_bottom = -161.0
 text = "RHPS: None"
 
 [node name="Time" type="Label" parent="player/UI/Right_eye_control"]
+layout_mode = 0
 offset_left = 268.0
 offset_top = -365.0
 offset_right = 398.0
@@ -163,6 +166,7 @@ offset_bottom = -334.0
 text = "Timer:"
 
 [node name="pontos" type="Label" parent="player/UI/Right_eye_control"]
+layout_mode = 0
 offset_left = 271.0
 offset_top = -346.0
 offset_right = 401.0
@@ -202,6 +206,7 @@ mesh = ExtResource("7_su7ac")
 script = ExtResource("8_ncbsl")
 
 [node name="Area3D" type="Area3D" parent="MeshInstance3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.51577, 0, 0)
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="MeshInstance3D/Area3D"]
 

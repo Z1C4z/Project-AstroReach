@@ -19,7 +19,7 @@ var connections = [
 ]
 
 @onready var camera_3d = get_node_or_null("/root/Node3D/player/SubViewport/GyroCam")
-@onready var objetos_3d = []  # Lista para armazenar todos os MeshInstance3D
+@onready var objetos_3d = get_node_or_null("/root/Node3D/carga")
 @onready var label_mensagem = $CanvasLayer/Label
 @onready var box2_area = get_node_or_null("/root/Node3D/box2/Area3D")
 @onready var boxfinish_area = get_node_or_null("/root/Node3D/boxfinish/Area3D")
@@ -34,11 +34,7 @@ func _ready():
 		boxfinish_area.connect("area_entered", _on_boxfinish_collided)
 
 	# Buscar todos os MeshInstance3D na cena
-	var root_node = get_tree().get_root().get_node("Node3D")
-	if root_node:
-		for child in root_node.get_children():
-			if child is MeshInstance3D:
-				objetos_3d.append(child)
+	
 
 func _process(_delta):
 	if udp.get_available_packet_count() > 0:
@@ -54,21 +50,20 @@ func _process(_delta):
 
 	# Verifica se uma mão está sobre algum objeto antes de permitir o movimento
 	if camera_3d and objetos_3d:
-		for obj in objetos_3d:
-			var mao_sobre_objeto = detectar_mao_no_objeto(obj, camera_3d)
-
-			if mao_sobre_objeto:
-				# Se a mão está sobre o objeto e fechada, começa o arrasto
-				if (mao_sobre_objeto == "Right" and right_handpose == "close") or \
-				   (mao_sobre_objeto == "Left" and left_handpose == "close"):
-					if not arrastando:
-						print("Arrastando com:", mao_sobre_objeto)
-						arrastando = true
-						mao_selecionada = mao_sobre_objeto  # Define a mão que está controlando o objeto
-					arrastar_objeto(obj)
-			else:
-				arrastando = false
-				mao_selecionada = null  # Reseta a mão controladora
+		
+		var mao_sobre_objeto = detectar_mao_no_objeto(objetos_3d, camera_3d)
+		if mao_sobre_objeto:
+			# Se a mão está sobre o objeto e fechada, começa o arrasto
+			if (mao_sobre_objeto == "Right" and right_handpose == "close") or \
+			   (mao_sobre_objeto == "Left" and left_handpose == "close"):
+				if not arrastando:
+					print("Arrastando com:", mao_sobre_objeto)
+					arrastando = true
+					mao_selecionada = mao_sobre_objeto  # Define a mão que está controlando o objeto
+				arrastar_objeto(objetos_3d)
+		else:
+			arrastando = false
+			mao_selecionada = null  # Reseta a mão controladora
 
 	# Controle da câmera com setas do teclado
 	if camera_3d:
