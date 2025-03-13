@@ -10,11 +10,24 @@ extends Node3D
 var posicoes_geradas: Array[Vector3] = []  # Armazena as posições já usadas
 
 func _ready():
+	verificar_redoma()
+
+func _input(event):
+	if event is InputEventKey and event.pressed:
+		if event.keycode == KEY_W:
+			gerar_obstaculos()
+		elif event.keycode == KEY_E:
+			remover_itens()
+		elif event.keycode == KEY_R:
+			reiniciar_jogo()
+
+func verificar_redoma():
 	if redoma == null:
-		redoma = $CollisionShape3D  # Certifique-se de que a redoma está definida
-	gerar_obstaculos()
+		redoma = $CollisionShape3D
 
 func gerar_obstaculos():
+	verificar_redoma()
+
 	if redoma == null:
 		print("Erro: Redoma não está definida!")
 		return
@@ -43,18 +56,16 @@ func gerar_obstaculos():
 func criar_obstaculo_unico(scene: PackedScene, raio: float, altura: float):
 	var nova_posicao: Vector3
 	var tentativa = 0
-	var max_tentativas = 100  # Número máximo de tentativas para evitar loops infinitos
+	var max_tentativas = 100
 
 	while tentativa < max_tentativas:
-		# Gera uma posição aleatória dentro da redoma
-		var angulo = randf() * TAU  # Ângulo aleatório em radianos
+		var angulo = randf() * TAU
 		var x = cos(angulo) * raio
 		var z = sin(angulo) * raio
-		var y = randf_range(-altura * 0.7, altura * 0.7)  # Altura aleatória
+		var y = randf_range(-altura * 0.7, altura * 0.7)
 
 		nova_posicao = Vector3(x, y, z)
 
-		# Verifica se a nova posição está longe o suficiente de outros objetos
 		if posicao_valida(nova_posicao, scene):
 			posicoes_geradas.append(nova_posicao)
 			break
@@ -65,12 +76,11 @@ func criar_obstaculo_unico(scene: PackedScene, raio: float, altura: float):
 		print("Erro: Não foi possível encontrar uma posição válida para o objeto!")
 		return
 
-	# Instancia e posiciona o objeto
 	var obstaculo = scene.instantiate()
+	obstaculo.add_to_group("obstaculos")  # Adiciona ao grupo
 	obstaculo.position = nova_posicao
 	add_child(obstaculo)
 
-	# Adiciona colisão ao objeto
 	if obstaculo is Node3D:
 		var collision_shape = CollisionShape3D.new()
 		var sphere_shape = SphereShape3D.new()
@@ -101,12 +111,11 @@ func criar_asteroide(raio: float, altura: float):
 		print("Erro: Não foi possível encontrar uma posição válida para o asteroide!")
 		return
 
-	# Instancia o asteroide
 	var asteroide = asteroid_scene.instantiate()
+	asteroide.add_to_group("obstaculos")  # Adiciona ao grupo
 	asteroide.position = nova_posicao
 	add_child(asteroide)
 
-	# Adiciona colisão ao asteroide
 	if asteroide is Node3D:
 		var collision_shape = CollisionShape3D.new()
 		var sphere_shape = SphereShape3D.new()
@@ -122,21 +131,25 @@ func posicao_valida(posicao: Vector3, scene: PackedScene) -> bool:
 
 func calcular_raio(scene: PackedScene) -> float:
 	var instance = scene.instantiate()
+	var raio = 0.0
 	if instance is Node3D:
 		var scale = instance.scale
-		# Supondo que o planeta seja uma esfera, o raio é o maior valor da escala
-		return max(scale.x, scale.y, scale.z) * 0.5
-	instance.queue_free()
-	return 0.0
+		raio = max(scale.x, scale.y, scale.z) * 0.5
+	instance.queue_free()  # Libera a instância temporária
+	return raio
 
-func reiniciar_jogo():
-	# Remove todos os planetas, Terra e Nave
-	for child in get_children():
-		if child is Node3D:
-			child.queue_free()
-
+func remover_itens():
+	# Remove todos os obstáculos pelo grupo
+	for node in get_tree().get_nodes_in_group("obstaculos"):
+		node.queue_free()
+	
 	# Limpa as posições geradas
 	posicoes_geradas.clear()
+	
+	# Garante que a redoma ainda esteja presente
+	verificar_redoma()
 
-	# Gera novos planetas, Terra e Nave
+func reiniciar_jogo():
+	remover_itens()
+	verificar_redoma()
 	gerar_obstaculos()

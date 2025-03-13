@@ -168,6 +168,8 @@ asteroid_scene = ExtResource("7_26ncv")
 terra_scene = ExtResource("8_ofikv")
 nave_scene = ExtResource("9_et0hl")
 redoma = NodePath("CollisionShape3D")
+num_obstaculos = null
+min_distancia = null
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="RedomaArea3D"]
 shape = SubResource("CylinderShape3D_0051r")
