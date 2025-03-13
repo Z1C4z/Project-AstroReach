@@ -25,11 +25,11 @@ height = 7.0
 radial_segments = 8
 rings = 8
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_jdo4e"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_raala"]
 albedo_color = Color(0.975664, 4.57242e-06, 1.54018e-06, 1)
 
 [sub_resource type="SphereMesh" id="SphereMesh_vb6w4"]
-material = SubResource("StandardMaterial3D_jdo4e")
+material = SubResource("StandardMaterial3D_raala")
 
 [node name="Node3D" type="Node3D"]
 

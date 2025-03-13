@@ -1,6 +1,7 @@
-[gd_scene load_steps=7 format=3 uid="uid://cswdlnmlgdfoa"]
+[gd_scene load_steps=8 format=3 uid="uid://cswdlnmlgdfoa"]
 
 [ext_resource type="PackedScene" uid="uid://n7nu58sat7i4" path="res://player/player.tscn" id="1_4v3vm"]
+[ext_resource type="Texture2D" uid="uid://8joxsjtge6qq" path="res://images/playIcon.png" id="2_tr3k3"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_4v3vm"]
 sky_top_color = Color(0.0901961, 0.180392, 0.278431, 1)
@@ -18,13 +19,13 @@ tonemap_mode = 2
 glow_enabled = true
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_4v3vm"]
-albedo_color = Color(1, 0.505882, 0.537255, 1)
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_tr3k3"]
 material = SubResource("StandardMaterial3D_4v3vm")
 size = Vector2(20, 20)
+center_offset = Vector3(0, 6, 0)
 
-[node name="MenuScene" type="Node3D"]
+[node name="Node3D" type="Node3D"]
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_pv6vw")
@@ -36,5 +37,8 @@ shadow_enabled = true
 [node name="player" parent="." instance=ExtResource("1_4v3vm")]
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 6, 0)
 mesh = SubResource("PlaneMesh_tr3k3")
+
+[node name="playButton" type="Sprite3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.157179, 13.025, -4.63047)
+texture = ExtResource("2_tr3k3")
