@@ -201,7 +201,7 @@ amount = 100
 script = ExtResource("7_g4ka6")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
-transform = Transform3D(0.25, 0, 0, 0, 0.226577, -0.105655, 0, 0.105655, 0.226577, 29.3248, 10.1588, -65.4291)
+transform = Transform3D(0.02, 0, 0, 0, 0.0181261, -0.00845239, 0, 0.00845239, 0.0181261, 1.01771, 13.4244, -4.04585)
 mesh = ExtResource("7_su7ac")
 script = ExtResource("8_ncbsl")
 

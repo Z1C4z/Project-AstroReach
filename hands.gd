@@ -159,8 +159,11 @@ func arrastar_objeto(obj: Node3D):
 		var ray_origin = camera_3d.project_ray_origin(screen_pos)
 		var ray_dir = camera_3d.project_ray_normal(screen_pos)
 
+
 		# Aqui garantimos que a distância fique EXATAMENTE a mesma do início
 		var distancia_fixa = obj.global_transform.origin.distance_to(camera_3d.global_transform.origin)
+		if distancia_fixa != 6:
+			distancia_fixa = 6
 		var target_position = ray_origin + (ray_dir.normalized() * distancia_fixa)
 		target_position.z = -4.0
 		
