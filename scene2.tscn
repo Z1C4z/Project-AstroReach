@@ -1,14 +1,15 @@
-[gd_scene load_steps=19 format=3 uid="uid://m31rhbfn524l"]
+[gd_scene load_steps=20 format=3 uid="uid://m31rhbfn524l"]
 
-[ext_resource type="Script" path="res://VR_camera.gd" id="1_1yb1c"]
+[ext_resource type="Script" uid="uid://f4vlb2t2q4e6" path="res://VR_camera.gd" id="1_1yb1c"]
 [ext_resource type="Texture2D" uid="uid://dls825ytmfehm" path="res://images/NightSkyHDRI001_2K-HDR.exr" id="1_q74fe"]
-[ext_resource type="Script" path="res://conectSever.gd" id="2_4soh0"]
-[ext_resource type="Script" path="res://hands.gd" id="4_tlulx"]
-[ext_resource type="Script" path="res://box_2.gd" id="6_nf5da"]
-[ext_resource type="Script" path="res://gpu_particles_3d.gd" id="7_g4ka6"]
+[ext_resource type="Script" uid="uid://dtqjme0rmkq35" path="res://scene_2.gd" id="1_vuhtq"]
+[ext_resource type="Script" uid="uid://h0ods0k72i8j" path="res://conectSever.gd" id="2_4soh0"]
+[ext_resource type="Script" uid="uid://dlxe4h5jm3kll" path="res://hands.gd" id="4_tlulx"]
+[ext_resource type="Script" uid="uid://cfbtovo11eon5" path="res://box_2.gd" id="6_nf5da"]
+[ext_resource type="Script" uid="uid://dd4pfqo1j5xhq" path="res://gpu_particles_3d.gd" id="7_g4ka6"]
 [ext_resource type="ArrayMesh" uid="uid://dxgo6tpfqsoef" path="res://images/ricks ufo.obj" id="7_r7avy"]
 [ext_resource type="ArrayMesh" uid="uid://bic5yulwjpc3i" path="res://images/Earth.obj" id="7_su7ac"]
-[ext_resource type="Script" path="res://mesh_instance_3d.gd" id="8_ncbsl"]
+[ext_resource type="Script" uid="uid://bk4d0r8xia0oo" path="res://mesh_instance_3d.gd" id="8_ncbsl"]
 
 [sub_resource type="PanoramaSkyMaterial" id="PanoramaSkyMaterial_cucev"]
 panorama = ExtResource("1_q74fe")
@@ -45,6 +46,7 @@ viewport_path = NodePath("player/SubViewport")
 viewport_path = NodePath("player/SubViewport")
 
 [node name="Node3D" type="Node3D"]
+script = ExtResource("1_vuhtq")
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_00r57")
@@ -107,6 +109,20 @@ offset_right = 8.0
 offset_bottom = -171.0
 text = "Reset Camera Rotation"
 
+[node name="Time" type="Label" parent="player/UI/Left_eye_control"]
+offset_left = 248.0
+offset_top = -345.0
+offset_right = 378.0
+offset_bottom = -314.0
+text = "Timer:"
+
+[node name="pontos" type="Label" parent="player/UI/Left_eye_control"]
+offset_left = 250.0
+offset_top = -327.0
+offset_right = 380.0
+offset_bottom = -296.0
+text = "Pontos:  0"
+
 [node name="Right_eye_control" type="Control" parent="player/UI"]
 layout_mode = 3
 anchors_preset = 0
@@ -138,6 +154,20 @@ offset_top = -192.0
 offset_right = 256.0
 offset_bottom = -161.0
 text = "RHPS: None"
+
+[node name="Time" type="Label" parent="player/UI/Right_eye_control"]
+offset_left = 248.0
+offset_top = -345.0
+offset_right = 378.0
+offset_bottom = -314.0
+text = "Timer:"
+
+[node name="pontos" type="Label" parent="player/UI/Right_eye_control"]
+offset_left = 250.0
+offset_top = -327.0
+offset_right = 380.0
+offset_bottom = -296.0
+text = "Pontos:  0"
 
 [node name="SubViewport" type="SubViewport" parent="player"]
 
@@ -174,5 +204,7 @@ script = ExtResource("8_ncbsl")
 [node name="Area3D" type="Area3D" parent="MeshInstance3D"]
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="MeshInstance3D/Area3D"]
+
+[node name="Timer" type="Timer" parent="."]
 
 [connection signal="pressed" from="player/UI/Left_eye_control/Button" to="player/SubViewport/GyroCam" method="reset_rotation"]

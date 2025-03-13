@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://dw861h05amt4d"]
 
-[ext_resource type="ArrayMesh" uid="uid://t8pc84ubux63" path="res://images/ricks ufo.obj" id="1_x0ukn"]
-[ext_resource type="Script" path="res://box_2.gd" id="2_o3gxa"]
+[ext_resource type="ArrayMesh" uid="uid://dxgo6tpfqsoef" path="res://images/ricks ufo.obj" id="1_x0ukn"]
+[ext_resource type="Script" uid="uid://cfbtovo11eon5" path="res://box_2.gd" id="2_o3gxa"]
 
 [node name="box2" type="MeshInstance3D"]
 transform = Transform3D(5.1423, 3.51508, 5.02005, 0, 6.55322, -4.58861, -6.12836, 2.9495, 4.21233, -1.5494, 13.733, -3.84353)
