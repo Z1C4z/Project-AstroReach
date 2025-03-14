@@ -1,7 +1,5 @@
 extends Node2D
 
-var buttonsScript = preload("res://Scenes/MenuScene/buttons.gd").new()
-
 var udp = PacketPeerUDP.new()
 var listening_port = 5005
 var hands = {}
@@ -36,7 +34,7 @@ func _ready():
 			if child is MeshInstance3D:
 				objetos_3d.append(child)
 			elif child is Sprite3D:
-				sprite_3d.append(child)
+					sprite_3d.append(child)
 
 func _process(_delta):
 	if udp.get_available_packet_count() > 0:
@@ -52,10 +50,21 @@ func _process(_delta):
 	
 	if camera_3d and sprite_3d:
 		for spt in sprite_3d:
-			var a = detectar_mao_no_objeto(spt, camera_3d)
-			if a:
-				buttonsScript.buttons_function(spt.name)
-				
+			# Verifica se o objeto ainda existe
+			if is_instance_valid(spt):
+				var mao_sobre_objeto = detectar_mao_no_objeto(spt, camera_3d)
+				if mao_sobre_objeto:
+					if (mao_sobre_objeto == "Right" and right_handpose == "pointer") or \
+					   (mao_sobre_objeto == "Left" and left_handpose == "pointer"):
+						spt.iniciar_carregamento()
+					else:
+						spt.cancelar_carregamento()
+				else:
+					spt.cancelar_carregamento()
+			else:
+				# Remove o objeto da lista se ele foi excluído
+				sprite_3d.erase(spt)
+					
 	# Verifica se uma mão está sobre algum objeto antes de permitir o movimento
 	if camera_3d and objetos_3d:
 		for obj in objetos_3d:
@@ -117,21 +126,7 @@ func detectar_mao_no_objeto(object_3d: Node3D, camera: Camera3D) -> String:
 				return hand_name  # Retorna "Right" ou "Left" se a mão estiver na hitbox
 	
 	return ""  # Nenhuma mão está sobre o objeto
-	
-func detectar_mao_no_sprite(object_3d: Node3D, camera: Camera3D) -> String:
-	var screen_pos = world_to_screen(object_3d, camera)
-	if screen_pos == Vector2.ZERO:
-		return ""  # Posição inválida ou atrás da câmera
-	
-	var hitbox_radius = 100  # Aumente para expandir a hitbox
 
-	for hand_name in hands.keys():
-		var hand = hands[hand_name]
-		for point in hand:
-			if point.distance_to(screen_pos) <= hitbox_radius:
-				return hand_name  # Retorna "Right" ou "Left" se a mão estiver na hitbox
-	
-	return ""  # Nenhuma mão está sobre o objeto
 func world_to_screen(object_3d: Node3D, camera: Camera3D) -> Vector2:
 	if not camera:
 		return Vector2.ZERO

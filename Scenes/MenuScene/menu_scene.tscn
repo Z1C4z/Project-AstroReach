@@ -1,7 +1,7 @@
-[gd_scene load_steps=8 format=3 uid="uid://cswdlnmlgdfoa"]
+[gd_scene load_steps=10 format=3 uid="uid://cswdlnmlgdfoa"]
 
 [ext_resource type="PackedScene" uid="uid://n7nu58sat7i4" path="res://player/player.tscn" id="1_4v3vm"]
-[ext_resource type="Texture2D" uid="uid://8joxsjtge6qq" path="res://images/playIcon.png" id="2_tr3k3"]
+[ext_resource type="PackedScene" uid="uid://k2urpqp3uaof" path="res://button.tscn" id="2_tr3k3"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_4v3vm"]
 sky_top_color = Color(0.0901961, 0.180392, 0.278431, 1)
@@ -25,6 +25,12 @@ material = SubResource("StandardMaterial3D_4v3vm")
 size = Vector2(20, 20)
 center_offset = Vector3(0, 6, 0)
 
+[sub_resource type="ViewportTexture" id="ViewportTexture_tr3k3"]
+viewport_path = NodePath("SubViewport")
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_pv6vw"]
+viewport_path = NodePath("SubViewport")
+
 [node name="Node3D" type="Node3D"]
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
@@ -39,6 +45,10 @@ shadow_enabled = true
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 mesh = SubResource("PlaneMesh_tr3k3")
 
-[node name="playButton" type="Sprite3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.157179, 13.025, -4.63047)
-texture = ExtResource("2_tr3k3")
+[node name="PlayButton" parent="." instance=ExtResource("2_tr3k3")]
+transform = Transform3D(1, 0, 0, 0, 0.973275, 0.229642, 0, -0.229642, 0.973275, -0.905669, 12.3584, -4.36242)
+texture = SubResource("ViewportTexture_tr3k3")
+
+[node name="ExitButton" parent="." instance=ExtResource("2_tr3k3")]
+transform = Transform3D(1, 0, 0, 0, 0.973275, 0.229642, 0, -0.229642, 0.973275, 2.60865, 11.707, -4.38615)
+texture = SubResource("ViewportTexture_pv6vw")
