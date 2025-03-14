@@ -165,7 +165,6 @@ func arrastar_objeto(obj: Node3D):
 		if distancia_fixa != 6:
 			distancia_fixa = 6
 		var target_position = ray_origin + (ray_dir.normalized() * distancia_fixa)
-		target_position.z = -4.0
 		
 		# Interpolação para suavizar o movimento
 		var velocidade_real = velocidade * 0.1
@@ -173,6 +172,3 @@ func arrastar_objeto(obj: Node3D):
 
 		# Aplicamos a posição sem mudar escala ou rotação
 		obj.global_transform.origin = nova_posicao
-
-		# Debug: Se a distância mudar, ainda tem algo errado
-		print("Escala:", obj.scale, " | Posição:", obj.position , " | Distância da câmera:", camera_3d.global_transform.origin.distance_to(obj.global_transform.origin))
