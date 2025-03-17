@@ -41,7 +41,8 @@ func _process(_delta):
 	if redoma:
 		for child in redoma.get_children():
 			if child is Node3D:
-				if child.name == "Nave":
+				print(child.name)
+				if child.name.match("Nave"):
 					nave = child
 	if udp.get_available_packet_count() > 0:
 		var packet = udp.get_packet()
@@ -55,9 +56,9 @@ func _process(_delta):
 			push_error("Erro ao analisar JSON: ", json.get_error_message())
 
 	# Verifica se uma mão está sobre a nave antes de permitir o movimento
-	if camera_3d and nave:
-		
+	if camera_3d and nave != null:
 		var mao_sobre_nave = detectar_mao_no_objeto(nave, camera_3d)
+		
 		if mao_sobre_nave:
 			# Se a mão está sobre a nave e fechada, começa o arrasto
 
@@ -169,7 +170,6 @@ func arrastar_objeto(obj: Node3D):
 			if distancia_fixa != 6:
 				distancia_fixa = 6
 			var target_position = ray_origin + (ray_dir.normalized() * distancia_fixa)
-			target_position.z = -4.0
 			
 			# Interpolação para suavizar o movimento
 			var velocidade_real = velocidade * 0.1

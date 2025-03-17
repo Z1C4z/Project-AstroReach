@@ -109,6 +109,7 @@ func criar_obstaculo_unico(scene: PackedScene, raio: float, altura: float):
 	var obstaculo = scene.instantiate()
 	obstaculo.position = nova_posicao
 	add_child(obstaculo)
+	obstaculo.add_to_group("obstaculos")
 
 	# Adiciona a nave a um grupo específico
 	if scene == nave_scene:
