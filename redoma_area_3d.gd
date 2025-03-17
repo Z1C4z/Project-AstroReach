@@ -44,11 +44,31 @@ func gerar_obstaculos():
 		for i in range(num_obstaculos):
 			criar_asteroide(raio, altura)
 
-func criar_nave(_raio: float, _altura: float):
-	var posicao_nave = Vector3(0, 0, 0)  # Posição central
+func criar_nave(raio: float, altura: float):
+	var tentativa = 0
+	var max_tentativas = 100
+	var posicao_nave: Vector3
+
+	while tentativa < max_tentativas:
+		var angulo = randf() * TAU
+		var distancia = randf() * raio  # Garante que fique dentro do raio
+		var x = cos(angulo) * distancia
+		var z = sin(angulo) * distancia
+		var y = randf_range(-altura * 0.7, altura * 0.7)  # Dentro da altura
+
+		posicao_nave = Vector3(x, y, z)
+
+		if posicao_valida(posicao_nave, nave_scene):
+			break
+		
+		tentativa += 1
+
+	if tentativa >= max_tentativas:
+		print("Erro: Não foi possível encontrar uma posição válida para a nave!")
+		return
+
+	# Criar e configurar a nave
 	nave_instance = nave_scene.instantiate()
-	
-	# Configuração da nave
 	nave_instance.name = "Nave"
 	nave_instance.position = posicao_nave
 	nave_instance.add_to_group("arrastavel")
@@ -59,8 +79,9 @@ func criar_nave(_raio: float, _altura: float):
 	collision.shape = SphereShape3D.new()
 	collision.shape.radius = calcular_raio(nave_scene)
 	nave_instance.add_child(collision)
-	
+
 	add_child(nave_instance)
+
 
 func criar_obstaculo_unico(scene: PackedScene, raio: float, altura: float):
 	var nova_posicao: Vector3
