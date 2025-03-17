@@ -1,16 +1,18 @@
 extends Node3D
 
-@export var asteroid_scene: PackedScene  # Única cena de asteroide
-@export var terra_scene: PackedScene  # Cena da Terra
-@export var nave_scene: PackedScene  # Cena da Nave
-@export var redoma: CollisionShape3D  # Área onde os planetas serão gerados
-@export var num_obstaculos: int = 15  # Número de planetas a serem gerados
-@export var min_distancia: float = 1.9  # Distância mínima entre os planetas
+@export var asteroid_scene: PackedScene  # Cena do asteroide
+@export var terra_scene: PackedScene     # Cena da Terra
+@export var nave_scene: PackedScene      # Cena da Nave
+@export var redoma: CollisionShape3D     # Área de geração
+@export var num_obstaculos: int = 15     # Quantidade de asteroides
+@export var min_distancia: float = 1.9   # Distância mínima entre objetos
 
-var posicoes_geradas: Array[Vector3] = []  # Armazena as posições já usadas
+var posicoes_geradas: Array[Vector3] = []
+var nave_instance: Node3D = null         # Referência da nave
 
 func _ready():
 	verificar_redoma()
+	gerar_obstaculos()
 
 func _input(event):
 	if event is InputEventKey and event.pressed:
@@ -27,31 +29,38 @@ func verificar_redoma():
 
 func gerar_obstaculos():
 	verificar_redoma()
-
-	if redoma == null:
-		print("Erro: Redoma não está definida!")
+	
+	if redoma == null or asteroid_scene == null:
 		return
 
-	if asteroid_scene == null:
-		print("Erro: Cena do asteroide não foi definida!")
-		return
-
-	var shape = redoma.shape
+	var shape = redoma.shape  # Declaração da variável shape
 	if shape is CylinderShape3D:
 		var raio = shape.radius
 		var altura = shape.height * 0.5
 
-		# Gera a Terra
-		if terra_scene:
-			criar_obstaculo_unico(terra_scene, raio, altura)
-
-		# Gera a Nave
-		if nave_scene:
-			criar_obstaculo_unico(nave_scene, raio, altura)
-
-		# Gera os outros planetas (asteroides)
+		criar_obstaculo_unico(terra_scene, raio, altura)
+		criar_nave(raio, altura)
+		
 		for i in range(num_obstaculos):
 			criar_asteroide(raio, altura)
+
+func criar_nave(raio: float, altura: float):
+	var posicao_nave = Vector3(0, 0, 0)  # Posição central
+	nave_instance = nave_scene.instantiate()
+	
+	# Configuração da nave
+	nave_instance.name = "Nave"
+	nave_instance.position = posicao_nave
+	nave_instance.add_to_group("arrastavel")
+	nave_instance.add_to_group("nave")
+	
+	# Adiciona colisão
+	var collision = CollisionShape3D.new()
+	collision.shape = SphereShape3D.new()
+	collision.shape.radius = calcular_raio(nave_scene)
+	nave_instance.add_child(collision)
+	
+	add_child(nave_instance)
 
 func criar_obstaculo_unico(scene: PackedScene, raio: float, altura: float):
 	var nova_posicao: Vector3
@@ -77,9 +86,13 @@ func criar_obstaculo_unico(scene: PackedScene, raio: float, altura: float):
 		return
 
 	var obstaculo = scene.instantiate()
-	obstaculo.add_to_group("obstaculos")  # Adiciona ao grupo
 	obstaculo.position = nova_posicao
 	add_child(obstaculo)
+
+	# Adiciona a nave a um grupo específico
+	if scene == nave_scene:
+		obstaculo.name = "Nave"  # Define um nome único
+		obstaculo.add_to_group("nave")  # Adiciona ao grupo "nave"
 
 	if obstaculo is Node3D:
 		var collision_shape = CollisionShape3D.new()
@@ -87,41 +100,33 @@ func criar_obstaculo_unico(scene: PackedScene, raio: float, altura: float):
 		sphere_shape.radius = calcular_raio(scene)
 		collision_shape.shape = sphere_shape
 		obstaculo.add_child(collision_shape)
-
 func criar_asteroide(raio: float, altura: float):
 	var nova_posicao: Vector3
 	var tentativa = 0
-	var max_tentativas = 100
 
-	while tentativa < max_tentativas:
+	while tentativa < 100:
 		var angulo = randf() * TAU
-		var x = cos(angulo) * raio
-		var z = sin(angulo) * raio
-		var y = randf_range(-altura * 0.7, altura * 0.7)
-
-		nova_posicao = Vector3(x, y, z)
-
+		nova_posicao = Vector3(
+			cos(angulo) * raio,
+			randf_range(-altura * 0.7, altura * 0.7),
+			sin(angulo) * raio
+		)
+		
 		if posicao_valida(nova_posicao, asteroid_scene):
 			posicoes_geradas.append(nova_posicao)
-			break
-
+			var asteroide = asteroid_scene.instantiate()
+			asteroide.position = nova_posicao
+			asteroide.add_to_group("obstaculos")
+			adicionar_colisao(asteroide, calcular_raio(asteroid_scene))
+			add_child(asteroide)
+			return
 		tentativa += 1
 
-	if tentativa >= max_tentativas:
-		print("Erro: Não foi possível encontrar uma posição válida para o asteroide!")
-		return
-
-	var asteroide = asteroid_scene.instantiate()
-	asteroide.add_to_group("obstaculos")  # Adiciona ao grupo
-	asteroide.position = nova_posicao
-	add_child(asteroide)
-
-	if asteroide is Node3D:
-		var collision_shape = CollisionShape3D.new()
-		var sphere_shape = SphereShape3D.new()
-		sphere_shape.radius = calcular_raio(asteroid_scene)
-		collision_shape.shape = sphere_shape
-		asteroide.add_child(collision_shape)
+func adicionar_colisao(obj: Node3D, raio: float):
+	var collision = CollisionShape3D.new()
+	collision.shape = SphereShape3D.new()
+	collision.shape.radius = raio
+	obj.add_child(collision)
 
 func posicao_valida(posicao: Vector3, scene: PackedScene) -> bool:
 	for pos in posicoes_geradas:
@@ -131,25 +136,17 @@ func posicao_valida(posicao: Vector3, scene: PackedScene) -> bool:
 
 func calcular_raio(scene: PackedScene) -> float:
 	var instance = scene.instantiate()
-	var raio = 0.0
-	if instance is Node3D:
-		var scale = instance.scale
-		raio = max(scale.x, scale.y, scale.z) * 0.5
-	instance.queue_free()  # Libera a instância temporária
+	var raio = instance.scale.length() * 0.5 if instance is Node3D else 0.0
+	instance.queue_free()
 	return raio
 
 func remover_itens():
-	# Remove todos os obstáculos pelo grupo
 	for node in get_tree().get_nodes_in_group("obstaculos"):
 		node.queue_free()
-	
-	# Limpa as posições geradas
+	if nave_instance:
+		nave_instance.queue_free()
 	posicoes_geradas.clear()
-	
-	# Garante que a redoma ainda esteja presente
-	verificar_redoma()
 
 func reiniciar_jogo():
 	remover_itens()
-	verificar_redoma()
 	gerar_obstaculos()
