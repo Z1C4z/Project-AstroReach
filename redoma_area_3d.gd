@@ -44,7 +44,7 @@ func gerar_obstaculos():
 		for i in range(num_obstaculos):
 			criar_asteroide(raio, altura)
 
-func criar_nave(raio: float, altura: float):
+func criar_nave(_raio: float, _altura: float):
 	var posicao_nave = Vector3(0, 0, 0)  # Posição central
 	nave_instance = nave_scene.instantiate()
 	
@@ -100,6 +100,7 @@ func criar_obstaculo_unico(scene: PackedScene, raio: float, altura: float):
 		sphere_shape.radius = calcular_raio(scene)
 		collision_shape.shape = sphere_shape
 		obstaculo.add_child(collision_shape)
+
 func criar_asteroide(raio: float, altura: float):
 	var nova_posicao: Vector3
 	var tentativa = 0

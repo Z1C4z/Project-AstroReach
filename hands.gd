@@ -20,11 +20,9 @@ var connections = [
 
 @onready var camera_3d = get_node_or_null("/root/Node3D/player/SubViewport/GyroCam")
 @onready var redoma = get_node_or_null("/root/Node3D/RedomaArea3D")
-@onready var objetos_3d = get_node_or_null("/root/Node3D/carga")
-# @onready var label_mensagem = $CanvasLayer/Label  # Comente se não existir
 @onready var box2_area = get_node_or_null("/root/Node3D/box2/Area3D")
 @onready var boxfinish_area = get_node_or_null("/root/Node3D/boxfinish/Area3D")
-
+@onready var redoma_area: Node3D = $"../../../../RedomaArea3D"
 # Referência para a nave
 @onready var nave = get_node_or_null("/root/Node3D/Nave")  # Ajuste o caminho conforme necessário
 
@@ -36,14 +34,15 @@ func _ready():
 
 	if box2_area and boxfinish_area:
 		boxfinish_area.connect("area_entered", _on_boxfinish_collided)
-
-	# Verifica se a nave foi encontrada
-	if nave:
-		print("Nave encontrada!")
-	else:
-		print("Aviso: Nave não encontrada na cena. Verifique o caminho ou instancie a nave.")
+	
+	
 
 func _process(_delta):
+	if redoma:
+		for child in redoma.get_children():
+			if child is Node3D:
+				if child.name == "Nave":
+					nave = child
 	if udp.get_available_packet_count() > 0:
 		var packet = udp.get_packet()
 		var message = packet.get_string_from_utf8()
@@ -57,15 +56,18 @@ func _process(_delta):
 
 	# Verifica se uma mão está sobre a nave antes de permitir o movimento
 	if camera_3d and nave:
+		
 		var mao_sobre_nave = detectar_mao_no_objeto(nave, camera_3d)
 		if mao_sobre_nave:
 			# Se a mão está sobre a nave e fechada, começa o arrasto
+
 			if (mao_sobre_nave == "Right" and right_handpose == "close") or \
 			   (mao_sobre_nave == "Left" and left_handpose == "close"):
 				if not arrastando:
 					print("Arrastando a nave com:", mao_sobre_nave)
 					arrastando = true
-					mao_selecionada = mao_sobre_nave  # Define a mão que está controlando a nave
+					mao_selecionada = mao_sobre_nave
+				  # Define a mão que está controlando a nave
 				arrastar_objeto(nave)
 		else:
 			arrastando = false
@@ -97,19 +99,11 @@ func _process(_delta):
 			process_hand_data(json.data)
 		else:
 			push_error("Erro ao analisar JSON: ", json.get_error_message())
+			
 
 func _on_boxfinish_collided(area):
 	if area == box2_area:
-		# exibir_mensagem("O box2 chegou ao destino!")  # Comente se não existir
 		print("O box2 chegou ao destino!")
-
-# Comente ou remova o método exibir_mensagem se o Label não existir
-# func exibir_mensagem(texto: String):
-# 	label_mensagem.text = texto
-# 	label_mensagem.visible = true
-# 	get_tree().create_timer(2.0).timeout.connect(func():
-# 		label_mensagem.visible = false
-# 	)
 
 func process_hand_data(hand_data):
 	hands.clear()
@@ -142,7 +136,8 @@ func _draw():
 			draw_circle(point, 5, Color(0, 1, 0))
 
 func detectar_mao_no_objeto(object_3d: Node3D, camera: Camera3D) -> String:
-	if object_3d == nave:  # Verifica se o objeto é a nave
+	
+	if object_3d:  # Verifica se o objeto é a nave
 		var screen_pos = world_to_screen(object_3d, camera)
 		var hitbox_radius = 100  # Ajuste o raio da hitbox conforme necessário
 
