@@ -45,7 +45,7 @@ func executar_acao():
 	
 	# Executa uma função diferente com base no nome do objeto
 	match name:
-		"playButton":
+		"PlayButton":
 			play()
 		"ExitButton":
 			exit()
