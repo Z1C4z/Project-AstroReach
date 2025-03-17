@@ -1,19 +1,19 @@
-[gd_scene load_steps=22 format=3 uid="uid://m31rhbfn524l"]
+[gd_scene load_steps=22 format=3 uid="uid://btpgj8ls83led"]
 
-[ext_resource type="Script" uid="uid://f4vlb2t2q4e6" path="res://VR_camera.gd" id="1_1yb1c"]
-[ext_resource type="Texture2D" uid="uid://dls825ytmfehm" path="res://images/NightSkyHDRI001_2K-HDR.exr" id="1_q74fe"]
-[ext_resource type="Script" uid="uid://dtqjme0rmkq35" path="res://scene_2.gd" id="1_vuhtq"]
-[ext_resource type="Script" uid="uid://h0ods0k72i8j" path="res://conectSever.gd" id="2_4soh0"]
-[ext_resource type="Script" uid="uid://dlxe4h5jm3kll" path="res://hands.gd" id="4_tlulx"]
-[ext_resource type="Texture2D" uid="uid://csknk83llu8d8" path="res://images/coraçao_vermelho.png" id="4_vuhtq"]
-[ext_resource type="Script" uid="uid://ukj4ovoqwkug" path="res://coraçao_escript.gd" id="5_n4bvh"]
-[ext_resource type="PackedScene" uid="uid://cjmuqiwpikx53" path="res://carga.tscn" id="6_112sm"]
-[ext_resource type="ArrayMesh" uid="uid://bic5yulwjpc3i" path="res://images/Earth.obj" id="7_su7ac"]
-[ext_resource type="Script" uid="uid://bk4d0r8xia0oo" path="res://mesh_instance_3d.gd" id="8_ncbsl"]
-[ext_resource type="Script" uid="uid://de52qtwaepebu" path="res://hitbox.gd" id="11_n4bvh"]
+[ext_resource type="Script" uid="uid://dtqjme0rmkq35" path="res://scene_2.gd" id="1_fy5k1"]
+[ext_resource type="Texture2D" uid="uid://dls825ytmfehm" path="res://images/NightSkyHDRI001_2K-HDR.exr" id="2_5c1cw"]
+[ext_resource type="Script" uid="uid://h0ods0k72i8j" path="res://conectSever.gd" id="3_akxrc"]
+[ext_resource type="Texture2D" uid="uid://csknk83llu8d8" path="res://images/coraçao_vermelho.png" id="4_gu47o"]
+[ext_resource type="Script" uid="uid://ukj4ovoqwkug" path="res://coraçao_escript.gd" id="5_8hm71"]
+[ext_resource type="Script" uid="uid://f4vlb2t2q4e6" path="res://VR_camera.gd" id="6_223my"]
+[ext_resource type="Script" uid="uid://dlxe4h5jm3kll" path="res://hands.gd" id="7_17rhs"]
+[ext_resource type="PackedScene" uid="uid://cjmuqiwpikx53" path="res://carga.tscn" id="8_8j1ou"]
+[ext_resource type="ArrayMesh" uid="uid://bic5yulwjpc3i" path="res://images/Earth.obj" id="9_o3hm7"]
+[ext_resource type="Script" uid="uid://bk4d0r8xia0oo" path="res://mesh_instance_3d.gd" id="10_xpof7"]
+[ext_resource type="Script" uid="uid://de52qtwaepebu" path="res://hitbox.gd" id="11_302uq"]
 
 [sub_resource type="PanoramaSkyMaterial" id="PanoramaSkyMaterial_cucev"]
-panorama = ExtResource("1_q74fe")
+panorama = ExtResource("2_5c1cw")
 
 [sub_resource type="Sky" id="Sky_de2jx"]
 sky_material = SubResource("PanoramaSkyMaterial_cucev")
@@ -49,7 +49,7 @@ viewport_path = NodePath("player/SubViewport")
 [sub_resource type="SphereShape3D" id="SphereShape3D_n4bvh"]
 
 [node name="Node3D" type="Node3D"]
-script = ExtResource("1_vuhtq")
+script = ExtResource("1_fy5k1")
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_00r57")
@@ -64,7 +64,7 @@ mesh = SubResource("SphereMesh_3fuc5")
 
 [node name="player" type="CharacterBody3D" parent="." node_paths=PackedStringArray("gyroCam")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 11.7708, 0)
-script = ExtResource("2_4soh0")
+script = ExtResource("3_akxrc")
 gyroCam = NodePath("SubViewport/GyroCam")
 
 [node name="UI" type="CanvasLayer" parent="player"]
@@ -133,10 +133,11 @@ size_flags_horizontal = 6
 size_flags_vertical = 4
 
 [node name="Sprite2D" type="Sprite2D" parent="player/UI/Left_eye_control/HBoxContainer/Panel"]
+visible = false
 position = Vector2(-23.5, -21)
 scale = Vector2(0.1, 0.101)
-texture = ExtResource("4_vuhtq")
-script = ExtResource("5_n4bvh")
+texture = ExtResource("4_gu47o")
+script = ExtResource("5_8hm71")
 
 [node name="Panel2" type="Panel" parent="player/UI/Left_eye_control/HBoxContainer"]
 layout_mode = 2
@@ -144,10 +145,11 @@ size_flags_horizontal = 6
 size_flags_vertical = 4
 
 [node name="Sprite2D" type="Sprite2D" parent="player/UI/Left_eye_control/HBoxContainer/Panel2"]
+visible = false
 position = Vector2(-23.5, -21)
 scale = Vector2(0.1, 0.101)
-texture = ExtResource("4_vuhtq")
-script = ExtResource("5_n4bvh")
+texture = ExtResource("4_gu47o")
+script = ExtResource("5_8hm71")
 
 [node name="Panel3" type="Panel" parent="player/UI/Left_eye_control/HBoxContainer"]
 layout_mode = 2
@@ -155,10 +157,11 @@ size_flags_horizontal = 6
 size_flags_vertical = 4
 
 [node name="Sprite2D" type="Sprite2D" parent="player/UI/Left_eye_control/HBoxContainer/Panel3"]
+visible = false
 position = Vector2(-23.5, -21)
 scale = Vector2(0.1, 0.101)
-texture = ExtResource("4_vuhtq")
-script = ExtResource("5_n4bvh")
+texture = ExtResource("4_gu47o")
+script = ExtResource("5_8hm71")
 
 [node name="Right_eye_control" type="Control" parent="player/UI"]
 layout_mode = 3
@@ -212,25 +215,25 @@ text = "Pontos:  0"
 
 [node name="GyroCam" type="Camera3D" parent="player/SubViewport" node_paths=PackedStringArray("left_eye_control", "right_eye_control", "subview_port")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 13, 0)
-script = ExtResource("1_1yb1c")
+script = ExtResource("6_223my")
 left_eye_control = NodePath("../../UI/Left_eye_control")
 right_eye_control = NodePath("../../UI/Right_eye_control")
 subview_port = NodePath("..")
 
 [node name="Hands" type="Node2D" parent="player/SubViewport/GyroCam"]
-script = ExtResource("4_tlulx")
+script = ExtResource("7_17rhs")
 
-[node name="carga" parent="." instance=ExtResource("6_112sm")]
+[node name="carga" parent="." instance=ExtResource("8_8j1ou")]
 transform = Transform3D(5.1423, 3.51508, 5.02006, 0, 6.55322, -4.58861, -6.12836, 2.9495, 4.21232, -1.549, 13.733, -5.6)
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 transform = Transform3D(0.02, 0, 0, 0, 0.0181261, -0.00845239, 0, 0.00845239, 0.0181261, 1.018, 13.424, -5.6)
-mesh = ExtResource("7_su7ac")
-script = ExtResource("8_ncbsl")
+mesh = ExtResource("9_o3hm7")
+script = ExtResource("10_xpof7")
 
 [node name="Area3D" type="Area3D" parent="MeshInstance3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.51577, 0, 0)
-script = ExtResource("11_n4bvh")
+script = ExtResource("11_302uq")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="MeshInstance3D/Area3D"]
 transform = Transform3D(66, 0, 0, 0, 66, 1.90735e-06, 0, -1.90735e-06, 66, 0, 39.8081, 0.438416)

@@ -133,6 +133,7 @@ size_flags_horizontal = 6
 size_flags_vertical = 4
 
 [node name="Sprite2D" type="Sprite2D" parent="player/UI/Left_eye_control/HBoxContainer/Panel"]
+visible = false
 position = Vector2(-23.5, -21)
 scale = Vector2(0.1, 0.101)
 texture = ExtResource("4_vuhtq")
@@ -144,6 +145,7 @@ size_flags_horizontal = 6
 size_flags_vertical = 4
 
 [node name="Sprite2D" type="Sprite2D" parent="player/UI/Left_eye_control/HBoxContainer/Panel2"]
+visible = false
 position = Vector2(-23.5, -21)
 scale = Vector2(0.1, 0.101)
 texture = ExtResource("4_vuhtq")
@@ -155,6 +157,7 @@ size_flags_horizontal = 6
 size_flags_vertical = 4
 
 [node name="Sprite2D" type="Sprite2D" parent="player/UI/Left_eye_control/HBoxContainer/Panel3"]
+visible = false
 position = Vector2(-23.5, -21)
 scale = Vector2(0.1, 0.101)
 texture = ExtResource("4_vuhtq")
