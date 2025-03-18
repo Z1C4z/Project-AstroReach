@@ -12,5 +12,4 @@ func _ready():
 		print("MeshInstance3D 'carga' não encontrado.")
 
 func _on_area_entered(area: Area3D) -> void:
-	if carga and carga is MeshInstance3D:
-		ponto.add_pontos(1)
+	get_parent().get_parent().pontos += 1

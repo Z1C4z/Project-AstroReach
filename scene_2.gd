@@ -5,6 +5,8 @@ var ponto:int = 0
 var jogo = true
 var coraçao = 3
 var vida = 3
+var pontos = 0
+
 @onready var  lugar = {1:$player/UI/Left_eye_control/HBoxContainer/Panel/Sprite2D,2:$player/UI/Left_eye_control/HBoxContainer/Panel2/Sprite2D,3:$player/UI/Left_eye_control/HBoxContainer/Panel3/Sprite2D}
 var visibilidade:bool 
 @onready var mudar_coraçaoes 
@@ -13,35 +15,30 @@ var visibilidade:bool
 @onready var my_timer = $Timer
 
 func _ready(): 
-	
-	tempo(6)
-	
-	
+	tempo(60)
+
 func _process(delta: float):
 	if coraçao !=vida:
-			if vida >coraçao:
-				visibilidade = false
-			else:
-				visibilidade = true
+		if vida > coraçao:
+			visibilidade = false
+		else:
+			visibilidade = true
 			mudar_coraçaoes = lugar[vida]
 			mudar_coraçaoes.visible =visibilidade
 			vida = coraçao
-		
-			
+
 	if jogo == true:
 		if my_timer.time_left > 0:
 			var segundo_novo= "%10.0f" % my_timer.time_left
 			if (ultimo_segundo != segundo_novo):
 				ultimo_segundo= segundo_novo
 				tela_timer1.text = "Timer:%s"%segundo_novo
-				
+	if pontos != 0:
+		add_pontos(pontos)
+		pontos = 0
 		
-				
-
-			
 func _on_timer_timeout():
 	tela_timer1.text = "Timer: Stop"
-
 	my_timer.stop()
 	menos_coraçao()
 	
@@ -60,11 +57,6 @@ func add_pontos(pontos):
 		print(tela_pontos1)
 
 
-func restard_pontos():
-	ponto = 0
-	tela_pontos1.text = "Pontos:  0"
-
-	
 func menos_pontos(pontos):
 	ponto-=pontos
 	tela_pontos1.text = "Pontos:  %s"%ponto
