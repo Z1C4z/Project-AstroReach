@@ -1,15 +1,15 @@
-[gd_scene load_steps=22 format=3 uid="uid://m31rhbfn524l"]
+[gd_scene load_steps=22 format=3 uid="uid://djjy4m0r80nm8"]
 
-[ext_resource type="Script" uid="uid://f4vlb2t2q4e6" path="res://VR_camera.gd" id="1_1yb1c"]
+[ext_resource type="Script" uid="uid://c3f6ush8n31vb" path="res://VR_camera.gd" id="1_1yb1c"]
 [ext_resource type="Texture2D" uid="uid://dls825ytmfehm" path="res://images/NightSkyHDRI001_2K-HDR.exr" id="1_q74fe"]
 [ext_resource type="Script" uid="uid://dtqjme0rmkq35" path="res://scene_2.gd" id="1_vuhtq"]
-[ext_resource type="Script" uid="uid://h0ods0k72i8j" path="res://conectSever.gd" id="2_4soh0"]
+[ext_resource type="Script" uid="uid://rt0t8po5ldb0" path="res://conectSever.gd" id="2_4soh0"]
+[ext_resource type="Texture2D" uid="uid://dm6awachdbg2i" path="res://images/O@.png" id="4_n4bvh"]
 [ext_resource type="Script" uid="uid://dlxe4h5jm3kll" path="res://hands.gd" id="4_tlulx"]
-[ext_resource type="Texture2D" uid="uid://csknk83llu8d8" path="res://images/coraçao_vermelho.png" id="4_vuhtq"]
 [ext_resource type="Texture2D" uid="uid://yw3bcbdghdl1" path="res://images/Add a subheading.png" id="5_n4bvh"]
 [ext_resource type="PackedScene" uid="uid://cjmuqiwpikx53" path="res://carga.tscn" id="6_112sm"]
 [ext_resource type="ArrayMesh" uid="uid://bic5yulwjpc3i" path="res://images/Earth.obj" id="7_su7ac"]
-[ext_resource type="Script" uid="uid://bk4d0r8xia0oo" path="res://planet.gd" id="8_ncbsl"]
+[ext_resource type="Script" path="res://planet.gd" id="8_ncbsl"]
 [ext_resource type="Script" uid="uid://de52qtwaepebu" path="res://hitbox.gd" id="11_n4bvh"]
 
 [sub_resource type="PanoramaSkyMaterial" id="PanoramaSkyMaterial_cucev"]
@@ -128,19 +128,19 @@ grow_vertical = 2
 theme_override_constants/separation = -100
 
 [node name="Life-1" type="Sprite2D" parent="player/UI/Left_eye_control/HBoxContainer"]
-position = Vector2(51.5, 14)
-scale = Vector2(0.1, 0.101)
-texture = ExtResource("4_vuhtq")
+position = Vector2(52, 14)
+scale = Vector2(0.2, 0.2)
+texture = ExtResource("4_n4bvh")
 
 [node name="Life-2" type="Sprite2D" parent="player/UI/Left_eye_control/HBoxContainer"]
-position = Vector2(101.5, 14)
-scale = Vector2(0.1, 0.101)
-texture = ExtResource("4_vuhtq")
+position = Vector2(112, 14)
+scale = Vector2(0.2, 0.2)
+texture = ExtResource("4_n4bvh")
 
 [node name="Life-3" type="Sprite2D" parent="player/UI/Left_eye_control/HBoxContainer"]
-position = Vector2(152.5, 14)
-scale = Vector2(0.1, 0.101)
-texture = ExtResource("4_vuhtq")
+position = Vector2(173, 14)
+scale = Vector2(0.2, 0.2)
+texture = ExtResource("4_n4bvh")
 
 [node name="Right_eye_control" type="Control" parent="player/UI"]
 layout_mode = 3
