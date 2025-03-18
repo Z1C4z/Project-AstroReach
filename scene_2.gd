@@ -15,7 +15,7 @@ var visibilidade:bool
 @onready var my_timer = $Timer
 
 func _ready(): 
-	tempo(3)
+	tempo(60)
 
 func _process(delta: float):
 	if coraçao !=vida:
@@ -23,9 +23,9 @@ func _process(delta: float):
 			visibilidade = false
 		else:
 			visibilidade = true
-		mudar_coraçaoes = lugar[vida]
-		mudar_coraçaoes.visible =visibilidade
-		vida = coraçao
+			mudar_coraçaoes = lugar[vida]
+			mudar_coraçaoes.visible =visibilidade
+			vida = coraçao
 
 	if jogo == true:
 		if my_timer.time_left > 0:

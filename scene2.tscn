@@ -1,16 +1,16 @@
-[gd_scene load_steps=22 format=3 uid="uid://djjy4m0r80nm8"]
+[gd_scene load_steps=22 format=3 uid="uid://m31rhbfn524l"]
 
-[ext_resource type="Script" uid="uid://c3f6ush8n31vb" path="res://VR_camera.gd" id="1_1yb1c"]
+[ext_resource type="Script" uid="uid://f4vlb2t2q4e6" path="res://VR_camera.gd" id="1_1yb1c"]
 [ext_resource type="Texture2D" uid="uid://dls825ytmfehm" path="res://images/NightSkyHDRI001_2K-HDR.exr" id="1_q74fe"]
 [ext_resource type="Script" uid="uid://dtqjme0rmkq35" path="res://scene_2.gd" id="1_vuhtq"]
-[ext_resource type="Script" uid="uid://rt0t8po5ldb0" path="res://conectSever.gd" id="2_4soh0"]
-[ext_resource type="Texture2D" uid="uid://dxojf78k3v5up" path="res://images/O@.png" id="4_n4bvh"]
+[ext_resource type="Script" uid="uid://h0ods0k72i8j" path="res://conectSever.gd" id="2_4soh0"]
 [ext_resource type="Script" uid="uid://dlxe4h5jm3kll" path="res://hands.gd" id="4_tlulx"]
+[ext_resource type="Texture2D" uid="uid://csknk83llu8d8" path="res://images/coraçao_vermelho.png" id="4_vuhtq"]
 [ext_resource type="Script" uid="uid://ukj4ovoqwkug" path="res://coraçao_escript.gd" id="5_n4bvh"]
 [ext_resource type="PackedScene" uid="uid://cjmuqiwpikx53" path="res://carga.tscn" id="6_112sm"]
 [ext_resource type="ArrayMesh" uid="uid://bic5yulwjpc3i" path="res://images/Earth.obj" id="7_su7ac"]
-[ext_resource type="Script" path="res://mesh_instance_3d.gd" id="8_ncbsl"]
-[ext_resource type="Script" path="res://hitbox.gd" id="11_n4bvh"]
+[ext_resource type="Script" uid="uid://bk4d0r8xia0oo" path="res://mesh_instance_3d.gd" id="8_ncbsl"]
+[ext_resource type="Script" uid="uid://de52qtwaepebu" path="res://hitbox.gd" id="11_n4bvh"]
 
 [sub_resource type="PanoramaSkyMaterial" id="PanoramaSkyMaterial_cucev"]
 panorama = ExtResource("1_q74fe")
@@ -133,9 +133,9 @@ size_flags_horizontal = 6
 size_flags_vertical = 4
 
 [node name="Sprite2D" type="Sprite2D" parent="player/UI/Left_eye_control/HBoxContainer/Panel"]
-position = Vector2(-5, -17)
-scale = Vector2(0.161, 0.157)
-texture = ExtResource("4_n4bvh")
+position = Vector2(-23.5, -21)
+scale = Vector2(0.1, 0.101)
+texture = ExtResource("4_vuhtq")
 script = ExtResource("5_n4bvh")
 
 [node name="Panel2" type="Panel" parent="player/UI/Left_eye_control/HBoxContainer"]
@@ -144,9 +144,9 @@ size_flags_horizontal = 6
 size_flags_vertical = 4
 
 [node name="Sprite2D" type="Sprite2D" parent="player/UI/Left_eye_control/HBoxContainer/Panel2"]
-position = Vector2(-6, -16)
-scale = Vector2(0.160848, 0.156972)
-texture = ExtResource("4_n4bvh")
+position = Vector2(-23.5, -21)
+scale = Vector2(0.1, 0.101)
+texture = ExtResource("4_vuhtq")
 script = ExtResource("5_n4bvh")
 
 [node name="Panel3" type="Panel" parent="player/UI/Left_eye_control/HBoxContainer"]
@@ -155,9 +155,9 @@ size_flags_horizontal = 6
 size_flags_vertical = 4
 
 [node name="Sprite2D" type="Sprite2D" parent="player/UI/Left_eye_control/HBoxContainer/Panel3"]
-position = Vector2(-7, -16)
-scale = Vector2(0.161, 0.157)
-texture = ExtResource("4_n4bvh")
+position = Vector2(-23.5, -21)
+scale = Vector2(0.1, 0.101)
+texture = ExtResource("4_vuhtq")
 script = ExtResource("5_n4bvh")
 
 [node name="Right_eye_control" type="Control" parent="player/UI"]
