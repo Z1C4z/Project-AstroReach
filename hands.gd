@@ -9,6 +9,7 @@ var arrastando = false
 var velocidade = 1.5  # Velocidade fixa do objeto
 var mao_selecionada = null  # Armazena qual mão está controlando o objeto
 var camera_rotation_speed = 0.005  # Velocidade de rotação da câmera
+var timer_run = true #Verificação para o timer começar
 
 var connections = [
 	[0,1], [1,2], [2,3], [3,4],         # Polegar
@@ -152,6 +153,9 @@ func world_to_screen(object_3d: Node3D, camera: Camera3D) -> Vector2:
 
 func arrastar_objeto(obj: Node3D):
 	if mao_selecionada and hands.has(mao_selecionada) and hands[mao_selecionada].size() > 13:
+		if timer_run:
+			get_parent().get_parent().get_parent().get_parent().timer(60)
+			timer_run = false
 		var dedo_anelar = hands[mao_selecionada][13]
 		var screen_pos = Vector2(dedo_anelar.x, dedo_anelar.y)
 

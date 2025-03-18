@@ -1,68 +1,68 @@
 extends Node3D
-var ultimo_segundo = "0"
-var modo:int
-var ponto:int = 0
-var jogo = true
-var coraçao = 3
-var vida = 3
-var pontos = 0
 
-@onready var  lugar = {1:$player/UI/Left_eye_control/HBoxContainer/Panel/Sprite2D,2:$player/UI/Left_eye_control/HBoxContainer/Panel2/Sprite2D,3:$player/UI/Left_eye_control/HBoxContainer/Panel3/Sprite2D}
-var visibilidade:bool 
-@onready var mudar_coraçaoes 
-@onready var tela_timer1 = $player/UI/Right_eye_control/Time
-@onready var tela_pontos1 = $player/UI/Right_eye_control/Pontos
-@onready var my_timer = $Timer
+# Variáveis globais
+var last_second = "0"  # Armazena o último segundo exibido no timer
+var game = true        # Controla se o jogo está ativo ou não
+var oxygen = 3         # Quantidade de oxigênio do jogador
+var life = 3           # Quantidade de vidas (redundante com `oxygen`, pode ser removida)
+var score = 0          # Pontuação do jogador
+var point = 0          # Pontos temporários a serem adicionados à pontuação
 
-func _ready(): 
-	tempo(60)
+# Referências aos sprites de oxigênio (vidas) na interface
+@onready var sprites = {
+	1: $"player/UI/Left_eye_control/HBoxContainer/Life-1",
+	2: $"player/UI/Left_eye_control/HBoxContainer/Life-2",
+	3: $"player/UI/Left_eye_control/HBoxContainer/Life-3"
+}
+var visibility: bool  # Controla a visibilidade dos sprites de oxigênio
+@onready var lost_oxygen  # Referência ao sprite de oxigênio que será alterado
+@onready var timer_sprite = $player/UI/Right_eye_control/Timer  # Referência ao texto do timer
+@onready var score_sprite = $player/UI/Right_eye_control/Score  # Referência ao texto da pontuação
+@onready var my_timer = $Timer  # Referência ao timer
 
 func _process(delta: float):
-	if coraçao !=vida:
-		if vida > coraçao:
-			visibilidade = false
+	# Verifica se o oxigênio foi alterado
+	if oxygen != life:
+		# Define a visibilidade do sprite de oxigênio perdido/ganho
+		if life > oxygen:
+			visibility = false  # Esconde o sprite se o oxigênio diminuiu
 		else:
-			visibilidade = true
-			mudar_coraçaoes = lugar[vida]
-			mudar_coraçaoes.visible =visibilidade
-			vida = coraçao
+			visibility = true   # Mostra o sprite se o oxigênio aumentou
+		lost_oxygen = sprites[life]  # Obtém o sprite correspondente à vida atual
+		lost_oxygen.visible = visibility  # Atualiza a visibilidade do sprite
+		life = oxygen  # Sincroniza `life` com `oxygen`
 
-	if jogo == true:
+	# Atualiza o timer na tela
+	if game == true:
 		if my_timer.time_left > 0:
-			var segundo_novo= "%10.0f" % my_timer.time_left
-			if (ultimo_segundo != segundo_novo):
-				ultimo_segundo= segundo_novo
-				tela_timer1.text = "Timer:%s"%segundo_novo
-	if pontos != 0:
-		add_pontos(pontos)
-		pontos = 0
-		
+			var new_second = "%10.0f" % my_timer.time_left  # Formata o tempo restante
+			if last_second != new_second:  # Verifica se o segundo mudou
+				last_second = new_second  # Atualiza o último segundo exibido
+				timer_sprite.text = "Timer: %s" % new_second  # Atualiza o texto do timer
+
+	# Atualiza a pontuação
+	if point != 0:
+		change_score(point)  # Adiciona os pontos à pontuação
+		score = 0  # Reseta os pontos temporários
+
 func _on_timer_timeout():
-	tela_timer1.text = "Timer: Stop"
-	my_timer.stop()
-	menos_coraçao()
-	
-func tempo(modo):
-	my_timer.timeout.connect(_on_timer_timeout)
-	my_timer.wait_time = modo
-	my_timer.start()
+	# Chamado quando o timer chega a zero
+	timer_sprite.text = "Timer: Stop"  # Atualiza o texto do timer
+	my_timer.stop()  # Para o timer
+	change_oxygen(-1)  # Reduz o oxigênio
 
-func add_pontos(pontos):
-	ponto+= pontos
-	print(ponto)
-	if tela_pontos1:
-		tela_pontos1.text = "Pontos: %s" % ponto
-	else:
-		print("Erro: tela_pontos1 não foi encontrado ou não é um Label.")
-		print(tela_pontos1)
+func timer(seconds):
+	# Configura e inicia o timer
+	my_timer.timeout.connect(_on_timer_timeout)  # Conecta o sinal de timeout à função
+	my_timer.wait_time = seconds  # Define o tempo do timer
+	my_timer.start()  # Inicia o timer
 
+func change_score(point):
+	# Adiciona pontos à pontuação
+	score += point
+	if score_sprite:
+		score_sprite.text = "Score: %s" % score  # Atualiza o texto da pontuação
 
-func menos_pontos(pontos):
-	ponto-=pontos
-	tela_pontos1.text = "Pontos:  %s"%ponto
-
-func menos_coraçao():
-	coraçao -=1
-
-func add_coraçao():
-	coraçao +=1
+func change_oxygen(value):
+	# Altera o valor do oxigênio
+	oxygen += value
