@@ -9,6 +9,7 @@ var arrastando = false
 var velocidade = 1.5  # Velocidade fixa do objeto
 var mao_selecionada = null  # Armazena qual mão está controlando o objeto
 var camera_rotation_speed = 0.005  # Velocidade de rotação da câmera
+var timer_run = true #Verificação para o timer começar
 
 var connections = [
 	[0,1], [1,2], [2,3], [3,4],         # Polegar
@@ -142,7 +143,7 @@ func detectar_mao_no_objeto(object_3d: Node3D, camera: Camera3D) -> String:
 		for point in hand:
 			if point.distance_to(screen_pos) <= hitbox_radius:
 				return hand_name  # Retorna "Right" ou "Left" se a mão estiver na hitbox
-	
+
 	return ""  # Nenhuma mão está sobre o objeto
 
 func world_to_screen(object_3d: Node3D, camera: Camera3D) -> Vector2:
@@ -152,13 +153,15 @@ func world_to_screen(object_3d: Node3D, camera: Camera3D) -> Vector2:
 
 func arrastar_objeto(obj: Node3D):
 	if mao_selecionada and hands.has(mao_selecionada) and hands[mao_selecionada].size() > 13:
+		if timer_run:
+			get_parent().get_parent().get_parent().get_parent().timer(60)
+			timer_run = false
 		var dedo_anelar = hands[mao_selecionada][13]
 		var screen_pos = Vector2(dedo_anelar.x, dedo_anelar.y)
 
 		# Projeta a posição da mão no mundo 3D
 		var ray_origin = camera_3d.project_ray_origin(screen_pos)
 		var ray_dir = camera_3d.project_ray_normal(screen_pos)
-
 
 		# Aqui garantimos que a distância fique EXATAMENTE a mesma do início
 		var distancia_fixa = obj.global_transform.origin.distance_to(camera_3d.global_transform.origin)

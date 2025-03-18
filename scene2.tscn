@@ -1,15 +1,15 @@
-[gd_scene load_steps=22 format=3 uid="uid://djjy4m0r80nm8"]
+[gd_scene load_steps=22 format=3 uid="uid://m31rhbfn524l"]
 
-[ext_resource type="Script" uid="uid://c3f6ush8n31vb" path="res://VR_camera.gd" id="1_1yb1c"]
+[ext_resource type="Script" uid="uid://f4vlb2t2q4e6" path="res://VR_camera.gd" id="1_1yb1c"]
 [ext_resource type="Texture2D" uid="uid://dls825ytmfehm" path="res://images/NightSkyHDRI001_2K-HDR.exr" id="1_q74fe"]
 [ext_resource type="Script" uid="uid://dtqjme0rmkq35" path="res://scene_2.gd" id="1_vuhtq"]
-[ext_resource type="Script" uid="uid://rt0t8po5ldb0" path="res://conectSever.gd" id="2_4soh0"]
-[ext_resource type="Texture2D" uid="uid://n25aklve0xit" path="res://images/O@.png" id="4_n4bvh"]
+[ext_resource type="Script" uid="uid://h0ods0k72i8j" path="res://conectSever.gd" id="2_4soh0"]
 [ext_resource type="Script" uid="uid://dlxe4h5jm3kll" path="res://hands.gd" id="4_tlulx"]
-[ext_resource type="Script" uid="uid://dk7g43ii6gytw" path="res://coraçao_escript.gd" id="5_n4bvh"]
+[ext_resource type="Texture2D" uid="uid://csknk83llu8d8" path="res://images/coraçao_vermelho.png" id="4_vuhtq"]
+[ext_resource type="Texture2D" uid="uid://yw3bcbdghdl1" path="res://images/Add a subheading.png" id="5_n4bvh"]
 [ext_resource type="PackedScene" uid="uid://cjmuqiwpikx53" path="res://carga.tscn" id="6_112sm"]
 [ext_resource type="ArrayMesh" uid="uid://bic5yulwjpc3i" path="res://images/Earth.obj" id="7_su7ac"]
-[ext_resource type="Script" path="res://mesh_instance_3d.gd" id="8_ncbsl"]
+[ext_resource type="Script" uid="uid://bk4d0r8xia0oo" path="res://planet.gd" id="8_ncbsl"]
 [ext_resource type="Script" uid="uid://de52qtwaepebu" path="res://hitbox.gd" id="11_n4bvh"]
 
 [sub_resource type="PanoramaSkyMaterial" id="PanoramaSkyMaterial_cucev"]
@@ -127,38 +127,20 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_constants/separation = -100
 
-[node name="Panel" type="Panel" parent="player/UI/Left_eye_control/HBoxContainer"]
-layout_mode = 2
-size_flags_horizontal = 6
-size_flags_vertical = 4
+[node name="Life-1" type="Sprite2D" parent="player/UI/Left_eye_control/HBoxContainer"]
+position = Vector2(51.5, 14)
+scale = Vector2(0.1, 0.101)
+texture = ExtResource("4_vuhtq")
 
-[node name="Sprite2D" type="Sprite2D" parent="player/UI/Left_eye_control/HBoxContainer/Panel"]
-position = Vector2(-5, -17)
-scale = Vector2(0.161, 0.157)
-texture = ExtResource("4_n4bvh")
-script = ExtResource("5_n4bvh")
+[node name="Life-2" type="Sprite2D" parent="player/UI/Left_eye_control/HBoxContainer"]
+position = Vector2(101.5, 14)
+scale = Vector2(0.1, 0.101)
+texture = ExtResource("4_vuhtq")
 
-[node name="Panel2" type="Panel" parent="player/UI/Left_eye_control/HBoxContainer"]
-layout_mode = 2
-size_flags_horizontal = 6
-size_flags_vertical = 4
-
-[node name="Sprite2D" type="Sprite2D" parent="player/UI/Left_eye_control/HBoxContainer/Panel2"]
-position = Vector2(-6, -16)
-scale = Vector2(0.160848, 0.156972)
-texture = ExtResource("4_n4bvh")
-script = ExtResource("5_n4bvh")
-
-[node name="Panel3" type="Panel" parent="player/UI/Left_eye_control/HBoxContainer"]
-layout_mode = 2
-size_flags_horizontal = 6
-size_flags_vertical = 4
-
-[node name="Sprite2D" type="Sprite2D" parent="player/UI/Left_eye_control/HBoxContainer/Panel3"]
-position = Vector2(-7, -16)
-scale = Vector2(0.161, 0.157)
-texture = ExtResource("4_n4bvh")
-script = ExtResource("5_n4bvh")
+[node name="Life-3" type="Sprite2D" parent="player/UI/Left_eye_control/HBoxContainer"]
+position = Vector2(152.5, 14)
+scale = Vector2(0.1, 0.101)
+texture = ExtResource("4_vuhtq")
 
 [node name="Right_eye_control" type="Control" parent="player/UI"]
 layout_mode = 3
@@ -176,37 +158,31 @@ grow_vertical = 2
 pivot_offset = Vector2(256, 256)
 texture = SubResource("ViewportTexture_j2r7a")
 
-[node name="Left_handposeState" type="Label" parent="player/UI/Right_eye_control"]
-layout_mode = 0
-offset_left = 127.0
-offset_top = -224.0
-offset_right = 257.0
-offset_bottom = -193.0
-text = "LHPS: None"
+[node name="BackGround-Timer" type="Sprite2D" parent="player/UI/Right_eye_control"]
+position = Vector2(382.875, -336.875)
+scale = Vector2(0.211699, 0.20583)
+texture = ExtResource("5_n4bvh")
 
-[node name="right_handposeState" type="Label" parent="player/UI/Right_eye_control"]
-layout_mode = 0
-offset_left = 126.0
-offset_top = -192.0
-offset_right = 256.0
-offset_bottom = -161.0
-text = "RHPS: None"
+[node name="BackGround-Score" type="Sprite2D" parent="player/UI/Right_eye_control"]
+position = Vector2(384, -287.25)
+scale = Vector2(0.214821, 0.213781)
+texture = ExtResource("5_n4bvh")
 
-[node name="Time" type="Label" parent="player/UI/Right_eye_control"]
+[node name="Timer" type="Label" parent="player/UI/Right_eye_control"]
 layout_mode = 0
-offset_left = 268.0
-offset_top = -365.0
-offset_right = 398.0
-offset_bottom = -334.0
+offset_left = 267.0
+offset_top = -349.0
+offset_right = 397.0
+offset_bottom = -316.0
 text = "Timer:"
 
-[node name="Pontos" type="Label" parent="player/UI/Right_eye_control"]
+[node name="Score" type="Label" parent="player/UI/Right_eye_control"]
 layout_mode = 0
-offset_left = 271.0
-offset_top = -346.0
-offset_right = 401.0
-offset_bottom = -315.0
-text = "Pontos:  0"
+offset_left = 268.0
+offset_top = -300.0
+offset_right = 398.0
+offset_bottom = -269.0
+text = "Score:  0"
 
 [node name="SubViewport" type="SubViewport" parent="player"]
 
