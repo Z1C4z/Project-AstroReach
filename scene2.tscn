@@ -1,17 +1,16 @@
-[gd_scene load_steps=23 format=3 uid="uid://djjy4m0r80nm8"]
+[gd_scene load_steps=22 format=3 uid="uid://djjy4m0r80nm8"]
 
-[ext_resource type="Script" uid="uid://f4vlb2t2q4e6" path="res://VR_camera.gd" id="1_1yb1c"]
+[ext_resource type="Script" uid="uid://c3f6ush8n31vb" path="res://VR_camera.gd" id="1_1yb1c"]
 [ext_resource type="Texture2D" uid="uid://dls825ytmfehm" path="res://images/NightSkyHDRI001_2K-HDR.exr" id="1_q74fe"]
 [ext_resource type="Script" uid="uid://dtqjme0rmkq35" path="res://scene_2.gd" id="1_vuhtq"]
-[ext_resource type="Script" uid="uid://h0ods0k72i8j" path="res://conectSever.gd" id="2_4soh0"]
+[ext_resource type="Script" uid="uid://rt0t8po5ldb0" path="res://conectSever.gd" id="2_4soh0"]
 [ext_resource type="Texture2D" uid="uid://dxojf78k3v5up" path="res://images/O@.png" id="4_n4bvh"]
 [ext_resource type="Script" uid="uid://dlxe4h5jm3kll" path="res://hands.gd" id="4_tlulx"]
 [ext_resource type="Script" uid="uid://ukj4ovoqwkug" path="res://coraçao_escript.gd" id="5_n4bvh"]
 [ext_resource type="PackedScene" uid="uid://cjmuqiwpikx53" path="res://carga.tscn" id="6_112sm"]
 [ext_resource type="ArrayMesh" uid="uid://bic5yulwjpc3i" path="res://images/Earth.obj" id="7_su7ac"]
-[ext_resource type="Script" uid="uid://bk4d0r8xia0oo" path="res://mesh_instance_3d.gd" id="8_ncbsl"]
-[ext_resource type="Script" uid="uid://de52qtwaepebu" path="res://hitbox.gd" id="11_n4bvh"]
-[ext_resource type="Texture2D" uid="uid://7u2ti5dxdyfl" path="res://images/Add a subheading.png" id="12_33owt"]
+[ext_resource type="Script" path="res://mesh_instance_3d.gd" id="8_ncbsl"]
+[ext_resource type="Script" path="res://hitbox.gd" id="11_n4bvh"]
 
 [sub_resource type="PanoramaSkyMaterial" id="PanoramaSkyMaterial_cucev"]
 panorama = ExtResource("1_q74fe")
@@ -193,28 +192,20 @@ offset_right = 256.0
 offset_bottom = -161.0
 text = "RHPS: None"
 
-[node name="AddASubheading" type="Sprite2D" parent="player/UI/Right_eye_control"]
-position = Vector2(373, -330.25)
-scale = Vector2(0.22398, 0.146643)
-texture = ExtResource("12_33owt")
-
-[node name="AddASubheading2" type="Sprite2D" parent="player/UI/Right_eye_control"]
-position = Vector2(374, -290)
-scale = Vector2(0.224813, 0.157244)
-texture = ExtResource("12_33owt")
-
 [node name="Time" type="Label" parent="player/UI/Right_eye_control"]
-offset_left = 250.0
-offset_top = -344.0
-offset_right = 425.0
-offset_bottom = -313.0
+layout_mode = 0
+offset_left = 268.0
+offset_top = -365.0
+offset_right = 398.0
+offset_bottom = -334.0
 text = "Timer:"
 
 [node name="Pontos" type="Label" parent="player/UI/Right_eye_control"]
-offset_left = 253.0
-offset_top = -302.0
-offset_right = 383.0
-offset_bottom = -271.0
+layout_mode = 0
+offset_left = 271.0
+offset_top = -346.0
+offset_right = 401.0
+offset_bottom = -315.0
 text = "Pontos:  0"
 
 [node name="SubViewport" type="SubViewport" parent="player"]
