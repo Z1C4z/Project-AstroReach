@@ -24,7 +24,7 @@ var connections = [
 @onready var boxfinish_area = get_node_or_null("/root/Node3D/boxfinish/Area3D")
 @onready var redoma_area: Node3D = $"../../../../RedomaArea3D"
 # Referência para a nave
-@onready var nave = get_node_or_null("/root/Node3D/Nave")  # Ajuste o caminho conforme necessário
+@onready var nave: Node3D  # Ajuste o caminho conforme necessário
 
 func _ready():
 	if udp.bind(listening_port) != OK:
@@ -38,12 +38,7 @@ func _ready():
 	
 
 func _process(_delta):
-	if redoma:
-		for child in redoma.get_children():
-			if child is Node3D:
-				print(child.name)
-				if child.name.match("Nave"):
-					nave = child
+	
 	if udp.get_available_packet_count() > 0:
 		var packet = udp.get_packet()
 		var message = packet.get_string_from_utf8()

@@ -46,7 +46,7 @@ viewport_path = NodePath("player/SubViewport")
 
 [sub_resource type="CylinderShape3D" id="CylinderShape3D_0051r"]
 margin = 0.0
-height = 6.51642
+height = 3.869
 radius = 6.0
 
 [node name="Node3D" type="Node3D"]
