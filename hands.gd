@@ -143,7 +143,7 @@ func detectar_mao_no_objeto(object_3d: Node3D, camera: Camera3D) -> String:
 		for point in hand:
 			if point.distance_to(screen_pos) <= hitbox_radius:
 				return hand_name  # Retorna "Right" ou "Left" se a mão estiver na hitbox
-	
+
 	return ""  # Nenhuma mão está sobre o objeto
 
 func world_to_screen(object_3d: Node3D, camera: Camera3D) -> Vector2:
@@ -162,7 +162,6 @@ func arrastar_objeto(obj: Node3D):
 		# Projeta a posição da mão no mundo 3D
 		var ray_origin = camera_3d.project_ray_origin(screen_pos)
 		var ray_dir = camera_3d.project_ray_normal(screen_pos)
-
 
 		# Aqui garantimos que a distância fique EXATAMENTE a mesma do início
 		var distancia_fixa = obj.global_transform.origin.distance_to(camera_3d.global_transform.origin)
