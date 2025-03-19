@@ -81,7 +81,6 @@ func _process(_delta):
 	if InputMap.has_action("ui_rotate_z") and Input.is_action_pressed("ui_rotate_z"):
 		camera_3d.rotation_degrees.z += camera_rotation_speed * 100
 
-
 	if udp.get_available_packet_count() > 0:
 		var packet = udp.get_packet()
 		var message = packet.get_string_from_utf8()

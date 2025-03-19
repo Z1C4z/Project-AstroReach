@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://c3t1p3woomvyw"
-path="res://.godot/imported/semi_errado.png-5cbc0a5f2f138d1738fe81892a92ea04.ctex"
+uid="uid://b0vyeqo17jqpe"
+path="res://.godot/imported/1.png-48d47c7d9e0ae44f5c552dec24f2e1fc.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://images/image_barra/semi_errado.png"
-dest_files=["res://.godot/imported/semi_errado.png-5cbc0a5f2f138d1738fe81892a92ea04.ctex"]
+source_file="res://images/image_barra/1.png"
+dest_files=["res://.godot/imported/1.png-48d47c7d9e0ae44f5c552dec24f2e1fc.ctex"]
 
 [params]
 

@@ -1,8 +1,7 @@
-[gd_scene load_steps=5 format=3 uid="uid://cjmuqiwpikx53"]
+[gd_scene load_steps=4 format=3 uid="uid://cjmuqiwpikx53"]
 
 [ext_resource type="ArrayMesh" uid="uid://dxgo6tpfqsoef" path="res://images/ricks ufo.obj" id="1_n7v7f"]
-[ext_resource type="Script" uid="uid://cfbtovo11eon5" path="res://carga.gd" id="2_xhthf"]
-[ext_resource type="Script" uid="uid://dd4pfqo1j5xhq" path="res://gpu_particles_3d.gd" id="3_cqdrk"]
+[ext_resource type="Script" path="res://carga.gd" id="2_xhthf"]
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_vuhtq"]
 
@@ -21,4 +20,3 @@ shape = SubResource("SphereShape3D_vuhtq")
 [node name="GPUParticles3D" type="GPUParticles3D" parent="."]
 transform = Transform3D(1, 1.19209e-07, 0, -2.98023e-08, 0.999999, 2.98023e-08, -2.98023e-08, -1.04308e-07, 1, -0.0283762, 0.0465428, -0.0615575)
 amount = 100
-script = ExtResource("3_cqdrk")

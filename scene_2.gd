@@ -1,115 +1,96 @@
 extends Node3D
-var  circulo = {"laranja":"res://images/image_barra/semi_errado.png","vermelho":"res://images/image_barra/errado.png","verde":"res://images/image_barra/certo.png"}
-@onready var  fase_status = {1:{"status":"null","local":$player/UI/Left_eye_control/circulo1},2:{"status":"null","local":$player/UI/Left_eye_control/circulo2},3:{"status":"null","local":$player/UI/Left_eye_control/circulo3},4:{"status":"null","local":$player/UI/Left_eye_control/circulo4},5:{"status":"null","local":$player/UI/Left_eye_control/circulo5}}
-@onready var imagem  
-var fase_atual
-var fase:int = 0
-var ultima_fase:int= 0
-# Variáveis globais
-var last_second = "0"  # Armazena o último segundo exibido no timer
-var game = true        # Controla se o jogo está ativo ou não
-var oxygen = 3         # Quantidade de oxigênio do jogador
-var life = 3           # Quantidade de vidas (redundante com `oxygen`, pode ser removida)
-var score = 0          # Pontuação do jogador
-var point = 0          # Pontos temporários a serem adicionados à pontuação
 
-# Referências aos sprites de oxigênio (vidas) na interface
-@onready var sprites = {
-	1: $"player/UI/Left_eye_control/HBoxContainer/Life-1",
-	2: $"player/UI/Left_eye_control/HBoxContainer/Life-2",
-	3: $"player/UI/Left_eye_control/HBoxContainer/Life-3"
+# Mapeamento de texturas para cada status
+var circulo = {
+	"vermelho": "res://images/image_barra/errado.png",
+	"verde": "res://images/image_barra/certo.png",
+	"cinza":""
 }
-var visibility: bool  # Controla a visibilidade dos sprites de oxigênio
-@onready var lost_oxygen  # Referência ao sprite de oxigênio que será alterado
-@onready var timer_sprite = $player/UI/Right_eye_control/Timer  # Referência ao texto do timer
-@onready var score_sprite = $player/UI/Right_eye_control/Score  # Referência ao texto da pontuação
-@onready var my_timer = $Timer  # Referência ao timer
 
-func _process(delta: float):
-	
-	if fase != ultima_fase:
-		imagem = fase_status[fase].local
-		if fase >ultima_fase:
-			fase_atual = fase_status[fase]
-			if fase_atual.status == "vermelho":
-				imagem.texture =load(circulo.laranja)
-				fase_status[fase].status = "laranja"
-			elif fase_atual.status == "null":
-				imagem.texture = load(circulo.verde)
-				fase_status[fase].status = "verde"
-			else:
-				imagem.texture = circulo[fase_atual.status]
-			ultima_fase = fase
-				
-		else:
-			fase_atual = fase_status[fase]
-			if fase_atual.status == "verde":
-				imagem.texture = load(circulo.laranja)
-				fase_status[fase].status = "laranja"
-			elif fase_atual.stautus == "null":
-				imagem.texture = load(circulo.vermelho)
-				fase_status[fase].status = "vermelho"
-			else:
-				imagem.texture = load(circulo[fase_atual.status])
-				
-			ultima_fase = 0
-			fase = 0
-		# Verifica se o oxigênio foi alterado
-		if oxygen != life:
-			# Define a visibilidade do sprite de oxigênio perdido/ganho
-			if life > oxygen:
-				visibility = false  # Esconde o sprite se o oxigênio diminuiu
-			else:
-				visibility = true   # Mostra o sprite se o oxigênio aumentou
-			lost_oxygen = sprites[life]  # Obtém o sprite correspondente à vida atual
-			lost_oxygen.visible = visibility  # Atualiza a visibilidade do sprite
-			life = oxygen  # Sincroniza `life` com `oxygen`
+# Estado das fases e as texturas associadas
+@onready var fase_status = {
+	0: {"status": "null", "local": $player/UI/Left_eye_control/circulo1},
+	1: {"status": "null", "local": $player/UI/Left_eye_control/circulo2},
+	2: {"status": "null", "local": $player/UI/Left_eye_control/circulo3},
+	3: {"status": "null", "local": $player/UI/Left_eye_control/circulo4},
+	4: {"status": "null", "local": $player/UI/Left_eye_control/circulo5}
+}
 
-	# Atualiza o timer na tela
-	if game == true:
-		if my_timer.time_left > 0:
-			var new_second = "%10.0f" % my_timer.time_left  # Formata o tempo restante
-			if last_second != new_second:  # Verifica se o segundo mudou
-				last_second = new_second  # Atualiza o último segundo exibido
-				timer_sprite.text = "Timer: %s" % new_second  # Atualiza o texto do timer
+var fase_atual_index: int = 0
+var score: int = 0
+var vida: int = 3
 
-	# Atualiza a pontuação
-	if point != 0:
-		change_score(point)  # Adiciona os pontos à pontuação
-		score = 0  # Reseta os pontos temporários
+# Referências para UI
+@onready var timer_sprite = $player/UI/Right_eye_control/Timer
+@onready var score_sprite = $player/UI/Right_eye_control/Score
+@onready var life_icons = [
+	$player/UI/Left_eye_control/HBoxContainer/Life1,
+	$player/UI/Left_eye_control/HBoxContainer/Life2,
+	$player/UI/Left_eye_control/HBoxContainer/Life3
+]
+@onready var my_timer = $Timer
 
+# Função chamada quando o jogo começa
+func _ready() -> void:
+	update_life_ui()
+	timer(30)
+
+# Atualiza o timer e a pontuação
+func update_timer():
+	if my_timer.time_left > 0:
+		var new_second = "%10.0f" % my_timer.time_left
+		timer_sprite.text = "Timer: %s" % new_second
+
+# Função chamada quando o timer chega a zero
 func _on_timer_timeout():
-	# Chamado quando o timer chega a zero
-	timer_sprite.text = "Timer: Stop"  # Atualiza o texto do timer
-	my_timer.stop()  # Para o timer
-	change_oxygen(-1)  # Reduz o oxigênio
+	timer_sprite.text = "Timer: Stop"
+	my_timer.stop()
+	print("Timer terminou!")
+	perde_fase()
 
+# Inicia o timer com o tempo em segundos
 func timer(seconds):
-	# Configura e inicia o timer
-	my_timer.timeout.connect(_on_timer_timeout)  # Conecta o sinal de timeout à função
-	my_timer.wait_time = seconds  # Define o tempo do timer
+	my_timer.timeout.connect(_on_timer_timeout)
+	my_timer.wait_time = seconds
 	my_timer.start()
-  # Inicia o timer
 
-func change_score(point):
-	# Adiciona pontos à pontuação
-	score += point
-	if score_sprite:
-		score_sprite.text = "Score: %s" % score  # Atualiza o texto da pontuação
+# Atualiza a interface das vidas
+func update_life_ui():
+	for i in range(3):
+		life_icons[i].visible = i < vida
 
-func change_oxygen(value):
-	# Altera o valor do oxigênio
-	oxygen += value
+# Ganha uma fase
+func ganha_fase():
+	if fase_atual_index <= 4:
+		fase_status[fase_atual_index]["local"].texture = load(circulo.verde)
+		score += 10
+		fase_atual_index = min(4, fase_atual_index + 1)
+		score_sprite.text = "Score: %s" % score
 
-func add_fase():
-	if fase >=5:
-		pass 
-	else:
-		fase+=1
+# Perde uma fase
+func perde_fase():
+	fase_status[fase_atual_index]["local"].texture = load(circulo.vermelho)  # Alterar fase atual
+	fase_atual_index = max(0, fase_atual_index - 1)  # Diminuir índice sem ir abaixo de 0
+	score -= 5
+	score = max(0, score)
+	score_sprite.text = "Score: %s" % score
+	vida -= 1
+	vida = max(0, vida)  # Garante que a vida não fique negativa
+	update_life_ui()
 
- 
-func menos_fase():
-	if fase ==1:
-		pass 
-	else:
-		fase-=1
+# Ganha uma vida
+func ganha_vida():
+	if vida < 3:
+		vida += 1
+		update_life_ui()
+
+# Função para processar entradas do teclado (mudar de fase e ganhar vida)
+func _input(event):
+	if event is InputEventKey and event.pressed:
+		match event.keycode:
+			KEY_Z:
+				ganha_fase()
+			KEY_X:
+				perde_fase()
+			KEY_C:
+				ganha_vida()
