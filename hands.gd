@@ -19,7 +19,7 @@ var connections = [
 ]
 
 @onready var camera_3d = get_node_or_null("/root/Node3D/player/SubViewport/GyroCam")
-@onready var redoma = get_node_or_null("/root/Node3D/RedomaArea3D")
+@onready var redoma = get_node_or_null("res://Object 3D/root_scene.tscn")
 @onready var box2_area = get_node_or_null("/root/Node3D/box2/Area3D")
 @onready var boxfinish_area = get_node_or_null("/root/Node3D/boxfinish/Area3D")
 @onready var redoma_area: Node3D = $"../../../../RedomaArea3D"

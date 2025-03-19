@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://d4k4evgyiq1eo"]
 
-[ext_resource type="PackedScene" uid="uid://c6kfbubyev6h5" path="res://Object 3D/Earth (1).glb" id="1_qgygk"]
+[ext_resource type="PackedScene" uid="uid://bea1iuaxmpwrh" path="res://Object 3D/Earth (1).glb" id="1_qgygk"]
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_6f3tn"]
 radius = 0.581591

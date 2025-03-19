@@ -1,14 +1,14 @@
 [gd_scene load_steps=20 format=3 uid="uid://c4dvk3uc61r3t"]
 
-[ext_resource type="Script" path="res://VR_camera.gd" id="1_1yb1c"]
+[ext_resource type="Script" uid="uid://cm65a86ebttwj" path="res://VR_camera.gd" id="1_1yb1c"]
 [ext_resource type="Texture2D" uid="uid://dn7hfswsthchr" path="res://images/NightSkyHDRI003_1K-TONEMAPPED.jpg" id="1_a6lsj"]
-[ext_resource type="Script" path="res://conectSever.gd" id="2_4soh0"]
-[ext_resource type="Script" path="res://Object 3D/ui.gd" id="3_vsw7i"]
-[ext_resource type="Script" path="res://hands.gd" id="4_tlulx"]
-[ext_resource type="Script" path="res://redoma_area_3d.gd" id="5_b10ws"]
+[ext_resource type="Script" uid="uid://h45esvp603qu" path="res://conectSever.gd" id="2_4soh0"]
+[ext_resource type="Script" uid="uid://cgs13874scumi" path="res://Object 3D/ui.gd" id="3_vsw7i"]
+[ext_resource type="Script" uid="uid://cwm15mysd0qjx" path="res://hands.gd" id="4_tlulx"]
+[ext_resource type="Script" uid="uid://4di1gnybqe63" path="res://redoma_area_3d.gd" id="5_b10ws"]
 [ext_resource type="PackedScene" uid="uid://dlh05laiopdk3" path="res://Object 3D/asteroid_(1).tscn" id="7_26ncv"]
 [ext_resource type="PackedScene" uid="uid://d4k4evgyiq1eo" path="res://Object 3D/earth_(1).tscn" id="8_ofikv"]
-[ext_resource type="PackedScene" uid="uid://crcvs3wskexrt" path="res://Object 3D/root_scene.tscn" id="9_et0hl"]
+[ext_resource type="PackedScene" path="res://Object 3D/carga.tscn" id="9_la03f"]
 
 [sub_resource type="PanoramaSkyMaterial" id="PanoramaSkyMaterial_cucev"]
 panorama = ExtResource("1_a6lsj")
@@ -166,7 +166,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0298763, 12.9686, -0.04931
 script = ExtResource("5_b10ws")
 asteroid_scene = ExtResource("7_26ncv")
 terra_scene = ExtResource("8_ofikv")
-nave_scene = ExtResource("9_et0hl")
+nave_scene = ExtResource("9_la03f")
 redoma = NodePath("CollisionShape3D")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="RedomaArea3D"]
