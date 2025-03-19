@@ -5,7 +5,7 @@ extends Node3D
 @export var nave_scene: PackedScene      # Cena da Nave
 @export var redoma: CollisionShape3D     # Área de geração
 @export var angulo_visao: float = 140.0  # Ângulo de visão para geração (em graus)
-@export var distancia_minima_nave_terra: float = 7.0  # Distância mínima entre a nave e a Terra
+@export var distancia_minima_nave_terra: float = 6.0  # Distância mínima entre a nave e a Terra
 @export var distancia_maxima_nave_terra: float = 10.0 # Distância máxima entre a nave e a Terra
 
 var posicoes_geradas: Array[Vector3] = []
@@ -32,6 +32,7 @@ func verificar_redoma():
 
 func gerar_obstaculos(num_obstaculos: int = 3, min_distancia: float = 2.0, distancia_minima_nave_terra: float = distancia_minima_nave_terra, distancia_maxima_nave_terra: float = distancia_maxima_nave_terra):
 	verificar_redoma()
+	var teste = get_node("/root/Node3D/player/SubViewport/GyroCam/Hands")
 	
 	if redoma == null or asteroid_scene == null:
 		return
@@ -73,7 +74,8 @@ func gerar_obstaculos(num_obstaculos: int = 3, min_distancia: float = 2.0, dista
 		posicoes_objetos["Asteroides"] = asteroides
 
 		# Exibe as posições no console (para debug)
-		print("Posições dos objetos: ", posicoes_objetos)
+	#	print("Posições dos objetos: ", posicoes_objetos)
+	teste.load_data(nave_instance)
 
 func criar_nave(raio: float, altura: float, min_distancia: float, distancia_minima_nave_terra: float, distancia_maxima_nave_terra: float) -> Node3D:
 	var tentativa = 0
@@ -107,6 +109,8 @@ func criar_nave(raio: float, altura: float, min_distancia: float, distancia_mini
 	nave.name = "Nave"
 	nave.position = posicao_nave
 	
+	
+	
 	# Adiciona colisão
 	var collision = CollisionShape3D.new()
 	collision.shape = SphereShape3D.new()
@@ -114,12 +118,14 @@ func criar_nave(raio: float, altura: float, min_distancia: float, distancia_mini
 	nave.add_child(collision)
 
 	add_child(nave)
+	
+	print(nave.get_path())
 	return nave
 
 func criar_obstaculo_unico(scene: PackedScene, raio: float, altura: float, min_distancia: float) -> Node3D:
 	var nova_posicao: Vector3
 	var tentativa = 0
-	var max_tentativas = 100
+	var max_tentativas = 300
 
 	while tentativa < max_tentativas:
 		var angulo = randf_range(-angulo_visao / 2, angulo_visao / 2) * PI / 180.0  # Converte para radianos

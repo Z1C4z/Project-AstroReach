@@ -1,12 +1,19 @@
-[gd_scene load_steps=4 format=3 uid="uid://dlh05laiopdk3"]
+[gd_scene load_steps=5 format=3 uid="uid://dlh05laiopdk3"]
 
 [ext_resource type="PackedScene" uid="uid://b77fwdtlfrip8" path="res://Object 3D/Asteroid (1).glb" id="1_upjwc"]
 [ext_resource type="Script" uid="uid://bosorxvhxb2vp" path="res://Object 3D/asteroid_(1).gd" id="2_8noaq"]
+[ext_resource type="Script" uid="uid://b7x8fx711hs4a" path="res://hitbox.gd" id="3_63mid"]
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_kmxbb"]
 
 [node name="Asteroid (1)" instance=ExtResource("1_upjwc")]
 script = ExtResource("2_8noaq")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Asteroid_Icosphere" index="0"]
+[node name="Area3D" type="Area3D" parent="Asteroid_Icosphere" index="0"]
+script = ExtResource("3_63mid")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Asteroid_Icosphere/Area3D" index="0"]
+transform = Transform3D(1.35, 0, 0, 0, 1.35, 0, 0, 0, 1.35, 0, 0, 0)
 shape = SubResource("SphereShape3D_kmxbb")
+
+[connection signal="area_entered" from="Asteroid_Icosphere/Area3D" to="Asteroid_Icosphere/Area3D" method="_on_area_entered"]

@@ -8,7 +8,7 @@
 [ext_resource type="Script" uid="uid://4di1gnybqe63" path="res://redoma_area_3d.gd" id="5_b10ws"]
 [ext_resource type="PackedScene" uid="uid://dlh05laiopdk3" path="res://Object 3D/asteroid_(1).tscn" id="7_26ncv"]
 [ext_resource type="PackedScene" uid="uid://d4k4evgyiq1eo" path="res://Object 3D/earth_(1).tscn" id="8_ofikv"]
-[ext_resource type="PackedScene" path="res://Object 3D/carga.tscn" id="9_la03f"]
+[ext_resource type="PackedScene" uid="uid://cjmuqiwpikx53" path="res://Object 3D/carga.tscn" id="9_la03f"]
 
 [sub_resource type="PanoramaSkyMaterial" id="PanoramaSkyMaterial_cucev"]
 panorama = ExtResource("1_a6lsj")
@@ -55,8 +55,8 @@ radius = 6.0
 environment = SubResource("Environment_00r57")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
-transform = Transform3D(-0.999328, 0.0337308, -0.0143179, -0.0195542, -0.16043, 0.986854, 0.0309903, 0.986471, 0.160982, 0, 29.8726, 0)
-shadow_enabled = true
+transform = Transform3D(-0.999328, 0.0337308, -0.0143179, -0.0348902, -0.756441, 0.653131, 0.0112, 0.653192, 0.75711, -0.0759174, 12.4023, 0.353676)
+sky_mode = 1
 
 [node name="planet" type="MeshInstance3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 6, 0)
