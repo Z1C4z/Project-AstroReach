@@ -1,4 +1,4 @@
-[gd_scene format=3 uid="uid://b5gdvrw52n5k8"]
+[gd_scene load_steps=0 format=3 uid="uid://b5gdvrw52n5k8"]
 
 [node name="StaticBody3D" type="StaticBody3D"]
 

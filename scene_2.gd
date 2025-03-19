@@ -63,9 +63,8 @@ func _process(delta: float):
 				timer_sprite.text = "Timer: %s" % new_second  # Atualiza o texto do timer
 
 	# Atualiza a pontuação
-	if point != 0:
-		change_score(point)  # Adiciona os pontos à pontuação
-		score = 0  # Reseta os pontos temporários
+	change_score(point)  # Adiciona os pontos à pontuação
+	score = 0  # Reseta os pontos temporários
 
 func _on_timer_timeout():
 	# Chamado quando o timer chega a zero

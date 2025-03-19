@@ -1,4 +1,10 @@
 extends Area3D
 
 func _on_area_entered(area: Area3D) -> void:
-	get_parent().get_parent().point += 1
+	if (area.get_parent().name == "Nave"):
+		get_node("/root/Node3D").point += 1	
+			
+		
+
+	
+	

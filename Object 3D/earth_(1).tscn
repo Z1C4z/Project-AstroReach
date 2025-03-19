@@ -1,0 +1,18 @@
+[gd_scene load_steps=4 format=3 uid="uid://d4k4evgyiq1eo"]
+
+[ext_resource type="PackedScene" uid="uid://bea1iuaxmpwrh" path="res://Object 3D/Earth (1).glb" id="1_qgygk"]
+[ext_resource type="Script" uid="uid://b7x8fx711hs4a" path="res://hitbox.gd" id="2_cgwt8"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_6f3tn"]
+radius = 0.581591
+
+[node name="Earth (1)" instance=ExtResource("1_qgygk")]
+
+[node name="Area3D" type="Area3D" parent="GeoSphere001" index="0"]
+script = ExtResource("2_cgwt8")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="GeoSphere001/Area3D" index="0"]
+transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 1.24117, 0)
+shape = SubResource("SphereShape3D_6f3tn")
+
+[connection signal="area_entered" from="GeoSphere001/Area3D" to="GeoSphere001/Area3D" method="_on_area_entered"]

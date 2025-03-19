@@ -1,0 +1,35 @@
+[gd_scene load_steps=4 format=3 uid="uid://crcvs3wskexrt"]
+
+[ext_resource type="PackedScene" uid="uid://c07attteasgh4" path="res://Object 3D/ricks ufo (1).glb" id="1_2e67r"]
+
+[sub_resource type="GDScript" id="GDScript_x605j"]
+script/source = "extends Node3D
+
+var esta_sendo_arrastada = false
+var velocidade_arrasto = 0.1
+var offset_posicao = Vector3.ZERO
+
+func _physics_process(delta):
+	if esta_sendo_arrastada:
+		# Atualiza a posição suavemente
+		global_transform.origin = global_transform.origin.lerp(
+			destino_arrasto + offset_posicao, 
+			velocidade_arrasto * delta * 60
+		)
+
+func iniciar_arrasto(posicao_mundo: Vector3):
+	esta_sendo_arrastada = true
+	offset_posicao = global_transform.origin - posicao_mundo
+
+func parar_arrasto():
+	esta_sendo_arrastada = false
+"
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_qt7dl"]
+radius = 0.460211
+
+[node name="Root Scene" instance=ExtResource("1_2e67r")]
+script = SubResource("GDScript_x605j")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="RootNode/polySurface551" index="0"]
+shape = SubResource("SphereShape3D_qt7dl")

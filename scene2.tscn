@@ -1,4 +1,4 @@
-[gd_scene load_steps=23 format=3 uid="uid://djjy4m0r80nm8"]
+[gd_scene load_steps=23 format=3 uid="uid://m31rhbfn524l"]
 
 [ext_resource type="Script" uid="uid://f4vlb2t2q4e6" path="res://VR_camera.gd" id="1_1yb1c"]
 [ext_resource type="Texture2D" uid="uid://dls825ytmfehm" path="res://images/NightSkyHDRI001_2K-HDR.exr" id="1_q74fe"]
@@ -8,10 +8,10 @@
 [ext_resource type="Script" uid="uid://dlxe4h5jm3kll" path="res://hands.gd" id="4_tlulx"]
 [ext_resource type="Texture2D" uid="uid://yw3bcbdghdl1" path="res://images/Add a subheading.png" id="5_n4bvh"]
 [ext_resource type="Texture2D" uid="uid://dl6tdrt7d8kxx" path="res://images/image_barra/barra.png" id="6_33owt"]
-[ext_resource type="PackedScene" uid="uid://cjmuqiwpikx53" path="res://carga.tscn" id="6_112sm"]
-[ext_resource type="ArrayMesh" uid="uid://bic5yulwjpc3i" path="res://images/Earth.obj" id="7_su7ac"]
-[ext_resource type="Script" uid="uid://bk4d0r8xia0oo" path="res://planet.gd" id="8_ncbsl"]
-[ext_resource type="Script" uid="uid://de52qtwaepebu" path="res://hitbox.gd" id="11_n4bvh"]
+[ext_resource type="Script" uid="uid://bi13b4wj555jt" path="res://redoma_area_3d.gd" id="9_112sm"]
+[ext_resource type="PackedScene" uid="uid://dlh05laiopdk3" path="res://Object 3D/asteroid_(1).tscn" id="10_33owt"]
+[ext_resource type="PackedScene" uid="uid://d4k4evgyiq1eo" path="res://Object 3D/earth_(1).tscn" id="11_kup1q"]
+[ext_resource type="PackedScene" uid="uid://cjmuqiwpikx53" path="res://Object 3D/carga.tscn" id="12_1lry2"]
 
 [sub_resource type="PanoramaSkyMaterial" id="PanoramaSkyMaterial_cucev"]
 panorama = ExtResource("1_q74fe")
@@ -47,7 +47,10 @@ viewport_path = NodePath("player/SubViewport")
 [sub_resource type="ViewportTexture" id="ViewportTexture_j2r7a"]
 viewport_path = NodePath("player/SubViewport")
 
-[sub_resource type="SphereShape3D" id="SphereShape3D_n4bvh"]
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_vuhtq"]
+margin = 0.0
+height = 6.5
+radius = 6.0
 
 [node name="Node3D" type="Node3D"]
 script = ExtResource("1_vuhtq")
@@ -222,23 +225,17 @@ subview_port = NodePath("..")
 [node name="Hands" type="Node2D" parent="player/SubViewport/GyroCam"]
 script = ExtResource("4_tlulx")
 
-[node name="carga" parent="." instance=ExtResource("6_112sm")]
-transform = Transform3D(5.1423, 3.51508, 5.02006, 0, 6.55322, -4.58861, -6.12836, 2.9495, 4.21232, -1.549, 13.733, -5.6)
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
-transform = Transform3D(0.02, 0, 0, 0, 0.0181261, -0.00845239, 0, 0.00845239, 0.0181261, 1.018, 13.424, -5.6)
-mesh = ExtResource("7_su7ac")
-script = ExtResource("8_ncbsl")
-
-[node name="Area3D" type="Area3D" parent="MeshInstance3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.51577, 0, 0)
-script = ExtResource("11_n4bvh")
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="MeshInstance3D/Area3D"]
-transform = Transform3D(66, 0, 0, 0, 66, 1.90735e-06, 0, -1.90735e-06, 66, 0, 39.8081, 0.438416)
-shape = SubResource("SphereShape3D_n4bvh")
-
 [node name="Timer" type="Timer" parent="."]
 
+[node name="RedomaArea3D" type="Area3D" parent="." node_paths=PackedStringArray("redoma")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 12.9204, 0)
+script = ExtResource("9_112sm")
+asteroid_scene = ExtResource("10_33owt")
+terra_scene = ExtResource("11_kup1q")
+nave_scene = ExtResource("12_1lry2")
+redoma = NodePath("CollisionShape3D")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="RedomaArea3D"]
+shape = SubResource("CylinderShape3D_vuhtq")
+
 [connection signal="pressed" from="player/UI/Left_eye_control/Button" to="player/SubViewport/GyroCam" method="reset_rotation"]
-[connection signal="area_entered" from="MeshInstance3D/Area3D" to="MeshInstance3D/Area3D" method="_on_area_entered"]
