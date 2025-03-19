@@ -1,5 +1,10 @@
 extends Node3D
-
+var  circulo = {"laranja":"res://images/image_barra/semi_errado.png","vermelho":"res://images/image_barra/errado.png","verde":"res://images/image_barra/certo.png"}
+@onready var  fase_status = {1:{"status":"null","local":$player/UI/Left_eye_control/circulo1},2:{"status":"null","local":$player/UI/Left_eye_control/circulo2},3:{"status":"null","local":$player/UI/Left_eye_control/circulo3},4:{"status":"null","local":$player/UI/Left_eye_control/circulo4},5:{"status":"null","local":$player/UI/Left_eye_control/circulo5}}
+@onready var imagem  
+var fase_atual
+var fase:int = 0
+var ultima_fase:int= 0
 # Variáveis globais
 var last_second = "0"  # Armazena o último segundo exibido no timer
 var game = true        # Controla se o jogo está ativo ou não
@@ -21,16 +26,44 @@ var visibility: bool  # Controla a visibilidade dos sprites de oxigênio
 @onready var my_timer = $Timer  # Referência ao timer
 
 func _process(delta: float):
-	# Verifica se o oxigênio foi alterado
-	if oxygen != life:
-		# Define a visibilidade do sprite de oxigênio perdido/ganho
-		if life > oxygen:
-			visibility = false  # Esconde o sprite se o oxigênio diminuiu
+	
+	if fase != ultima_fase:
+		imagem = fase_status[fase].local
+		if fase >ultima_fase:
+			fase_atual = fase_status[fase]
+			if fase_atual.status == "vermelho":
+				imagem.texture =load(circulo.laranja)
+				fase_status[fase].status = "laranja"
+			elif fase_atual.status == "null":
+				imagem.texture = load(circulo.verde)
+				fase_status[fase].status = "verde"
+			else:
+				imagem.texture = circulo[fase_atual.status]
+			ultima_fase = fase
+				
 		else:
-			visibility = true   # Mostra o sprite se o oxigênio aumentou
-		lost_oxygen = sprites[life]  # Obtém o sprite correspondente à vida atual
-		lost_oxygen.visible = visibility  # Atualiza a visibilidade do sprite
-		life = oxygen  # Sincroniza `life` com `oxygen`
+			fase_atual = fase_status[fase]
+			if fase_atual.status == "verde":
+				imagem.texture = load(circulo.laranja)
+				fase_status[fase].status = "laranja"
+			elif fase_atual.stautus == "null":
+				imagem.texture = load(circulo.vermelho)
+				fase_status[fase].status = "vermelho"
+			else:
+				imagem.texture = load(circulo[fase_atual.status])
+				
+			ultima_fase = 0
+			fase = 0
+		# Verifica se o oxigênio foi alterado
+		if oxygen != life:
+			# Define a visibilidade do sprite de oxigênio perdido/ganho
+			if life > oxygen:
+				visibility = false  # Esconde o sprite se o oxigênio diminuiu
+			else:
+				visibility = true   # Mostra o sprite se o oxigênio aumentou
+			lost_oxygen = sprites[life]  # Obtém o sprite correspondente à vida atual
+			lost_oxygen.visible = visibility  # Atualiza a visibilidade do sprite
+			life = oxygen  # Sincroniza `life` com `oxygen`
 
 	# Atualiza o timer na tela
 	if game == true:
@@ -55,7 +88,8 @@ func timer(seconds):
 	# Configura e inicia o timer
 	my_timer.timeout.connect(_on_timer_timeout)  # Conecta o sinal de timeout à função
 	my_timer.wait_time = seconds  # Define o tempo do timer
-	my_timer.start()  # Inicia o timer
+	my_timer.start()
+  # Inicia o timer
 
 func change_score(point):
 	# Adiciona pontos à pontuação
@@ -66,3 +100,16 @@ func change_score(point):
 func change_oxygen(value):
 	# Altera o valor do oxigênio
 	oxygen += value
+
+func add_fase():
+	if fase >=5:
+		pass 
+	else:
+		fase+=1
+
+ 
+func menos_fase():
+	if fase ==1:
+		pass 
+	else:
+		fase-=1

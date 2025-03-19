@@ -1,15 +1,16 @@
-[gd_scene load_steps=22 format=3 uid="uid://djjy4m0r80nm8"]
+[gd_scene load_steps=23 format=3 uid="uid://djjy4m0r80nm8"]
 
-[ext_resource type="Script" uid="uid://c3f6ush8n31vb" path="res://VR_camera.gd" id="1_1yb1c"]
+[ext_resource type="Script" uid="uid://f4vlb2t2q4e6" path="res://VR_camera.gd" id="1_1yb1c"]
 [ext_resource type="Texture2D" uid="uid://dls825ytmfehm" path="res://images/NightSkyHDRI001_2K-HDR.exr" id="1_q74fe"]
 [ext_resource type="Script" uid="uid://dtqjme0rmkq35" path="res://scene_2.gd" id="1_vuhtq"]
-[ext_resource type="Script" uid="uid://rt0t8po5ldb0" path="res://conectSever.gd" id="2_4soh0"]
+[ext_resource type="Script" uid="uid://h0ods0k72i8j" path="res://conectSever.gd" id="2_4soh0"]
 [ext_resource type="Texture2D" uid="uid://dm6awachdbg2i" path="res://images/O@.png" id="4_n4bvh"]
 [ext_resource type="Script" uid="uid://dlxe4h5jm3kll" path="res://hands.gd" id="4_tlulx"]
 [ext_resource type="Texture2D" uid="uid://yw3bcbdghdl1" path="res://images/Add a subheading.png" id="5_n4bvh"]
+[ext_resource type="Texture2D" uid="uid://dl6tdrt7d8kxx" path="res://images/image_barra/barra.png" id="6_33owt"]
 [ext_resource type="PackedScene" uid="uid://cjmuqiwpikx53" path="res://carga.tscn" id="6_112sm"]
 [ext_resource type="ArrayMesh" uid="uid://bic5yulwjpc3i" path="res://images/Earth.obj" id="7_su7ac"]
-[ext_resource type="Script" path="res://planet.gd" id="8_ncbsl"]
+[ext_resource type="Script" uid="uid://bk4d0r8xia0oo" path="res://planet.gd" id="8_ncbsl"]
 [ext_resource type="Script" uid="uid://de52qtwaepebu" path="res://hitbox.gd" id="11_n4bvh"]
 
 [sub_resource type="PanoramaSkyMaterial" id="PanoramaSkyMaterial_cucev"]
@@ -141,6 +142,31 @@ texture = ExtResource("4_n4bvh")
 position = Vector2(173, 14)
 scale = Vector2(0.2, 0.2)
 texture = ExtResource("4_n4bvh")
+
+[node name="Barra" type="Sprite2D" parent="player/UI/Left_eye_control/HBoxContainer"]
+position = Vector2(223, -41)
+scale = Vector2(0.371149, 0.289753)
+texture = ExtResource("6_33owt")
+
+[node name="circulo1" type="Sprite2D" parent="player/UI/Left_eye_control"]
+position = Vector2(-310, -337)
+scale = Vector2(0.024, 0.0180001)
+
+[node name="circulo2" type="Sprite2D" parent="player/UI/Left_eye_control"]
+position = Vector2(-236, -337)
+scale = Vector2(0.024, 0.0180001)
+
+[node name="circulo3" type="Sprite2D" parent="player/UI/Left_eye_control"]
+position = Vector2(-163, -337)
+scale = Vector2(0.024, 0.0180001)
+
+[node name="circulo4" type="Sprite2D" parent="player/UI/Left_eye_control"]
+position = Vector2(-89.9999, -337)
+scale = Vector2(0.024, 0.0180001)
+
+[node name="circulo5" type="Sprite2D" parent="player/UI/Left_eye_control"]
+position = Vector2(-15.9999, -335)
+scale = Vector2(0.024, 0.0180001)
 
 [node name="Right_eye_control" type="Control" parent="player/UI"]
 layout_mode = 3
