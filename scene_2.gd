@@ -1,5 +1,5 @@
 extends Node3D
-var  circulo = {"laranja":"res://images/image_barra/semi_errado.png","vermelho":"res://images/image_barra/errado.png","verde":"res://images/image_barra/certo.png"}
+var  circulo = {"vermelho":"res://images/image_barra/errado.png","verde":"res://images/image_barra/certo.png"}
 @onready var  fase_status = {1:{"status":"null","local":$player/UI/Left_eye_control/circulo1},2:{"status":"null","local":$player/UI/Left_eye_control/circulo2},3:{"status":"null","local":$player/UI/Left_eye_control/circulo3},4:{"status":"null","local":$player/UI/Left_eye_control/circulo4},5:{"status":"null","local":$player/UI/Left_eye_control/circulo5}}
 @onready var imagem  
 var fase_atual
@@ -25,33 +25,22 @@ var visibility: bool  # Controla a visibilidade dos sprites de oxigênio
 @onready var score_sprite = $player/UI/Right_eye_control/Score  # Referência ao texto da pontuação
 @onready var my_timer = $Timer  # Referência ao timer
 
+
 func _process(delta: float):
 	
 	if fase != ultima_fase:
 		imagem = fase_status[fase].local
 		if fase >ultima_fase:
 			fase_atual = fase_status[fase]
-			if fase_atual.status == "vermelho":
-				imagem.texture =load(circulo.laranja)
-				fase_status[fase].status = "laranja"
-			elif fase_atual.status == "null":
+			if  fase_atual.status == "null":
 				imagem.texture = load(circulo.verde)
 				fase_status[fase].status = "verde"
-			else:
-				imagem.texture = circulo[fase_atual.status]
 			ultima_fase = fase
-				
 		else:
 			fase_atual = fase_status[fase]
-			if fase_atual.status == "verde":
-				imagem.texture = load(circulo.laranja)
-				fase_status[fase].status = "laranja"
-			elif fase_atual.stautus == "null":
+			if  fase_atual.stautus == "null":
 				imagem.texture = load(circulo.vermelho)
 				fase_status[fase].status = "vermelho"
-			else:
-				imagem.texture = load(circulo[fase_atual.status])
-				
 			ultima_fase = 0
 			fase = 0
 		# Verifica se o oxigênio foi alterado
