@@ -1,4 +1,4 @@
-[gd_scene load_steps=23 format=3 uid="uid://djjy4m0r80nm8"]
+[gd_scene load_steps=24 format=3 uid="uid://djjy4m0r80nm8"]
 
 [ext_resource type="Script" uid="uid://c3f6ush8n31vb" path="res://VR_camera.gd" id="1_1yb1c"]
 [ext_resource type="Texture2D" uid="uid://dls825ytmfehm" path="res://images/NightSkyHDRI001_2K-HDR.exr" id="1_q74fe"]
@@ -9,6 +9,7 @@
 [ext_resource type="Texture2D" uid="uid://yw3bcbdghdl1" path="res://images/Add a subheading.png" id="5_n4bvh"]
 [ext_resource type="Texture2D" uid="uid://dl6tdrt7d8kxx" path="res://images/image_barra/barra.png" id="6_33owt"]
 [ext_resource type="PackedScene" uid="uid://cjmuqiwpikx53" path="res://carga.tscn" id="6_112sm"]
+[ext_resource type="Texture2D" uid="uid://d3bbviogx1sjd" path="res://images/image_barra/certo.png" id="6_kup1q"]
 [ext_resource type="ArrayMesh" uid="uid://bic5yulwjpc3i" path="res://images/Earth.obj" id="7_su7ac"]
 [ext_resource type="Script" path="res://planet.gd" id="8_ncbsl"]
 [ext_resource type="Script" uid="uid://de52qtwaepebu" path="res://hitbox.gd" id="11_n4bvh"]
@@ -149,24 +150,25 @@ scale = Vector2(0.371149, 0.339223)
 texture = ExtResource("6_33owt")
 
 [node name="circulo1" type="Sprite2D" parent="player/UI/Left_eye_control"]
-position = Vector2(-320, -337)
-scale = Vector2(0.024, 0.0180001)
+position = Vector2(-319, -337)
+scale = Vector2(0.026, 0.024)
+texture = ExtResource("6_kup1q")
 
 [node name="circulo2" type="Sprite2D" parent="player/UI/Left_eye_control"]
 position = Vector2(-245, -337)
-scale = Vector2(0.024, 0.0180001)
+scale = Vector2(0.026, 0.024)
 
 [node name="circulo3" type="Sprite2D" parent="player/UI/Left_eye_control"]
 position = Vector2(-172, -337)
-scale = Vector2(0.024, 0.0180001)
+scale = Vector2(0.026, 0.024)
 
 [node name="circulo4" type="Sprite2D" parent="player/UI/Left_eye_control"]
-position = Vector2(-98, -337)
-scale = Vector2(0.024, 0.0180001)
+position = Vector2(-99, -337)
+scale = Vector2(0.026, 0.024)
 
 [node name="circulo5" type="Sprite2D" parent="player/UI/Left_eye_control"]
-position = Vector2(-25, -337)
-scale = Vector2(0.024, 0.0180001)
+position = Vector2(-26, -334)
+scale = Vector2(0.026, 0.024)
 
 [node name="Right_eye_control" type="Control" parent="player/UI"]
 layout_mode = 3

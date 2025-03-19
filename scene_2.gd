@@ -4,7 +4,7 @@ extends Node3D
 var circulo = {
 	"vermelho": "res://images/image_barra/errado.png",
 	"verde": "res://images/image_barra/certo.png",
-	"cinza":""
+	"cinza": "res://images/image_barra/estrelatopzera.png"
 }
 
 # Estado das fases e as texturas associadas
@@ -33,6 +33,7 @@ var vida: int = 3
 # Função chamada quando o jogo começa
 func _ready() -> void:
 	update_life_ui()
+	atualiza_fase_atual()
 	timer(30)
 
 # Atualiza o timer e a pontuação
@@ -59,6 +60,12 @@ func update_life_ui():
 	for i in range(3):
 		life_icons[i].visible = i < vida
 
+# Atualiza a indicação da fase atual
+func atualiza_fase_atual():
+	for i in range(5):
+		if i == fase_atual_index:
+			fase_status[i]["local"].texture = load(circulo.cinza)
+
 # Ganha uma fase
 func ganha_fase():
 	if fase_atual_index <= 4:
@@ -66,6 +73,7 @@ func ganha_fase():
 		score += 10
 		fase_atual_index = min(4, fase_atual_index + 1)
 		score_sprite.text = "Score: %s" % score
+		atualiza_fase_atual()
 
 # Perde uma fase
 func perde_fase():
@@ -77,6 +85,7 @@ func perde_fase():
 	vida -= 1
 	vida = max(0, vida)  # Garante que a vida não fique negativa
 	update_life_ui()
+	atualiza_fase_atual()
 
 # Ganha uma vida
 func ganha_vida():
