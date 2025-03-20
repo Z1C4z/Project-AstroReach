@@ -28,7 +28,7 @@ Ajude astronautas com desafios motores a navegar por objetos celestiais usando m
 ## 🪐 Guia de Instalação
 
 ### 🚀 Pré-requisitos
-- [Godot Engine 4.3 Stable](https://godotengine.org/download/windows/)
+- [Godot Engine 4.4 Stable](https://godotengine.org/download/windows/)
 - Python 3.12.9 ([Instalador Windows](https://www.python.org/downloads/release/python-3129/))
 - [Microsoft Visual C++ 2019 Redistributable](https://aka.ms/vs/16/release/vc_redist.x64.exe)
 - Gerenciador de pacotes pip
