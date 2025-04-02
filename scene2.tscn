@@ -1,20 +1,20 @@
-[gd_scene load_steps=23 format=3 uid="uid://m31rhbfn524l"]
+[gd_scene load_steps=23 format=3 uid="uid://djjy4m0r80nm8"]
 
-[ext_resource type="Script" uid="uid://f4vlb2t2q4e6" path="res://VR_camera.gd" id="1_1yb1c"]
-[ext_resource type="Texture2D" uid="uid://dls825ytmfehm" path="res://images/NightSkyHDRI001_2K-HDR.exr" id="1_q74fe"]
+[ext_resource type="Script" uid="uid://tdehh3f0xtbe" path="res://VR_camera.gd" id="1_1yb1c"]
 [ext_resource type="Script" uid="uid://dtqjme0rmkq35" path="res://scene_2.gd" id="1_vuhtq"]
-[ext_resource type="Script" uid="uid://h0ods0k72i8j" path="res://conectSever.gd" id="2_4soh0"]
+[ext_resource type="Script" uid="uid://c20p0b8028wny" path="res://conectSever.gd" id="2_4soh0"]
+[ext_resource type="Texture2D" uid="uid://cxlktgtsvlqwl" path="res://images/NightSkyHDRI001_1K-TONEMAPPED.jpg" id="2_33owt"]
 [ext_resource type="Texture2D" uid="uid://dm6awachdbg2i" path="res://images/O@.png" id="4_n4bvh"]
-[ext_resource type="Script" uid="uid://dlxe4h5jm3kll" path="res://hands.gd" id="4_tlulx"]
+[ext_resource type="Script" uid="uid://btugrulv7282f" path="res://hands.gd" id="4_tlulx"]
 [ext_resource type="Texture2D" uid="uid://yw3bcbdghdl1" path="res://images/Add a subheading.png" id="5_n4bvh"]
 [ext_resource type="Texture2D" uid="uid://dl6tdrt7d8kxx" path="res://images/image_barra/barra.png" id="6_33owt"]
-[ext_resource type="Script" uid="uid://bi13b4wj555jt" path="res://redoma_area_3d.gd" id="9_112sm"]
+[ext_resource type="Script" path="res://redoma_area_3d.gd" id="9_112sm"]
 [ext_resource type="PackedScene" uid="uid://dlh05laiopdk3" path="res://Object 3D/asteroid_(1).tscn" id="10_33owt"]
 [ext_resource type="PackedScene" uid="uid://d4k4evgyiq1eo" path="res://Object 3D/earth_(1).tscn" id="11_kup1q"]
 [ext_resource type="PackedScene" uid="uid://cjmuqiwpikx53" path="res://carga.tscn" id="12_1lry2"]
 
 [sub_resource type="PanoramaSkyMaterial" id="PanoramaSkyMaterial_cucev"]
-panorama = ExtResource("1_q74fe")
+panorama = ExtResource("2_33owt")
 
 [sub_resource type="Sky" id="Sky_de2jx"]
 sky_material = SubResource("PanoramaSkyMaterial_cucev")
