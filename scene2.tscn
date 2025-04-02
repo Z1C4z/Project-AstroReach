@@ -1,10 +1,10 @@
 [gd_scene load_steps=25 format=3 uid="uid://djjy4m0r80nm8"]
 
-[ext_resource type="Script" path="res://VR_camera.gd" id="1_1yb1c"]
+[ext_resource type="Script" uid="uid://cfgx1ui3p75ik" path="res://player/VR_camera.gd" id="1_1yb1c"]
 [ext_resource type="Script" uid="uid://dtqjme0rmkq35" path="res://scene_2.gd" id="1_n4bvh"]
 [ext_resource type="Texture2D" uid="uid://dls825ytmfehm" path="res://images/NightSkyHDRI001_2K-HDR.exr" id="1_q74fe"]
-[ext_resource type="Script" path="res://conectSever.gd" id="2_4soh0"]
-[ext_resource type="Script" path="res://hands.gd" id="4_tlulx"]
+[ext_resource type="Script" uid="uid://b1601oq0j453e" path="res://player/conectSever.gd" id="2_4soh0"]
+[ext_resource type="Script" uid="uid://cam3p8w0k6qs0" path="res://player/hands.gd" id="4_tlulx"]
 [ext_resource type="Script" uid="uid://pjilwloubpbp" path="res://box_2.gd" id="6_nf5da"]
 [ext_resource type="Script" path="res://chegada.gd" id="7_2i1x2"]
 [ext_resource type="Script" path="res://gpu_particles_3d.gd" id="7_g4ka6"]
