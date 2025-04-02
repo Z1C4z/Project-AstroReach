@@ -10,7 +10,10 @@ var arrastando = false
 var velocidade = 1.5
 var mao_selecionada = null
 var camera_rotation_speed = 0.005  # Velocidade de rotação da câmera
-var naveAdicionada = false;
+var naveAdicionada = false
+
+# Fator de escala para desenho (visual) da mão
+var hand_draw_scale = 0.4
 
 var connections = [
 	[0,1], [1,2], [2,3], [3,4],
@@ -31,8 +34,8 @@ func _ready():
 	print("Aguardando dados da mão...")
 	load_data(null)
 
-func load_data(nave) :
-		# Buscar todos os MeshInstance3D na cena
+func load_data(nave):
+	# Buscar todos os MeshInstance3D na cena
 	var root_node = get_tree().get_root().get_node("Node3D")
 	if root_node:
 		for child in root_node.get_children():
@@ -48,7 +51,6 @@ func load_data(nave) :
 		objetos_3d.append(nave)
 		print("nave adicionada a lista")
 		get_node("/root/Node3D/RedomaArea3D").gameStarted = true
-		
 		print("gamestarted nave null")
 	else:
 		print("nave não adicionada")   
@@ -97,8 +99,8 @@ func _process(delta):
 	# Handle 3D object dragging
 	if camera_3d and objetos_3d:
 		for obj in objetos_3d.duplicate():  # Duplicar a lista para evitar problemas ao modificar
-			if not is_instance_valid(obj):  # Verifica se o objeto ainda existe
-				objetos_3d.erase(obj)  # Remove da lista se for inválido
+			if not is_instance_valid(obj):
+				objetos_3d.erase(obj)
 				continue
 
 			var mao_sobre_objeto = detectar_mao_no_objeto(obj, camera_3d)
@@ -113,7 +115,6 @@ func _process(delta):
 				arrastando = false
 				mao_selecionada = null
 
-	
 	queue_redraw()
 
 func process_hand_data(hand_data):
@@ -131,7 +132,7 @@ func process_hand_data(hand_data):
 	right_handpose = hand_data.get("Right", {}).get("pose", "unknow")
 
 func interpolate_hands(delta):
-	# Add new hands and interpolate positions
+	# Adiciona novas mãos e interpola as posições
 	for hand in target_hands:
 		if not current_hands.has(hand):
 			current_hands[hand] = target_hands[hand].duplicate()
@@ -139,60 +140,68 @@ func interpolate_hands(delta):
 			var curr_hand = current_hands[hand]
 			var targ_hand = target_hands[hand]
 			for i in range(targ_hand.size()):
-				curr_hand[i] = curr_hand[i].lerp(targ_hand[i], delta * 5)  # 5 = 1/0.2
+				curr_hand[i] = curr_hand[i].lerp(targ_hand[i], delta * 5)
 	
-	# Remove disappeared hands
+	# Remove mãos que desapareceram
 	for hand in current_hands.keys():
 		if not target_hands.has(hand):
 			current_hands.erase(hand)
 
+# Função auxiliar que escala os pontos da mão mantendo sua posição (centro) inalterada
+func scale_hand_points(hand_points, scale_factor):
+	var scaled_points = []
+	var centroid = Vector2.ZERO
+	for point in hand_points:
+		centroid += point
+	centroid /= hand_points.size()
+	
+	for point in hand_points:
+		var offset = point - centroid
+		scaled_points.append(centroid + offset * scale_factor)
+	return scaled_points
 
 func _draw():
 	for hand in current_hands.values():
 		if hand.size() < 21:
 			continue
 		
-		# Draw palm as a filled polygon
-		var palm_points = [
-			hand[0], hand[5], hand[9], hand[13], hand[17]
-		]
-		draw_colored_polygon(palm_points, Color(1, 1, 1))  # White palm
-		draw_polyline(palm_points + [palm_points[0]], Color(0, 0, 0), 5)  # Black outline
+		# Aplica a escala nos pontos da mão sem alterar a posição geral (centro permanece igual)
+		var scaled_hand = scale_hand_points(hand, hand_draw_scale)
 		
-		# Draw fingers with black outline
+		# Desenha a palma como um polígono preenchido
+		var palm_points = [scaled_hand[0], scaled_hand[5], scaled_hand[9], scaled_hand[13], scaled_hand[17]]
+		draw_colored_polygon(palm_points, Color(1, 1, 1))  # Palma branca
+		draw_polyline(palm_points + [palm_points[0]], Color(0, 0, 0), 5)  # Contorno preto
+		
+		# Desenha os dedos com contorno preto
 		for conn in connections:
-			if conn[0] < hand.size() and conn[1] < hand.size():
-				var p1 = hand[conn[0]]
-				var p2 = hand[conn[1]]
-
-				# Outline first
-				draw_line(p1, p2, Color(0, 0, 0), 10)
-				# White inner part
-				draw_line(p1, p2, Color(1, 1, 1), 8)
-
-		# Draw smaller dots for joints and fingertips
-		for i in range(hand.size()):
-			var point = hand[i]
-			var radius = 5 if i in [4, 8, 12, 16, 20] else 3  # Smaller circles
-
-			# Outline
+			if conn[0] < scaled_hand.size() and conn[1] < scaled_hand.size():
+				var p1 = scaled_hand[conn[0]]
+				var p2 = scaled_hand[conn[1]]
+				draw_line(p1, p2, Color(0, 0, 0), 10 * hand_draw_scale)  # Contorno
+				draw_line(p1, p2, Color(1, 1, 1), 8 * hand_draw_scale)   # Parte interna branca
+		
+		# Desenha os pontos para juntas e pontas dos dedos
+		for i in range(scaled_hand.size()):
+			var point = scaled_hand[i]
+			var base_radius = 5 if i in [4, 8, 12, 16, 20] else 3
+			var radius = base_radius * hand_draw_scale
 			draw_circle(point, radius + 2, Color(0, 0, 0))
-			# White fill
 			draw_circle(point, radius, Color(1, 1, 1))
 
-
 func detectar_mao_no_objeto(object_3d: Node3D, camera: Camera3D) -> String:
+	var screen_pos = Vector2.ZERO
 	if object_3d != null:
-		var screen_pos = world_to_screen(object_3d, camera)
+		screen_pos = world_to_screen(object_3d, camera)
 		if screen_pos == Vector2.ZERO:
 			return ""
 	
-		var hitbox_radius = 100
-		for hand_name in current_hands:
-			var hand = current_hands[hand_name]
-			for point in hand:
-				if point.distance_to(screen_pos) <= hitbox_radius:
-					return hand_name
+	var hitbox_radius = 100
+	for hand_name in current_hands:
+		var hand = current_hands[hand_name]
+		for point in hand:
+			if point.distance_to(screen_pos) <= hitbox_radius:
+				return hand_name
 	return ""
 
 func world_to_screen(object_3d: Node3D, camera: Camera3D) -> Vector2:
