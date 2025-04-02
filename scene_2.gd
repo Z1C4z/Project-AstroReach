@@ -26,6 +26,7 @@ var visibility: bool  # Controla a visibilidade dos sprites de oxigênio
 @onready var my_timer = $Timer  # Referência ao timer
 
 
+
 func _process(delta: float):
 	
 	if fase != ultima_fase:
