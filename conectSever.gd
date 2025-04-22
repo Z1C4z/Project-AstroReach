@@ -2,6 +2,7 @@ extends CharacterBody3D
 
 @export var gyroCam: Camera3D  # Referência para a câmera que será controlada
 
+
 var udp = PacketPeerUDP.new()
 var listening_port = 6000
 
@@ -34,3 +35,4 @@ func reset_gyro_camera():
 		
 func updateData(data: Dictionary):
 	$SubViewport/GyroCam.setValues(data)
+	

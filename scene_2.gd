@@ -5,6 +5,9 @@ var circulo = {
 	"verde": "res://images/image_barra/certo.png",
 }
 
+func _ready():
+	esconderteladerrota()
+
 @onready var fase_status = {
 	1: {"status": "null", "local": $player/UI/Left_eye_control/circulo1},
 	2: {"status": "null", "local": $player/UI/Left_eye_control/circulo2},
@@ -33,6 +36,7 @@ var errors_count = 0  # Contador de erros
 @onready var timer_sprite = $player/UI/Right_eye_control/Timer
 @onready var score_sprite = $player/UI/Right_eye_control/Score
 @onready var my_timer = $Timer
+@onready var defeatsprite = $player/SubViewport/GyroCam/Spritederrota
 
 func _process(delta: float):
 	if point != 0:
@@ -62,6 +66,7 @@ func update_life_sprites():
 	# Game over quando há 3 erros
 	if errors_count >= 3:
 		game_over()
+		chamarteladerrota()
 
 func update_stage(passed: bool):
 	if passed:
@@ -125,3 +130,12 @@ func update_fase_status():
 			if fase_status[i]["status"] != "vermelho":
 				fase_status[i]["local"].texture = null
 				fase_status[i]["status"] = "null"
+
+func esconderteladerrota():
+	defeatsprite.visible = false
+	print("tela escondida")
+
+func chamarteladerrota(): 
+	defeatsprite.visible = true
+	
+	
