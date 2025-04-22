@@ -400,6 +400,51 @@ class HandTrackingWidget(QWidget):
             return "Desconhecida"
 
 ##############################################
+# Área do Relatório - Versão Minimalista
+##############################################
+class ReportGame(QWidget):
+    def __init__ (self):
+        super().__init__()
+        self.setWindowTitle("Report")
+        layout = QVBoxLayout(self)
+        layout.setAlignment(Qt.AlignTop)
+        layout.setContentsMargins(10,10,10,10)
+
+        layoutClosed = QHBoxLayout()
+        layoutClosed.setContentsMargins(10, 20, 10 , 20)
+        self.timeClosed = QLabel("Tempo Segurando a Carga:")
+        self.variableTimerClosed = QLabel("")
+        layoutClosed.addWidget(self.timeClosed)
+        layoutClosed.addWidget(self.variableTimerClosed) 
+
+        layoutDistace = QHBoxLayout()
+        layoutDistace.setContentsMargins(10, 20, 10 , 20)
+        self.distance = QLabel("Distancia a Mão e a Carga Pecorrendo:")
+        self.variabledistance = QLabel("")
+        layoutDistace.addWidget(self.distance)
+        layoutDistace.addWidget(self.variabledistance) 
+
+        layoutAsteroids = QHBoxLayout()
+        layoutAsteroids.setContentsMargins(10, 20, 10 , 20)
+        self.asteroid = QLabel("Batidas em Asteroides:")
+        self.variableAsteroids = QLabel("")
+        layoutAsteroids.addWidget(self.asteroid)
+        layoutAsteroids.addWidget(self.variableAsteroids) 
+
+        layoutConclusion = QHBoxLayout()
+        layoutConclusion.setContentsMargins(10, 20, 10 , 20)
+        self.timerConclusion = QLabel("Tempo de Conclusão:")
+        self.variableConclusion = QLabel("")
+        layoutConclusion.addWidget(self.timerConclusion)
+        layoutConclusion.addWidget(self.variableConclusion)
+
+        layout.addLayout(layoutClosed)
+        layout.addLayout(layoutDistace)
+        layout.addLayout(layoutAsteroids)
+        layout.addLayout(layoutConclusion)
+
+
+##############################################
 # Janela Principal Minimalista com Abas e Status Bar
 ##############################################
 class MainWindow(QMainWindow):
@@ -416,8 +461,10 @@ class MainWindow(QMainWindow):
         self.tabs = QTabWidget()
         self.camera_controller = CameraControllerApp()
         self.hand_tracking = HandTrackingWidget(ip_getter=lambda: self.camera_controller.ip_entry.text())
+        self.report_tab = ReportGame()
         self.tabs.addTab(self.camera_controller, "Controles")
         self.tabs.addTab(self.hand_tracking, "Hand Tracking")
+        self.tabs.addTab(self.report_tab, "Report")
         self.setCentralWidget(self.tabs)
 
         # Menu de opções minimalista
