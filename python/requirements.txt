@@ -1,2 +1,3 @@
+msvc-runtime
 PyQt5==5.15.11
 mediapipe==0.10.21
