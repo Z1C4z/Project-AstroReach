@@ -64,6 +64,10 @@ func gerar_obstaculos(num_obstaculos: int = 3, min_distancia: float = 2.0, dista
 				nave_instance.add_to_group("arrastavel")
 				nave_instance.add_to_group("nave")
 				posicoes_objetos["Nave"] = nave_instance.position
+			else:
+				print("Falha ao criar a nave, tentando reiniciar o nível...")
+				await reiniciar_jogo()
+				return  # Encerra essa execução para evitar múltiplos resets
 
 		# Gera os asteroides
 		var asteroides: Array[Vector3] = []
