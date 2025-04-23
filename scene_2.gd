@@ -5,9 +5,6 @@ var circulo = {
 	"verde": "res://images/image_barra/certo.png",
 }
 
-func _ready():
-	esconderteladerrota()
-
 @onready var fase_status = {
 	1: {"status": "null", "local": $player/UI/Left_eye_control/circulo1},
 	2: {"status": "null", "local": $player/UI/Left_eye_control/circulo2},
@@ -16,37 +13,38 @@ func _ready():
 	5: {"status": "null", "local": $player/UI/Left_eye_control/circulo5}
 }
 
-var last_second = "0"
-var game = true
-var oxygen = 3
-var life = 3
-var score = 0
-var point = 0
-var previous_score = 0
-var current_stage = 1
-var errors_count = 0  # Contador de erros
-
 @onready var sprites = {
 	1: $"player/UI/Left_eye_control/HBoxContainer/Life-1",
 	2: $"player/UI/Left_eye_control/HBoxContainer/Life-2",
 	3: $"player/UI/Left_eye_control/HBoxContainer/Life-3"
 }
 
-@onready var lost_oxygen
 @onready var timer_sprite = $player/UI/Right_eye_control/Timer
 @onready var score_sprite = $player/UI/Right_eye_control/Score
 @onready var my_timer = $Timer
 @onready var defeatsprite = $player/SubViewport/GyroCam/Spritederrota
 
+var last_second = "0"
+var game = true
+var oxygen = 3
+var score = 0
+var point = 0
+var current_stage = 1
+var timer_connected = false
+var stage_failed = {}  # 用於追蹤哪些階段已經導致過生命損失
+
+func _ready():
+	esconderteladerrota()
+	# 初始化所有階段為未失敗過
+	for stage in fase_status:
+		stage_failed[stage] = false
+
 func _process(delta: float):
 	if point != 0:
-		update_stage(point > 0)
+		var passou = point > 0
+		update_stage(passou)
 		change_score(point)
 		point = 0
-
-	if oxygen != life:
-		life = oxygen
-		update_life_sprites()
 
 	if game and my_timer.time_left > 0:
 		var new_second = "%10.0f" % my_timer.time_left
@@ -54,88 +52,68 @@ func _process(delta: float):
 			last_second = new_second
 			timer_sprite.text = "Timer: %s" % new_second
 
-func update_life_sprites():
-	# Atualiza os sprites de vida baseado no valor atual de 'life'
-	# Primeiro erro: Life-3 desaparece
-	# Segundo erro: Life-2 desaparece
-	# Terceiro erro: Life-1 desaparece
-	sprites[3].visible = (errors_count < 1)
-	sprites[2].visible = (errors_count < 2)
-	sprites[1].visible = (errors_count < 3)
-	
-	# Game over quando há 3 erros
-	if errors_count >= 3:
-		game_over()
-		chamarteladerrota()
-
 func update_stage(passed: bool):
+	if not game:
+		return
+
 	if passed:
-		fase_status[current_stage]["local"].texture = load(circulo["verde"])
-		fase_status[current_stage]["status"] = "verde"
+		# Só marca como verde se ainda não estiver verde
+		if fase_status[current_stage]["status"] != "verde":
+			fase_status[current_stage]["local"].texture = load(circulo["verde"])
+			fase_status[current_stage]["status"] = "verde"
+		
+		# 重置該階段的失敗標記，以便下次失敗時可以再次扣生命
+		stage_failed[current_stage] = false
+		
+		# Avança só se ainda houver fase
+		if current_stage < 5:
+			current_stage += 1
+
 	else:
+		# Marca como vermelho sempre que errar
 		fase_status[current_stage]["local"].texture = load(circulo["vermelho"])
 		fase_status[current_stage]["status"] = "vermelho"
-		errors_count += 1
-		update_life_sprites()
 
-	# Avança para o próximo estágio
-	if current_stage < 5:
-		current_stage += 1
+		# 只有在這個階段之前沒有失敗過才扣生命
+		if not stage_failed[current_stage]:
+			oxygen -= 1
+			oxygen = clamp(oxygen, 0, 3)
+			update_life_sprites()
+			stage_failed[current_stage] = true  # 標記這個階段已經導致過生命損失
+
+		if oxygen <= 0:
+			game_over()
+			chamarteladerrota()
+
+func update_life_sprites():
+	sprites[1].visible = oxygen >= 1
+	sprites[2].visible = oxygen >= 2
+	sprites[3].visible = oxygen >= 3
 
 func game_over():
 	game = false
-	# Aqui você pode adicionar qualquer lógica adicional para o game over
 	print("Game Over!")
-	# Por exemplo, mostrar uma tela de game over, parar o jogo, etc.
 
 func _on_timer_timeout():
 	timer_sprite.text = "Timer: Stop"
 	my_timer.stop()
-	change_oxygen(-1)
+	update_stage(false)
 
 func timer(seconds):
-	my_timer.timeout.connect(_on_timer_timeout)
+	if not timer_connected:
+		my_timer.timeout.connect(_on_timer_timeout)
+		timer_connected = true
 	my_timer.wait_time = seconds
 	my_timer.start()
 
 func change_score(p):
 	score += p
-	if score < 0:
-		score = 0
-	elif score > 5:
-		score = 5
-
+	score = clamp(score, 0, 5)
 	if score_sprite:
 		score_sprite.text = "Score: %s" % score
 
-func change_oxygen(value):
-	oxygen += value
-	oxygen = clamp(oxygen, 0, 3)  # Garante que o oxigênio fique entre 0 e 3
-
-func update_fase_status():
-	# Update all stages up to current score with green circles
-	for i in range(1, score + 1):
-		fase_status[i]["local"].texture = load(circulo["verde"])
-		fase_status[i]["status"] = "verde"
-	
-	# If we lost points, show red in the current stage (score + 1)
-	if score < previous_score:
-		var current_stage = min(score + 1, 5)
-		fase_status[current_stage]["local"].texture = load(circulo["vermelho"])
-		fase_status[current_stage]["status"] = "vermelho"
-	
-	# Clear only stages beyond current score (unless we're at max)
-	if score < 5:
-		for i in range(score + 1, 6):
-			if fase_status[i]["status"] != "vermelho":
-				fase_status[i]["local"].texture = null
-				fase_status[i]["status"] = "null"
-
 func esconderteladerrota():
 	defeatsprite.visible = false
-	print("tela escondida")
 
-func chamarteladerrota(): 
+func chamarteladerrota():
 	defeatsprite.visible = true
-	
-	
