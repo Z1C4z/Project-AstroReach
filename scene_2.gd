@@ -72,6 +72,7 @@ func update_stage(passed: bool):
 	if passed:
 		fase_status[current_stage]["local"].texture = load(circulo["verde"])
 		fase_status[current_stage]["status"] = "verde"
+		get_node("/root/Node3D/RedomaArea3D").reiniciar_jogo()
 	else:
 		fase_status[current_stage]["local"].texture = load(circulo["vermelho"])
 		fase_status[current_stage]["status"] = "vermelho"
