@@ -31,13 +31,9 @@ var score = 0
 var point = 0
 var current_stage = 1
 var timer_connected = false
-var stage_failed = {}  # 用於追蹤哪些階段已經導致過生命損失
 
 func _ready():
 	esconderteladerrota()
-	# 初始化所有階段為未失敗過
-	for stage in fase_status:
-		stage_failed[stage] = false
 
 func _process(delta: float):
 	if point != 0:
@@ -57,32 +53,20 @@ func update_stage(passed: bool):
 		return
 
 	if passed:
-		# Só marca como verde se ainda não estiver verde
 		if fase_status[current_stage]["status"] != "verde":
 			fase_status[current_stage]["local"].texture = load(circulo["verde"])
 			fase_status[current_stage]["status"] = "verde"
-		
-		# Reinicie o marcador de falha para esta fase para que você possa deduzir a vida novamente quando falhar na próxima vez
-		stage_failed[current_stage] = false
-		
-		# Avança só se ainda houver fase
+
 		if current_stage < 5:
 			current_stage += 1
-
-		fase_status[current_stage]["local"].texture = load(circulo["verde"])
-		fase_status[current_stage]["status"] = "verde"
-		get_node("/root/Node3D/RedomaArea3D").reiniciar_jogo()
 	else:
-		# Marca como vermelho sempre que errar
+		# Sempre tira vida ao errar, mesmo na primeira tentativa
+		oxygen -= 1
+		oxygen = clamp(oxygen, 0, 3)
+		update_life_sprites()
+
 		fase_status[current_stage]["local"].texture = load(circulo["vermelho"])
 		fase_status[current_stage]["status"] = "vermelho"
-
-		# 只有在這個階段之前沒有失敗過才扣生命
-		if not stage_failed[current_stage]:
-			oxygen -= 1
-			oxygen = clamp(oxygen, 0, 3)
-			update_life_sprites()
-			stage_failed[current_stage] = true  # 標記這個階段已經導致過生命損失
 
 		if oxygen <= 0:
 			game_over()
