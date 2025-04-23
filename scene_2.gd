@@ -29,18 +29,32 @@ var game = true
 var oxygen = 3
 var score = 0
 var point = 0
+var validacao = 0
 var current_stage = 1
 var timer_connected = false
 
 func _ready():
 	esconderteladerrota()
+	# Initialize all circles to empty state
+	for stage in fase_status:
+		fase_status[stage]["local"].texture = null
+		fase_status[stage]["status"] = "null"
 
 func _process(delta: float):
-	if point != 0:
-		var passou = point > 0
+	if validacao != 0:
+		var passou = validacao > 0
 		update_stage(passou)
-		change_score(point)
-		point = 0
+		
+		# Update points and score
+		if passou:
+			point += validacao
+			score += validacao
+		else:
+			point = max(point + validacao, 0)
+			score = max(score + validacao, 0)
+		
+		validacao = 0
+		update_score_display()
 
 	if game and my_timer.time_left > 0:
 		var new_second = "%10.0f" % my_timer.time_left
@@ -53,33 +67,47 @@ func update_stage(passed: bool):
 		return
 
 	if passed:
+		# Mark current stage as correct (green)
 		if fase_status[current_stage]["status"] != "verde":
 			fase_status[current_stage]["local"].texture = load(circulo["verde"])
 			fase_status[current_stage]["status"] = "verde"
-
+		
+		# Move to next stage if available
 		if current_stage < 5:
 			current_stage += 1
+		else:
+			game_over_vitoria()
 	else:
-		# Atualiza sprite para vermelho (mesmo se já for vermelho)
-		fase_status[current_stage]["local"].texture = load(circulo["vermelho"])
-		fase_status[current_stage]["status"] = "vermelho"
-
+		# Mark current stage as wrong (red)
+		if fase_status[current_stage]["status"] != "vermelho":
+			fase_status[current_stage]["local"].texture = load(circulo["vermelho"])
+			fase_status[current_stage]["status"] = "vermelho"
+		
+		# Decrease oxygen/lives
 		oxygen -= 1
 		oxygen = clamp(oxygen, 0, 3)
 		update_life_sprites()
-
+		
 		if oxygen <= 0:
 			game_over()
-			chamarteladerrota()
 
 func update_life_sprites():
-	sprites[1].visible = oxygen >= 1
-	sprites[2].visible = oxygen >= 2
-	sprites[3].visible = oxygen >= 3
+	for i in 1.4:
+		sprites[i].visible = (oxygen >= i)
+
+func update_score_display():
+	if score_sprite:
+		score_sprite.text = "Score: %s" % score
 
 func game_over():
 	game = false
 	print("Game Over!")
+	chamarteladerrota()
+
+func game_over_vitoria():
+	game = false
+	print("Você venceu!")
+	chamarteladerrota()
 
 func _on_timer_timeout():
 	timer_sprite.text = "Timer: Stop"
@@ -93,11 +121,9 @@ func timer(seconds):
 	my_timer.wait_time = seconds
 	my_timer.start()
 
-func change_score(p):
-	score += p
-	score = clamp(score, 0, 5)
-	if score_sprite:
-		score_sprite.text = "Score: %s " % score
+func add_point(points):
+	# This function should be called when player earns points
+	validacao = points  # This will trigger the update in _process
 
 func esconderteladerrota():
 	defeatsprite.visible = false
