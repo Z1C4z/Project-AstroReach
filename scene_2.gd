@@ -60,13 +60,13 @@ func update_stage(passed: bool):
 		if current_stage < 5:
 			current_stage += 1
 	else:
-		# Sempre tira vida ao errar, mesmo na primeira tentativa
+		# Atualiza sprite para vermelho (mesmo se já for vermelho)
+		fase_status[current_stage]["local"].texture = load(circulo["vermelho"])
+		fase_status[current_stage]["status"] = "vermelho"
+
 		oxygen -= 1
 		oxygen = clamp(oxygen, 0, 3)
 		update_life_sprites()
-
-		fase_status[current_stage]["local"].texture = load(circulo["vermelho"])
-		fase_status[current_stage]["status"] = "vermelho"
 
 		if oxygen <= 0:
 			game_over()
@@ -97,7 +97,7 @@ func change_score(p):
 	score += p
 	score = clamp(score, 0, 5)
 	if score_sprite:
-		score_sprite.text = "Score: %s" % score
+		score_sprite.text = "Score: %s " % score
 
 func esconderteladerrota():
 	defeatsprite.visible = false
