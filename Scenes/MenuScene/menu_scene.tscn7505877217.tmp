@@ -1,0 +1,54 @@
+[gd_scene load_steps=10 format=3 uid="uid://cswdlnmlgdfoa"]
+
+[ext_resource type="PackedScene" uid="uid://n7nu58sat7i4" path="res://player/player.tscn" id="1_4v3vm"]
+[ext_resource type="PackedScene" uid="uid://k2urpqp3uaof" path="res://button.tscn" id="2_tr3k3"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_4v3vm"]
+sky_top_color = Color(0.0901961, 0.180392, 0.278431, 1)
+sky_horizon_color = Color(0.325438, 0.370006, 0.419593, 1)
+ground_bottom_color = Color(0.0912402, 0.179316, 0.279625, 1)
+ground_horizon_color = Color(0.325438, 0.370006, 0.419593, 1)
+
+[sub_resource type="Sky" id="Sky_tr3k3"]
+sky_material = SubResource("ProceduralSkyMaterial_4v3vm")
+
+[sub_resource type="Environment" id="Environment_pv6vw"]
+background_mode = 2
+sky = SubResource("Sky_tr3k3")
+tonemap_mode = 2
+glow_enabled = true
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_4v3vm"]
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_tr3k3"]
+material = SubResource("StandardMaterial3D_4v3vm")
+size = Vector2(20, 20)
+center_offset = Vector3(0, 6, 0)
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_tr3k3"]
+viewport_path = NodePath("SubViewport")
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_pv6vw"]
+viewport_path = NodePath("SubViewport")
+
+[node name="Node3D" type="Node3D"]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_pv6vw")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(-0.866023, -0.460255, 0.195367, 0, 0.390732, 0.920505, -0.500003, 0.797179, -0.338383, 0, 0, 0)
+shadow_enabled = true
+
+[node name="player" parent="." instance=ExtResource("1_4v3vm")]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = SubResource("PlaneMesh_tr3k3")
+
+[node name="PlayButton" parent="." instance=ExtResource("2_tr3k3")]
+transform = Transform3D(1, 0, 0, 0, 0.973275, 0.229642, 0, -0.229642, 0.973275, -0.905669, 12.3584, -4.36242)
+texture = SubResource("ViewportTexture_tr3k3")
+
+[node name="ExitButton" parent="." instance=ExtResource("2_tr3k3")]
+transform = Transform3D(1, 0, 0, 0, 0.973275, 0.229642, 0, -0.229642, 0.973275, 2.60865, 11.707, -4.38615)
+texture = SubResource("ViewportTexture_pv6vw")
