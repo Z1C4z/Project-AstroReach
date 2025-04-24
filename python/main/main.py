@@ -13,7 +13,7 @@ from PyQt5.QtWidgets import (
     QVBoxLayout, QHBoxLayout, QInputDialog, QMessageBox, QTabWidget, QStatusBar
 )
 from PyQt5.QtGui import QImage, QPixmap, QFont
-from PyQt5.QtCore import QTimer, Qt, pyqtSignal
+from PyQt5.QtCore import QTimer, Qt, pyqtSignal>
 
 # Cria o socket UDP que será compartilhado
 sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
