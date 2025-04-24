@@ -1,0 +1,52 @@
+[gd_scene load_steps=10 format=3 uid="uid://m31rhbfn524l"]
+
+[ext_resource type="Texture2D" uid="uid://dls825ytmfehm" path="res://images/NightSkyHDRI001_2K-HDR.exr" id="1_cx228"]
+[ext_resource type="PackedScene" uid="uid://n7nu58sat7i4" path="res://player/player.tscn" id="2_0320o"]
+
+[sub_resource type="PanoramaSkyMaterial" id="PanoramaSkyMaterial_cucev"]
+panorama = ExtResource("1_cx228")
+
+[sub_resource type="Sky" id="Sky_de2jx"]
+sky_material = SubResource("PanoramaSkyMaterial_cucev")
+
+[sub_resource type="Environment" id="Environment_00r57"]
+background_mode = 2
+sky = SubResource("Sky_de2jx")
+tonemap_mode = 2
+glow_enabled = true
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_a612y"]
+albedo_color = Color(1, 1, 0.560784, 1)
+
+[sub_resource type="SphereMesh" id="SphereMesh_3fuc5"]
+material = SubResource("StandardMaterial3D_a612y")
+radius = 4.0
+height = 7.0
+radial_segments = 8
+rings = 8
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_raala"]
+albedo_color = Color(0.975664, 4.57242e-06, 1.54018e-06, 1)
+
+[sub_resource type="SphereMesh" id="SphereMesh_vb6w4"]
+material = SubResource("StandardMaterial3D_raala")
+
+[node name="Node3D" type="Node3D"]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_00r57")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(-0.999328, 0.0337307, -0.0143178, -0.0195542, -0.16043, 0.986854, 0.0309903, 0.986471, 0.160982, 0, 29.8726, 0)
+shadow_enabled = true
+
+[node name="planet" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 6, 0)
+mesh = SubResource("SphereMesh_3fuc5")
+
+[node name="box2" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.898775, 0.395749, 0.188651, 0.163503, 0.0966892, -0.981792, -0.406785, 0.913254, 0.0221956, -1.5494, 13.733, -3.84353)
+mesh = SubResource("SphereMesh_vb6w4")
+skeleton = NodePath("")
+
+[node name="player" parent="." instance=ExtResource("2_0320o")]
