@@ -65,6 +65,7 @@ func _process(delta: float):
 			timer_sprite.text = "Timer: %s" % new_second
 
 func update_stage(passed: bool):
+	var request = get_node("/root/Node3D/RedomaArea3D")
 	if not game:
 		return
 
@@ -77,6 +78,8 @@ func update_stage(passed: bool):
 		# Move to next stage if available
 		if current_stage < 5:
 			current_stage += 1
+			await request.reposicionar_objetos()
+			return
 		else:
 			game_over_vitoria()
 	else:
@@ -86,6 +89,11 @@ func update_stage(passed: bool):
 			fase_status[current_stage]["status"] = "vermelho"
 		
 		# Decrease oxygen/lives
+	else:
+		# Atualiza sprite para vermelho (mesmo se já for vermelho)
+		fase_status[current_stage]["local"].texture = load(circulo["vermelho"])
+		fase_status[current_stage]["status"] = "vermelho"
+
 		oxygen -= 1
 		oxygen = clamp(oxygen, 0, 3)
 		update_life_sprites()
