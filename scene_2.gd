@@ -24,7 +24,6 @@ var circulo = {
 @onready var my_timer = $Timer
 @onready var defeatsprite = $player/SubViewport/Spritederrota
 @onready var gyro_cam = $player/SubViewport/GyroCam
-@onready var victorysprite = $player/SubViewport/Spritevitoria
 
 var game = true
 var oxygen = 3
@@ -59,62 +58,6 @@ func _process(delta: float):
 				update_life_sprites()
 				if oxygen <= 0:
 					game_over()
-		update_stage(passou)
-		
-		# Update points and score
-		if passou:
-			point += validacao
-			score += validacao
-		else:
-			point = max(point + validacao, 0)
-			score = max(score + validacao, 0)
-		
-		validacao = 0
-		update_score_display()
-
-	if game and my_timer.time_left > 0:
-		var new_second = "%10.0f" % my_timer.time_left
-		if last_second != new_second:
-			last_second = new_second
-			timer_sprite.text = "Timer: %s" % new_second
-
-func update_stage(passed: bool):
-	var request = get_node("/root/Node3D/RedomaArea3D")
-	if not game:
-		return
-
-	if passed:
-		# Mark current stage as correct (green)
-		if fase_status[current_stage]["status"] != "verde":
-			fase_status[current_stage]["local"].texture = load(circulo["verde"])
-			fase_status[current_stage]["status"] = "verde"
-		
-		# Move to next stage if available
-		if current_stage < 5:
-			current_stage += 1
-			await request.reposicionar_objetos()
-			return
-		else:
-			game_over_vitoria()
-	else:
-		# Mark current stage as wrong (red)
-		if fase_status[current_stage]["status"] != "vermelho":
-			fase_status[current_stage]["local"].texture = load(circulo["vermelho"])
-			fase_status[current_stage]["status"] = "vermelho"
-		
-		# Decrease oxygen/lives
-	else:
-		# Atualiza sprite para vermelho (mesmo se já for vermelho)
-		fase_status[current_stage]["local"].texture = load(circulo["vermelho"])
-		fase_status[current_stage]["status"] = "vermelho"
-
-		oxygen -= 1
-		oxygen = clamp(oxygen, 0, 3)
-		update_life_sprites()
-
-		
-		if oxygen <= 0:
-			game_over()
 
 		validacao = 0
 		update_score_display()
@@ -148,7 +91,7 @@ func game_over():
 func game_over_vitoria():
 	game = false
 	print("Você venceu!")
-	chamartelavitoria()
+	chamarteladerrota()
 
 func _on_timer_timeout():
 	timer_sprite.text = "Timer: Stop"
@@ -168,17 +111,6 @@ func add_point(points):
 
 func esconderteladerrota():
 	defeatsprite.visible = false
-	
 
 func chamarteladerrota():
-	print("entrou na derrota") #so pra teste ok, pode tirar isso aqui depois
-	defeatsprite.global_position = gyro_cam.global_position + gyro_cam.global_transform.basis.z * -2.0
-	defeatsprite.look_at(gyro_cam.global_position, Vector3.UP)
-	defeatsprite.rotate_y(deg_to_rad(180))
 	defeatsprite.visible = true
-	
-func chamartelavitoria():
-	victorysprite.global_position = gyro_cam.global_position + gyro_cam.global_transform.basis.z * -2.0
-	victorysprite.look_at(gyro_cam.global_position, Vector3.UP)
-	victorysprite.rotate_y(deg_to_rad(180))
-	victorysprite.visible = true
