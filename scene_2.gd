@@ -24,6 +24,7 @@ var circulo = {
 @onready var my_timer = $Timer
 @onready var defeatsprite = $player/SubViewport/Spritederrota
 @onready var gyro_cam = $player/SubViewport/GyroCam
+@onready var victorysprite = $player/SubViewport/Spritevitoria
 
 var game = true
 var oxygen = 3
@@ -113,4 +114,14 @@ func esconderteladerrota():
 	defeatsprite.visible = false
 
 func chamarteladerrota():
+	print("entrou na derrota") #so pra teste ok, pode tirar isso aqui depois
+	defeatsprite.global_position = gyro_cam.global_position + gyro_cam.global_transform.basis.z * -2.0
+	defeatsprite.look_at(gyro_cam.global_position, Vector3.UP)
+	defeatsprite.rotate_y(deg_to_rad(180))
 	defeatsprite.visible = true
+	
+func chamartelavitoria():
+	victorysprite.global_position = gyro_cam.global_position + gyro_cam.global_transform.basis.z * -2.0
+	victorysprite.look_at(gyro_cam.global_position, Vector3.UP)
+	victorysprite.rotate_y(deg_to_rad(180))
+	victorysprite.visible = true
