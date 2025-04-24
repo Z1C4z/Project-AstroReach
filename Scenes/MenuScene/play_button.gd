@@ -4,6 +4,7 @@ extends Sprite3D
 @onready var sub_viewport = $SubViewport
 @onready var progress_bar = $SubViewport/Control/TextureProgressBar
 @onready var icon_texture_rect = $SubViewport/Control/TextureRect  # Referência ao TextureRect do ícone
+@export var visibilidade = load("res://scene2.tscn")
 
 var carregando = false
 var tempo_carregamento = 0.0
@@ -47,6 +48,8 @@ func executar_acao():
 	match name:
 		"PlayButton":
 			play()
+			visibilidade = visibilidade.instantiate()
+			await visibilidade.visivel()
 		"ExitButton":
 			exit()
 		_:

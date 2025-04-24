@@ -1,0 +1,277 @@
+[gd_scene load_steps=29 format=3 uid="uid://djjy4m0r80nm8"]
+
+[ext_resource type="Script" uid="uid://7hybrv3vmydd" path="res://VR_camera.gd" id="1_1yb1c"]
+[ext_resource type="Script" uid="uid://dtqjme0rmkq35" path="res://scene_2.gd" id="1_vuhtq"]
+[ext_resource type="Script" uid="uid://d2o7th40ys3ge" path="res://conectSever.gd" id="2_4soh0"]
+[ext_resource type="Texture2D" uid="uid://dgvu6kmn18i2w" path="res://images/NightSkyHDR1013_2K.jpg" id="2_33owt"]
+[ext_resource type="Texture2D" uid="uid://dm6awachdbg2i" path="res://images/O@.png" id="4_n4bvh"]
+[ext_resource type="Script" uid="uid://woyeop6mqtg4" path="res://hands.gd" id="4_tlulx"]
+[ext_resource type="Texture2D" uid="uid://yw3bcbdghdl1" path="res://images/Add a subheading.png" id="5_n4bvh"]
+[ext_resource type="Texture2D" uid="uid://dl6tdrt7d8kxx" path="res://images/image_barra/barra.png" id="6_33owt"]
+[ext_resource type="Texture2D" uid="uid://bweesr32oqu6y" path="res://images/teladerrotacorreta.png" id="9_1lry2"]
+[ext_resource type="Script" uid="uid://bi13b4wj555jt" path="res://redoma_area_3d.gd" id="9_112sm"]
+[ext_resource type="PackedScene" uid="uid://dlh05laiopdk3" path="res://Object 3D/asteroid_(1).tscn" id="10_33owt"]
+[ext_resource type="Texture2D" uid="uid://cm1vdn15q4eos" path="res://images/BOA!.png" id="10_un2r7"]
+[ext_resource type="PackedScene" uid="uid://d4k4evgyiq1eo" path="res://Object 3D/earth_(1).tscn" id="11_kup1q"]
+[ext_resource type="PackedScene" uid="uid://cjmuqiwpikx53" path="res://Object 3D/carga.tscn" id="12_1lry2"]
+[ext_resource type="PackedScene" uid="uid://k2urpqp3uaof" path="res://Scenes/MenuScene/button.tscn" id="14_1lry2"]
+
+[sub_resource type="PanoramaSkyMaterial" id="PanoramaSkyMaterial_cucev"]
+panorama = ExtResource("2_33owt")
+
+[sub_resource type="Sky" id="Sky_de2jx"]
+sky_material = SubResource("PanoramaSkyMaterial_cucev")
+
+[sub_resource type="Environment" id="Environment_00r57"]
+background_mode = 2
+sky = SubResource("Sky_de2jx")
+tonemap_mode = 2
+glow_enabled = true
+
+[sub_resource type="GDScript" id="GDScript_kup1q"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_a612y"]
+albedo_color = Color(1, 1, 0.560784, 1)
+
+[sub_resource type="SphereMesh" id="SphereMesh_3fuc5"]
+material = SubResource("StandardMaterial3D_a612y")
+radius = 4.0
+height = 7.0
+radial_segments = 8
+rings = 8
+
+[sub_resource type="Gradient" id="Gradient_0nfo8"]
+colors = PackedColorArray(0, 0, 0, 1, 0, 0, 0, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_7ugu7"]
+gradient = SubResource("Gradient_0nfo8")
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_x3h5r"]
+viewport_path = NodePath("player/SubViewport")
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_j2r7a"]
+viewport_path = NodePath("player/SubViewport")
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_vuhtq"]
+margin = 0.0
+height = 6.5
+radius = 6.0
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_un2r7"]
+viewport_path = NodePath("SubViewport")
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_sa2wl"]
+viewport_path = NodePath("SubViewport")
+
+[node name="Node3D" type="Node3D"]
+script = ExtResource("1_vuhtq")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_00r57")
+script = SubResource("GDScript_kup1q")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(-0.999328, 0.0337307, -0.0143178, -0.0195542, -0.16043, 0.986854, 0.0309903, 0.986471, 0.160982, 0, 29.8726, 0)
+shadow_enabled = true
+
+[node name="planet" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 6, 0)
+mesh = SubResource("SphereMesh_3fuc5")
+
+[node name="player" type="CharacterBody3D" parent="." node_paths=PackedStringArray("gyroCam")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 11.7708, 0)
+script = ExtResource("2_4soh0")
+gyroCam = NodePath("SubViewport/GyroCam")
+
+[node name="UI" type="CanvasLayer" parent="player"]
+follow_viewport_enabled = true
+
+[node name="Background" type="Control" parent="player/UI"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="TextureRect" type="TextureRect" parent="player/UI/Background"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = SubResource("GradientTexture1D_7ugu7")
+
+[node name="Left_eye_control" type="Control" parent="player/UI"]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="TextureRect" type="TextureRect" parent="player/UI/Left_eye_control"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset = Vector2(256, 256)
+texture = SubResource("ViewportTexture_x3h5r")
+
+[node name="Button" type="Button" parent="player/UI/Left_eye_control"]
+visibility_layer = 5
+layout_mode = 0
+offset_left = -178.0
+offset_top = -202.0
+offset_right = 8.0
+offset_bottom = -171.0
+text = "Reset Camera Rotation"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="player/UI/Left_eye_control"]
+visible = false
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -393.0
+offset_top = -316.0
+offset_right = -141.0
+offset_bottom = -245.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = -100
+
+[node name="Life-1" type="Sprite2D" parent="player/UI/Left_eye_control/HBoxContainer"]
+position = Vector2(52, 14)
+scale = Vector2(0.2, 0.2)
+texture = ExtResource("4_n4bvh")
+
+[node name="Life-2" type="Sprite2D" parent="player/UI/Left_eye_control/HBoxContainer"]
+position = Vector2(112, 14)
+scale = Vector2(0.2, 0.2)
+texture = ExtResource("4_n4bvh")
+
+[node name="Life-3" type="Sprite2D" parent="player/UI/Left_eye_control/HBoxContainer"]
+position = Vector2(173, 14)
+scale = Vector2(0.2, 0.2)
+texture = ExtResource("4_n4bvh")
+
+[node name="Barra" type="Sprite2D" parent="player/UI/Left_eye_control/HBoxContainer"]
+position = Vector2(223, -41)
+scale = Vector2(0.371149, 0.289753)
+texture = ExtResource("6_33owt")
+
+[node name="circulo1" type="Sprite2D" parent="player/UI/Left_eye_control"]
+position = Vector2(-310, -337)
+scale = Vector2(0.024, 0.0180001)
+
+[node name="circulo2" type="Sprite2D" parent="player/UI/Left_eye_control"]
+position = Vector2(-236, -337)
+scale = Vector2(0.024, 0.0180001)
+
+[node name="circulo3" type="Sprite2D" parent="player/UI/Left_eye_control"]
+position = Vector2(-163, -337)
+scale = Vector2(0.024, 0.0180001)
+
+[node name="circulo4" type="Sprite2D" parent="player/UI/Left_eye_control"]
+position = Vector2(-89.9999, -337)
+scale = Vector2(0.024, 0.0180001)
+
+[node name="circulo5" type="Sprite2D" parent="player/UI/Left_eye_control"]
+position = Vector2(-15.9999, -335)
+scale = Vector2(0.024, 0.0180001)
+
+[node name="Right_eye_control" type="Control" parent="player/UI"]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="TextureRect" type="TextureRect" parent="player/UI/Right_eye_control"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset = Vector2(256, 256)
+texture = SubResource("ViewportTexture_j2r7a")
+
+[node name="Panel" type="Panel" parent="player/UI/Right_eye_control"]
+visible = false
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="BackGround-Score" type="Sprite2D" parent="player/UI/Right_eye_control/Panel"]
+position = Vector2(384, -287.25)
+scale = Vector2(0.214821, 0.213781)
+texture = ExtResource("5_n4bvh")
+
+[node name="BackGround-Timer" type="Sprite2D" parent="player/UI/Right_eye_control/Panel"]
+position = Vector2(382.875, -336.875)
+scale = Vector2(0.211699, 0.20583)
+texture = ExtResource("5_n4bvh")
+
+[node name="Score" type="Label" parent="player/UI/Right_eye_control/Panel"]
+layout_mode = 0
+offset_left = 268.0
+offset_top = -300.0
+offset_right = 398.0
+offset_bottom = -269.0
+text = "Score:  0"
+
+[node name="Timer" type="Label" parent="player/UI/Right_eye_control/Panel"]
+layout_mode = 0
+offset_left = 267.0
+offset_top = -349.0
+offset_right = 397.0
+offset_bottom = -316.0
+text = "Timer:"
+
+[node name="SubViewport" type="SubViewport" parent="player"]
+
+[node name="GyroCam" type="Camera3D" parent="player/SubViewport" node_paths=PackedStringArray("left_eye_control", "right_eye_control", "subview_port")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 13, 0)
+script = ExtResource("1_1yb1c")
+left_eye_control = NodePath("../../UI/Left_eye_control")
+right_eye_control = NodePath("../../UI/Right_eye_control")
+subview_port = NodePath("..")
+
+[node name="Hands" type="Node2D" parent="player/SubViewport/GyroCam"]
+script = ExtResource("4_tlulx")
+
+[node name="Spritederrota" type="Sprite3D" parent="player/SubViewport"]
+transform = Transform3D(0.2, 0, 0, 0, 0.2, 0, 0, 0, 0.2, -0.0120927, 13.2963, -2.55716)
+visible = false
+texture = ExtResource("9_1lry2")
+
+[node name="Spritevitoria" type="Sprite3D" parent="player/SubViewport"]
+transform = Transform3D(0.2, 0, 0, 0, 0.2, 0, 0, 0, 0.2, 0, 0, 0)
+texture = ExtResource("10_un2r7")
+
+[node name="Timer" type="Timer" parent="."]
+
+[node name="RedomaArea3D" type="Area3D" parent="." node_paths=PackedStringArray("redoma")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 12.9204, 0)
+script = ExtResource("9_112sm")
+asteroid_scene = ExtResource("10_33owt")
+terra_scene = ExtResource("11_kup1q")
+nave_scene = ExtResource("12_1lry2")
+redoma = NodePath("CollisionShape3D")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="RedomaArea3D"]
+shape = SubResource("CylinderShape3D_vuhtq")
+
+[node name="PlayButton" parent="." instance=ExtResource("14_1lry2")]
+transform = Transform3D(1, 0, 0, 0, 0.973275, 0.229642, 0, -0.229642, 0.973275, -0.874573, 12.3584, -4.4782)
+texture = SubResource("ViewportTexture_un2r7")
+
+[node name="ExitButton" parent="." instance=ExtResource("14_1lry2")]
+transform = Transform3D(0.951207, 0.0708565, -0.300306, 0, 0.973275, 0.229642, 0.308552, -0.218437, 0.925786, 2.60865, 12.2736, -4.93522)
+texture = SubResource("ViewportTexture_sa2wl")
+
+[connection signal="pressed" from="player/UI/Left_eye_control/Button" to="player/SubViewport/GyroCam" method="reset_rotation"]

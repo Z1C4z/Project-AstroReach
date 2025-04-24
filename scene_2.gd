@@ -33,12 +33,14 @@ var current_stage = 1
 var validacao = 0
 var timer_connected = false
 
-var visibilidade = false 
+var visibilidade
+var instancia_jogo: Node3D = null
 @onready var barra = $player/UI/Left_eye_control/HBoxContainer
 @onready var itens = $player/UI/Right_eye_control/Panel
 @export var jogo = load("res://redoma_area_3d.tscn")
 
 func _ready():
+	
 	esconderteladerrota()
 	for stage in fase_status:
 		fase_status[stage]["local"].texture = null
@@ -131,51 +133,27 @@ func chamartelavitoria():
 	victorysprite.rotate_y(deg_to_rad(180))
 	victorysprite.visible = true
 func visivel():
-	if not is_instance_valid(itens) or not is_instance_valid(barra):
-		printerr("Não é possível alterar visibilidade - nós não carregados!")
-		return
-	
-	visibilidade = !visibilidade
-	
-	# Se estiver escondendo
-	if not visibilidade:
-		# Fade out para os itens da direita (um por um)
-		for i in range(itens.get_child_count()):
-			var child = itens.get_child(i)
-			if child is CanvasItem:
-				create_tween().tween_property(child, "modulate:a", 0.0, 0.3).set_delay(i * 0.1)
-		
-		# Fade out para os itens da esquerda (um por um)
-		for i in range(barra.get_child_count()):
-			var child = barra.get_child(i)
-			if child is CanvasItem:
-				create_tween().tween_property(child, "modulate:a", 0.0, 0.3).set_delay(i * 0.1)
-		
-		# Espera a animação terminar antes de instanciar
-		await get_tree().create_timer(max(barra.get_child_count(), itens.get_child_count()) * 0.1 + 0.3).timeout
-		
-		var instance = jogo.instantiate()
-		add_child(instance)
-		if instance.has_method("remover_itens"):
-			instance.remover_itens()
-	
-	# Se estiver mostrando
+	if itens:
+	itens.visible = true
 	else:
-		var instance = jogo.instantiate()
-		add_child(instance)
-		if instance.has_method("reiniciar_jogo"):
-			instance.reiniciar_jogo()
-		
-		# Fade in para os itens da direita (um por um)
-		for i in range(itens.get_child_count()):
-			var child = itens.get_child(i)
-			if child is CanvasItem:
-				child.modulate.a = 0
-				create_tween().tween_property(child, "modulate:a", 1.0, 0.3).set_delay(i * 0.1)
-		
-		# Fade in para os itens da esquerda (um por um)
-		for i in range(barra.get_child_count()):
-			var child = barra.get_child(i)
-			if child is CanvasItem:
-				child.modulate.a = 0
-				create_tween().tween_property(child, "modulate:a", 1.0, 0.3).set_delay(i * 0.1)
+		print("Itens não encontrado!")
+
+	if barra:
+		barra.visible = true
+	else:
+		print("Barra não encontrada!")
+	visibilidade = !visibilidade
+	if visibilidade:
+		itens.visible = true
+		barra.visible = true
+		instancia_jogo = jogo.instantiate()
+		add_child(instancia_jogo)
+		if instancia_jogo.has_method("reiniciar_jogo"):
+			instancia_jogo.reiniciar_jogo()
+	else:
+		itens.visible = false
+		barra.visible = false
+		if instancia_jogo and instancia_jogo.has_method("remover_itens"):
+			instancia_jogo.remover_itens()
+			instancia_jogo.queue_free()
+			instancia_jogo = null  # limpa referência, boa prática
