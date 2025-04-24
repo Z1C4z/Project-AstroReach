@@ -8,7 +8,7 @@
 [ext_resource type="Script" uid="uid://dp5w3xmvqwarg" path="res://hands.gd" id="4_tlulx"]
 [ext_resource type="Texture2D" uid="uid://yw3bcbdghdl1" path="res://images/Add a subheading.png" id="5_n4bvh"]
 [ext_resource type="Texture2D" uid="uid://dl6tdrt7d8kxx" path="res://images/image_barra/barra.png" id="6_33owt"]
-[ext_resource type="Texture2D" uid="uid://ds5jxu00srdw3" path="res://images/teladerrotacorreta.png" id="9_1lry2"]
+[ext_resource type="Texture2D" path="res://images/teladerrotacorreta.png" id="9_1lry2"]
 [ext_resource type="Script" uid="uid://bi13b4wj555jt" path="res://redoma_area_3d.gd" id="9_112sm"]
 [ext_resource type="PackedScene" uid="uid://dlh05laiopdk3" path="res://Object 3D/asteroid_(1).tscn" id="10_33owt"]
 [ext_resource type="Texture2D" uid="uid://cm1vdn15q4eos" path="res://images/BOA!.png" id="10_un2r7"]

@@ -88,13 +88,15 @@ func update_stage(passed: bool):
 		# Decrease oxygen/lives
 		oxygen -= 1
 		oxygen = clamp(oxygen, 0, 3)
-	
+		update_life_sprites()
 
 		
 		if oxygen <= 0:
 			game_over()
 
-
+func update_life_sprites():
+	for i in 1.4:
+		sprites[i].visible = (oxygen >= i)
 
 
 func update_score_display():
