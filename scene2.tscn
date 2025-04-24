@@ -1,15 +1,15 @@
 [gd_scene load_steps=25 format=3 uid="uid://djjy4m0r80nm8"]
 
-[ext_resource type="Script" uid="uid://p2ytx5hw7rd8" path="res://VR_camera.gd" id="1_1yb1c"]
+[ext_resource type="Script" uid="uid://tdehh3f0xtbe" path="res://VR_camera.gd" id="1_1yb1c"]
 [ext_resource type="Script" uid="uid://dtqjme0rmkq35" path="res://scene_2.gd" id="1_vuhtq"]
-[ext_resource type="Script" uid="uid://bklvfmvl5nhgv" path="res://conectSever.gd" id="2_4soh0"]
+[ext_resource type="Script" uid="uid://c20p0b8028wny" path="res://conectSever.gd" id="2_4soh0"]
 [ext_resource type="Texture2D" uid="uid://dgvu6kmn18i2w" path="res://images/NightSkyHDR1013_2K.jpg" id="2_33owt"]
 [ext_resource type="Texture2D" uid="uid://dm6awachdbg2i" path="res://images/O@.png" id="4_n4bvh"]
-[ext_resource type="Script" uid="uid://bn24ovxotme33" path="res://hands.gd" id="4_tlulx"]
+[ext_resource type="Script" uid="uid://dp5w3xmvqwarg" path="res://hands.gd" id="4_tlulx"]
 [ext_resource type="Texture2D" uid="uid://yw3bcbdghdl1" path="res://images/Add a subheading.png" id="5_n4bvh"]
 [ext_resource type="Texture2D" uid="uid://dl6tdrt7d8kxx" path="res://images/image_barra/barra.png" id="6_33owt"]
 [ext_resource type="Texture2D" uid="uid://cajyfakyf3hdn" path="res://images/tente novamente.png" id="6_kup1q"]
-[ext_resource type="Script" path="res://redoma_area_3d.gd" id="9_112sm"]
+[ext_resource type="Script" uid="uid://bi13b4wj555jt" path="res://redoma_area_3d.gd" id="9_112sm"]
 [ext_resource type="PackedScene" uid="uid://dlh05laiopdk3" path="res://Object 3D/asteroid_(1).tscn" id="10_33owt"]
 [ext_resource type="PackedScene" uid="uid://d4k4evgyiq1eo" path="res://Object 3D/earth_(1).tscn" id="11_kup1q"]
 [ext_resource type="PackedScene" uid="uid://cjmuqiwpikx53" path="res://Object 3D/carga.tscn" id="12_1lry2"]
@@ -229,8 +229,8 @@ subview_port = NodePath("..")
 [node name="Hands" type="Node2D" parent="player/SubViewport/GyroCam"]
 script = ExtResource("4_tlulx")
 
-[node name="Spritederrota" type="Sprite3D" parent="player/SubViewport/GyroCam"]
-transform = Transform3D(0.2, 0, 0, 0, 0.2, 0, 0, 0, 0.2, -0.0120927, 0.296318, -2.55716)
+[node name="Spritederrota" type="Sprite3D" parent="player/SubViewport"]
+transform = Transform3D(0.2, 0, 0, 0, 0.2, 0, 0, 0, 0.2, -0.0120927, 13.2963, -2.55716)
 texture = ExtResource("6_kup1q")
 
 [node name="Timer" type="Timer" parent="."]

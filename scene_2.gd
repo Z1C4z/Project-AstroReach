@@ -22,7 +22,8 @@ var circulo = {
 @onready var timer_sprite = $player/UI/Right_eye_control/Timer
 @onready var score_sprite = $player/UI/Right_eye_control/Score
 @onready var my_timer = $Timer
-@onready var defeatsprite = $player/SubViewport/GyroCam/Spritederrota
+@onready var defeatsprite = $player/SubViewport/Spritederrota
+@onready var gyro_cam = $player/SubViewport/GyroCam
 
 var last_second = "0"
 var game = true
@@ -95,6 +96,7 @@ func update_life_sprites():
 	for i in 1.4:
 		sprites[i].visible = (oxygen >= i)
 
+
 func update_score_display():
 	if score_sprite:
 		score_sprite.text = "Score: %s" % score
@@ -129,4 +131,7 @@ func esconderteladerrota():
 	defeatsprite.visible = false
 
 func chamarteladerrota():
+	print("entrou na derrota")
+	defeatsprite.global_position = gyro_cam.global_position + gyro_cam.global_transform.basis.z * -2.0
+	defeatsprite.look_at(gyro_cam.global_position, Vector3.UP)
 	defeatsprite.visible = true
