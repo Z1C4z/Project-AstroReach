@@ -24,6 +24,7 @@ var circulo = {
 @onready var my_timer = $Timer
 @onready var defeatsprite = $player/SubViewport/Spritederrota
 @onready var gyro_cam = $player/SubViewport/GyroCam
+@onready var victorysprite = $player/SubViewport/Spritevitoria
 
 var last_second = "0"
 var game = true
@@ -87,14 +88,13 @@ func update_stage(passed: bool):
 		# Decrease oxygen/lives
 		oxygen -= 1
 		oxygen = clamp(oxygen, 0, 3)
-		update_life_sprites()
+	
+
 		
 		if oxygen <= 0:
 			game_over()
 
-func update_life_sprites():
-	for i in 1.4:
-		sprites[i].visible = (oxygen >= i)
+
 
 
 func update_score_display():
@@ -109,7 +109,7 @@ func game_over():
 func game_over_vitoria():
 	game = false
 	print("Você venceu!")
-	chamarteladerrota()
+	chamartelavitoria()
 
 func _on_timer_timeout():
 	timer_sprite.text = "Timer: Stop"
@@ -129,9 +129,17 @@ func add_point(points):
 
 func esconderteladerrota():
 	defeatsprite.visible = false
+	
 
 func chamarteladerrota():
-	print("entrou na derrota")
+	print("entrou na derrota") #so pra teste ok, pode tirar isso aqui depois
 	defeatsprite.global_position = gyro_cam.global_position + gyro_cam.global_transform.basis.z * -2.0
 	defeatsprite.look_at(gyro_cam.global_position, Vector3.UP)
+	defeatsprite.rotate_y(deg_to_rad(180))
 	defeatsprite.visible = true
+	
+func chamartelavitoria():
+	victorysprite.global_position = gyro_cam.global_position + gyro_cam.global_transform.basis.z * -2.0
+	victorysprite.look_at(gyro_cam.global_position, Vector3.UP)
+	victorysprite.rotate_y(deg_to_rad(180))
+	victorysprite.visible = true

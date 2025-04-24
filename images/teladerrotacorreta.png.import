@@ -2,9 +2,9 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cm1vdn15q4eos"
-path.s3tc="res://.godot/imported/BOA!.png-24a9fcee6858694a8a05d2f6b2e8a491.s3tc.ctex"
-path.etc2="res://.godot/imported/BOA!.png-24a9fcee6858694a8a05d2f6b2e8a491.etc2.ctex"
+uid="uid://ds5jxu00srdw3"
+path.s3tc="res://.godot/imported/teladerrotacorreta.png-1b8ffecd38583f32ccad80f38066a368.s3tc.ctex"
+path.etc2="res://.godot/imported/teladerrotacorreta.png-1b8ffecd38583f32ccad80f38066a368.etc2.ctex"
 metadata={
 "imported_formats": ["s3tc_bptc", "etc2_astc"],
 "vram_texture": true
@@ -12,8 +12,8 @@ metadata={
 
 [deps]
 
-source_file="res://images/BOA!.png"
-dest_files=["res://.godot/imported/BOA!.png-24a9fcee6858694a8a05d2f6b2e8a491.s3tc.ctex", "res://.godot/imported/BOA!.png-24a9fcee6858694a8a05d2f6b2e8a491.etc2.ctex"]
+source_file="res://images/teladerrotacorreta.png"
+dest_files=["res://.godot/imported/teladerrotacorreta.png-1b8ffecd38583f32ccad80f38066a368.s3tc.ctex", "res://.godot/imported/teladerrotacorreta.png-1b8ffecd38583f32ccad80f38066a368.etc2.ctex"]
 
 [params]
 
