@@ -26,18 +26,15 @@ var circulo = {
 @onready var gyro_cam = $player/SubViewport/GyroCam
 @onready var victorysprite = $player/SubViewport/Spritevitoria
 
-var last_second = "0"
 var game = true
 var oxygen = 3
 var score = 0
-var point = 0
-var validacao = 0
 var current_stage = 1
+var validacao = 0
 var timer_connected = false
 
 func _ready():
 	esconderteladerrota()
-	# Initialize all circles to empty state
 	for stage in fase_status:
 		fase_status[stage]["local"].texture = null
 		fase_status[stage]["status"] = "null"
@@ -45,6 +42,23 @@ func _ready():
 func _process(delta: float):
 	if validacao != 0:
 		var passou = validacao > 0
+		var valor = abs(validacao)
+		print("Validacao:", validacao, " | Passou:", passou, " | Stage:", current_stage)
+
+		if game:
+			if passou:
+				marcar_acerto()
+				score += valor
+				if current_stage < 5:
+					current_stage += 1
+				else:
+					game_over_vitoria()
+			else:
+				marcar_erro()
+				oxygen -= 1
+				update_life_sprites()
+				if oxygen <= 0:
+					game_over()
 		update_stage(passou)
 		
 		# Update points and score
@@ -102,10 +116,25 @@ func update_stage(passed: bool):
 		if oxygen <= 0:
 			game_over()
 
-func update_life_sprites():
-	for i in 1.4:
-		sprites[i].visible = (oxygen >= i)
+		validacao = 0
+		update_score_display()
 
+func marcar_acerto():
+	var current = fase_status[current_stage]
+	current["local"].texture = load(circulo["verde"])
+	current["status"] = "verde"
+	print("Acerto! Marcado na fase", current_stage)
+
+func marcar_erro():
+	var current = fase_status[current_stage]
+	if current["status"] != "vermelho":
+		current["local"].texture = load(circulo["vermelho"])
+		current["status"] = "vermelho"
+	print("Erro! Marcado na fase", current_stage)
+
+func update_life_sprites():
+	for i in sprites:
+		sprites[i].visible = (oxygen >= i)
 
 func update_score_display():
 	if score_sprite:
@@ -124,7 +153,7 @@ func game_over_vitoria():
 func _on_timer_timeout():
 	timer_sprite.text = "Timer: Stop"
 	my_timer.stop()
-	update_stage(false)
+	validacao = -1  # Considera como erro
 
 func timer(seconds):
 	if not timer_connected:
@@ -134,8 +163,8 @@ func timer(seconds):
 	my_timer.start()
 
 func add_point(points):
-	# This function should be called when player earns points
-	validacao = points  # This will trigger the update in _process
+	print("add_point chamado com valor:", points)
+	validacao = points
 
 func esconderteladerrota():
 	defeatsprite.visible = false
