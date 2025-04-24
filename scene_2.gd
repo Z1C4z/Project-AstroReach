@@ -92,7 +92,7 @@ func game_over():
 func game_over_vitoria():
 	game = false
 	print("Você venceu!")
-	chamarteladerrota()
+	chamartelavitoria()
 
 func _on_timer_timeout():
 	timer_sprite.text = "Timer: Stop"
