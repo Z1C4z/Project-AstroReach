@@ -9,7 +9,7 @@
 [ext_resource type="Texture2D" uid="uid://yw3bcbdghdl1" path="res://images/Add a subheading.png" id="5_n4bvh"]
 [ext_resource type="Texture2D" uid="uid://dl6tdrt7d8kxx" path="res://images/image_barra/barra.png" id="6_33owt"]
 [ext_resource type="Texture2D" uid="uid://bweesr32oqu6y" path="res://images/teladerrotacorreta.png" id="9_1lry2"]
-[ext_resource type="Script" uid="uid://bi13b4wj555jt" path="res://redoma_area_3d.gd" id="9_112sm"]
+[ext_resource type="Script" uid="uid://c0526inwe1r13" path="res://redoma_area_3d.gd" id="9_112sm"]
 [ext_resource type="PackedScene" uid="uid://dlh05laiopdk3" path="res://Object 3D/asteroid_(1).tscn" id="10_33owt"]
 [ext_resource type="Texture2D" uid="uid://cm1vdn15q4eos" path="res://images/BOA!.png" id="10_un2r7"]
 [ext_resource type="PackedScene" uid="uid://d4k4evgyiq1eo" path="res://Object 3D/earth_(1).tscn" id="11_kup1q"]
@@ -128,6 +128,42 @@ offset_right = 8.0
 offset_bottom = -171.0
 text = "Reset Camera Rotation"
 
+[node name="HBoxContainer" type="HBoxContainer" parent="player/UI/Left_eye_control"]
+visible = false
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -393.0
+offset_top = -316.0
+offset_right = -141.0
+offset_bottom = -245.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = -100
+
+[node name="Life-1" type="Sprite2D" parent="player/UI/Left_eye_control/HBoxContainer"]
+position = Vector2(52, 14)
+scale = Vector2(0.2, 0.2)
+texture = ExtResource("4_n4bvh")
+
+[node name="Life-2" type="Sprite2D" parent="player/UI/Left_eye_control/HBoxContainer"]
+position = Vector2(112, 14)
+scale = Vector2(0.2, 0.2)
+texture = ExtResource("4_n4bvh")
+
+[node name="Life-3" type="Sprite2D" parent="player/UI/Left_eye_control/HBoxContainer"]
+position = Vector2(173, 14)
+scale = Vector2(0.2, 0.2)
+texture = ExtResource("4_n4bvh")
+
+[node name="Barra" type="Sprite2D" parent="player/UI/Left_eye_control/HBoxContainer"]
+position = Vector2(223, -41)
+scale = Vector2(0.371149, 0.289753)
+texture = ExtResource("6_33owt")
+
 [node name="circulo1" type="Sprite2D" parent="player/UI/Left_eye_control"]
 position = Vector2(-310, -337)
 scale = Vector2(0.024, 0.0180001)
@@ -148,31 +184,6 @@ scale = Vector2(0.024, 0.0180001)
 position = Vector2(-15.9999, -335)
 scale = Vector2(0.024, 0.0180001)
 
-[node name="conteiner" type="Panel" parent="player/UI/Left_eye_control"]
-layout_mode = 0
-offset_right = 40.0
-offset_bottom = 40.0
-
-[node name="Life-1" type="Sprite2D" parent="player/UI/Left_eye_control/conteiner"]
-position = Vector2(-321, -282)
-scale = Vector2(0.2, 0.2)
-texture = ExtResource("4_n4bvh")
-
-[node name="Barra" type="Sprite2D" parent="player/UI/Left_eye_control/conteiner"]
-position = Vector2(-150, -337)
-scale = Vector2(0.371149, 0.289753)
-texture = ExtResource("6_33owt")
-
-[node name="Life-2" type="Sprite2D" parent="player/UI/Left_eye_control/conteiner"]
-position = Vector2(-261, -282)
-scale = Vector2(0.2, 0.2)
-texture = ExtResource("4_n4bvh")
-
-[node name="Life-3" type="Sprite2D" parent="player/UI/Left_eye_control/conteiner"]
-position = Vector2(-200, -282)
-scale = Vector2(0.2, 0.2)
-texture = ExtResource("4_n4bvh")
-
 [node name="Right_eye_control" type="Control" parent="player/UI"]
 layout_mode = 3
 anchors_preset = 0
@@ -189,22 +200,23 @@ grow_vertical = 2
 pivot_offset = Vector2(256, 256)
 texture = SubResource("ViewportTexture_j2r7a")
 
-[node name="conteiner" type="Panel" parent="player/UI/Right_eye_control"]
+[node name="Panel" type="Panel" parent="player/UI/Right_eye_control"]
+visible = false
 layout_mode = 0
 offset_right = 40.0
 offset_bottom = 40.0
 
-[node name="BackGround-Score" type="Sprite2D" parent="player/UI/Right_eye_control/conteiner"]
+[node name="BackGround-Score" type="Sprite2D" parent="player/UI/Right_eye_control/Panel"]
 position = Vector2(384, -287.25)
 scale = Vector2(0.214821, 0.213781)
 texture = ExtResource("5_n4bvh")
 
-[node name="BackGround-Timer" type="Sprite2D" parent="player/UI/Right_eye_control/conteiner"]
+[node name="BackGround-Timer" type="Sprite2D" parent="player/UI/Right_eye_control/Panel"]
 position = Vector2(382.875, -336.875)
 scale = Vector2(0.211699, 0.20583)
 texture = ExtResource("5_n4bvh")
 
-[node name="Score" type="Label" parent="player/UI/Right_eye_control/conteiner"]
+[node name="Score" type="Label" parent="player/UI/Right_eye_control/Panel"]
 layout_mode = 0
 offset_left = 268.0
 offset_top = -300.0
@@ -212,7 +224,7 @@ offset_right = 398.0
 offset_bottom = -269.0
 text = "Score:  0"
 
-[node name="Timer" type="Label" parent="player/UI/Right_eye_control/conteiner"]
+[node name="Timer" type="Label" parent="player/UI/Right_eye_control/Panel"]
 layout_mode = 0
 offset_left = 267.0
 offset_top = -349.0
@@ -234,6 +246,7 @@ script = ExtResource("4_tlulx")
 
 [node name="Spritederrota" type="Sprite3D" parent="player/SubViewport"]
 transform = Transform3D(0.2, 0, 0, 0, 0.2, 0, 0, 0, 0.2, -0.0120927, 13.2963, -2.55716)
+visible = false
 texture = ExtResource("9_1lry2")
 
 [node name="Spritevitoria" type="Sprite3D" parent="player/SubViewport"]

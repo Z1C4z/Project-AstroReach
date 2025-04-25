@@ -15,7 +15,9 @@ var posicoes_objetos: Dictionary = {}    # Dicionário para armazenar posições
 
 var gameStarted = false;
 
-
+func _ready():
+	verificar_redoma()
+	gerar_obstaculos(15, 2.0, 10.0, 20.0)  # Usa valores padrão
 
 func _input(event):
 	if event is InputEventKey and event.pressed:
