@@ -1,63 +1,64 @@
-import tkinter as tk 
+import tkinter as tk
 from tkinter import ttk
 
 class App:
     def __init__(self, master):
+        master.title("Relatórios")
+        master.configure(bg="#f0f0f0")
+
+        # Botão Voltar no canto superior esquerdo
+        voltar_btn = tk.Button(
+            master, text="← Voltar", font=("Helvetica", 12, "bold"),
+            bg="#ff6666", fg="white", relief="raised", padx=10, pady=5
+        )
+        voltar_btn.pack(anchor='nw', padx=10, pady=10)
+
+        # Criando apenas uma aba (Aba 1)
         self.abas = ttk.Notebook(master)
         self.frame_aba1 = ttk.Frame(self.abas)
-        self.frame_aba2 = ttk.Frame(self.abas)
-        self.frame_aba3 = ttk.Frame(self.abas)
 
         self.abas.add(self.frame_aba1, text="Aba 1")
-        self.abas.add(self.frame_aba2, text="Aba 2")
-        self.abas.add(self.frame_aba3, text="Aba 3")
-        self.abas.pack(expand=1, fill="both")
+        self.abas.pack(expand=1, fill="both", padx=10, pady=10)
 
-        #  Frame superior para os botões
-        top_button_frame = tk.Frame(self.frame_aba1)
-        top_button_frame.pack(fill=tk.X, padx=5, pady=5)
-
-        #  Botão "Voltar" (esquerda)
-        self.voltar_button = ttk.Button(top_button_frame, text="Voltar", command=self.voltar)
-        self.voltar_button.pack(side=tk.LEFT)
-
-        #  Botão "Mostrar Dados" (direita)
-        self.mostrar_dados_button = ttk.Button(top_button_frame, text="Mostrar Dados", command=self.mostrar_dados)
-        self.mostrar_dados_button.pack(side=tk.TOP)
-
-        #  Label
-        self.label1 = ttk.Label(self.frame_aba1, text="Relatórios")
+        # Label
+        self.label1 = ttk.Label(self.frame_aba1, text="Relatórios", font=("Helvetica", 16, "bold"))
         self.label1.pack(pady=10)
 
-        #  Frame para as treeviews
+        # Frame para as Treeviews
         tree_frame = tk.Frame(self.frame_aba1)
-        tree_frame.pack(padx=10, pady=10, fill=tk.BOTH, expand=True)
+        tree_frame.pack(padx=10, pady=5, fill=tk.BOTH, expand=True)
 
-        #  Treeview 1 - Relatório de Vendas
-        self.treeview1 = ttk.Treeview(tree_frame)
-        self.treeview1.pack(side=tk.LEFT, fill=tk.BOTH, expand=True)
-        self.treeview1.insert("", "end", text="Tempo de vida")
+        style = ttk.Style()
+        style.configure("Treeview", font=("Helvetica", 11), rowheight=25)
+        style.configure("Treeview.Heading", font=("Helvetica", 12, "bold"))
 
-        #  Treeview 2 - Produtos
-        self.treeview2 = ttk.Treeview(tree_frame)
-        self.treeview2.pack(side=tk.LEFT, fill=tk.BOTH, expand=True)
-        self.treeview2.insert("", "end", text="Tempo de contagem")
+        # Treeview 1
+        self.treeview1 = ttk.Treeview(tree_frame, height=5)
+        self.treeview1.pack(side=tk.LEFT, fill=tk.BOTH, expand=True, padx=5)
+        self.treeview1.heading("#0", text="Tempo de vida")
+        self.treeview1.insert("", "end",)
 
-        #  Treeview 3 - Clientes
-        self.treeview3 = ttk.Treeview(tree_frame)
-        self.treeview3.pack(side=tk.LEFT, fill=tk.BOTH, expand=True)
-        self.treeview3.insert("", "end", text="Colisões")
+        # Treeview 2
+        self.treeview2 = ttk.Treeview(tree_frame, height=5)
+        self.treeview2.pack(side=tk.LEFT, fill=tk.BOTH, expand=True, padx=5)
+        self.treeview2.heading("#0", text="Tempo de contagem")
+        self.treeview2.insert("", "end", )
 
-    #  Função para o botão Voltar
-    def voltar(self):
-        print("Você clicou em Voltar.")
+        # Treeview 3
+        self.treeview3 = ttk.Treeview(tree_frame, height=5)
+        self.treeview3.pack(side=tk.LEFT, fill=tk.BOTH, expand=True, padx=5)
+        self.treeview3.heading("#0", text="Colisões")
+        self.treeview3.insert("", "end",)
 
-    #  Função para o botão Mostrar Dados
-    def mostrar_dados(self):
-        print("Exibindo dados...")
+        # Botão Mostrar Dados
+        mostrar_btn = tk.Button(
+            self.frame_aba1, text="Mostrar Dados", font=("Helvetica", 13, "bold"),
+            bg="#4CAF50", fg="white", relief="raised", padx=20, pady=10
+        )
+        mostrar_btn.pack(pady=20)
 
-#  Rodar a aplicação
+# Inicialização da janela principal
 root = tk.Tk()
-root.geometry("1000x400")
+root.geometry("1000x500")  # Tamanho ajustado
 app = App(root)
 root.mainloop()
