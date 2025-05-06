@@ -1,5 +1,6 @@
 extends Node3D
 
+@onready var redoma = $RedomaArea3D
 var circulo = {
 	"vermelho": "res://images/image_barra/errado.png",
 	"verde": "res://images/image_barra/certo.png",
@@ -59,6 +60,8 @@ func _process(delta: float):
 				update_life_sprites()
 				if oxygen <= 0:
 					game_over()
+				else:
+					redoma.reposicionar_nave_apenas()
 
 		validacao = 0
 		update_score_display()
@@ -84,10 +87,21 @@ func update_score_display():
 	if score_sprite:
 		score_sprite.text = "Score: %s" % score
 
+var countdown_timer: Timer = null  # Variável para controle único do timer
+
 func game_over():
+	print("--- GAME OVER ---")
 	game = false
-	print("Game Over!")
+	
 	chamarteladerrota()
+	
+	await get_tree().create_timer(3.0).timeout
+	
+	esconderteladerrota()
+	
+	oxygen = 3
+	update_life_sprites()
+	game = true
 
 func game_over_vitoria():
 	game = false

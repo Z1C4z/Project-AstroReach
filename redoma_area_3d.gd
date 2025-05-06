@@ -15,6 +15,7 @@ var posicoes_objetos: Dictionary = {}    # Dicionário para armazenar posições
 
 var gameStarted = false;
 
+
 func _ready():
 	verificar_redoma()
 	gerar_obstaculos(15, 2.0, 10.0, 20.0)  # Usa valores padrão
@@ -91,6 +92,11 @@ func criar_nave(raio: float, altura: float, min_distancia: float, distancia_mini
 	var tentativa = 0
 	var max_tentativas = 500
 	var posicao_nave: Vector3
+	
+	print("\n=== TENTANDO CRIAR NAVE ===")
+	print("Terra existe? ", terra_instance != null)
+	print("Cena da nave carregada? ", nave_scene != null)
+	print("Posições válidas? ", posicoes_objetos.has("Nave"))
 
 	while tentativa < max_tentativas:
 		var angulo = randf_range(-angulo_visao / 2, angulo_visao / 2) * PI / 180.0  # Converte para radianos
@@ -385,3 +391,24 @@ func reiniciar_jogo():
 	nave_instance = null
 	terra_instance = null
 	await gerar_obstaculos(15, 2.0, 7.0, 15.0)
+	
+func reposicionar_nave_apenas() -> void:
+	print("\n=== REPOSICIONANDO NAVE (SEM DESTRUIR) ===")
+	
+	if !nave_instance:
+		print("❌ ERRO: Nave não existe!")
+		return
+	
+	# 1. Volta para a posição salva (se existir)
+	if posicoes_objetos.has("Nave"):
+		nave_instance.position = posicoes_objetos["Nave"]
+		print("✅ Nave reposicionada na posição salva:", nave_instance.position)
+	else:
+		# 2. Se não houver posição salva, usa a posição inicial da cena
+		nave_instance.position = Vector3.ZERO
+		print("⚠️ Nave reposicionada no ZERO (posição padrão)")
+	
+	# 3. Atualiza a referência nas mãos do jogador (se necessário)
+	var teste = get_node_or_null("/root/Node3D/player/SubViewport/GyroCam/Hands")
+	if teste:
+		teste.load_data(nave_instance)
