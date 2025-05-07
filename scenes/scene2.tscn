@@ -1,18 +1,22 @@
-[gd_scene load_steps=22 format=3 uid="uid://btpgj8ls83led"]
+[gd_scene load_steps=26 format=3 uid="uid://djjy4m0r80nm8"]
 
-[ext_resource type="Script" uid="uid://dtqjme0rmkq35" path="res://scene_2.gd" id="1_fy5k1"]
-[ext_resource type="Texture2D" uid="uid://dls825ytmfehm" path="res://images/NightSkyHDRI001_2K-HDR.exr" id="2_5c1cw"]
-[ext_resource type="Script" uid="uid://h0ods0k72i8j" path="res://conectSever.gd" id="3_akxrc"]
-[ext_resource type="Texture2D" uid="uid://csknk83llu8d8" path="res://images/coraçao_vermelho.png" id="4_gu47o"]
-[ext_resource type="Script" uid="uid://f4vlb2t2q4e6" path="res://VR_camera.gd" id="6_223my"]
-[ext_resource type="Script" uid="uid://dlxe4h5jm3kll" path="res://hands.gd" id="7_17rhs"]
-[ext_resource type="PackedScene" uid="uid://cjmuqiwpikx53" path="res://carga.tscn" id="8_8j1ou"]
-[ext_resource type="ArrayMesh" uid="uid://bic5yulwjpc3i" path="res://images/Earth.obj" id="9_o3hm7"]
-[ext_resource type="Script" uid="uid://bk4d0r8xia0oo" path="res://planet.gd" id="10_xpof7"]
-[ext_resource type="Script" uid="uid://de52qtwaepebu" path="res://hitbox.gd" id="11_302uq"]
+[ext_resource type="Script" uid="uid://dtqjme0rmkq35" path="res://scripts/scene_2.gd" id="1_6x8df"]
+[ext_resource type="Texture2D" uid="uid://dgvu6kmn18i2w" path="res://images/NightSkyHDR1013_2K.jpg" id="2_aoyh8"]
+[ext_resource type="Script" uid="uid://bklvfmvl5nhgv" path="res://scripts/conectSever.gd" id="3_x38j3"]
+[ext_resource type="Texture2D" uid="uid://dm6awachdbg2i" path="res://images/O@.png" id="4_3eo47"]
+[ext_resource type="Texture2D" uid="uid://dl6tdrt7d8kxx" path="res://images/image_barra/barra.png" id="5_kjohx"]
+[ext_resource type="Texture2D" uid="uid://yw3bcbdghdl1" path="res://images/Add a subheading.png" id="6_lslbq"]
+[ext_resource type="Script" uid="uid://p2ytx5hw7rd8" path="res://scripts/VR_camera.gd" id="7_ga8du"]
+[ext_resource type="Script" uid="uid://bn24ovxotme33" path="res://scripts/hands.gd" id="8_aqtpa"]
+[ext_resource type="Texture2D" uid="uid://bweesr32oqu6y" path="res://images/teladerrotacorreta.png" id="9_osnjv"]
+[ext_resource type="Texture2D" uid="uid://cm1vdn15q4eos" path="res://images/BOA!.png" id="10_tfi5u"]
+[ext_resource type="Script" uid="uid://bi13b4wj555jt" path="res://scripts/redoma_area_3d.gd" id="11_xxmf0"]
+[ext_resource type="PackedScene" uid="uid://dlh05laiopdk3" path="res://Object 3D/asteroid_(1).tscn" id="12_bq4wd"]
+[ext_resource type="PackedScene" uid="uid://d4k4evgyiq1eo" path="res://Object 3D/earth_(1).tscn" id="13_1cs63"]
+[ext_resource type="PackedScene" uid="uid://cjmuqiwpikx53" path="res://Object 3D/carga.tscn" id="14_lu8w1"]
 
 [sub_resource type="PanoramaSkyMaterial" id="PanoramaSkyMaterial_cucev"]
-panorama = ExtResource("2_5c1cw")
+panorama = ExtResource("2_aoyh8")
 
 [sub_resource type="Sky" id="Sky_de2jx"]
 sky_material = SubResource("PanoramaSkyMaterial_cucev")
@@ -22,6 +26,8 @@ background_mode = 2
 sky = SubResource("Sky_de2jx")
 tonemap_mode = 2
 glow_enabled = true
+
+[sub_resource type="GDScript" id="GDScript_kup1q"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_a612y"]
 albedo_color = Color(1, 1, 0.560784, 1)
@@ -42,20 +48,20 @@ gradient = SubResource("Gradient_0nfo8")
 [sub_resource type="ViewportTexture" id="ViewportTexture_x3h5r"]
 viewport_path = NodePath("player/SubViewport")
 
-[sub_resource type="GDScript" id="GDScript_5juve"]
-script/source = "extends Sprite2D
-"
-
 [sub_resource type="ViewportTexture" id="ViewportTexture_j2r7a"]
 viewport_path = NodePath("player/SubViewport")
 
-[sub_resource type="SphereShape3D" id="SphereShape3D_n4bvh"]
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_vuhtq"]
+margin = 0.0
+height = 6.5
+radius = 6.0
 
 [node name="Node3D" type="Node3D"]
-script = ExtResource("1_fy5k1")
+script = ExtResource("1_6x8df")
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_00r57")
+script = SubResource("GDScript_kup1q")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(-0.999328, 0.0337307, -0.0143178, -0.0195542, -0.16043, 0.986854, 0.0309903, 0.986471, 0.160982, 0, 29.8726, 0)
@@ -67,7 +73,7 @@ mesh = SubResource("SphereMesh_3fuc5")
 
 [node name="player" type="CharacterBody3D" parent="." node_paths=PackedStringArray("gyroCam")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 11.7708, 0)
-script = ExtResource("3_akxrc")
+script = ExtResource("3_x38j3")
 gyroCam = NodePath("SubViewport/GyroCam")
 
 [node name="UI" type="CanvasLayer" parent="player"]
@@ -131,25 +137,44 @@ grow_vertical = 2
 theme_override_constants/separation = -100
 
 [node name="Life-1" type="Sprite2D" parent="player/UI/Left_eye_control/HBoxContainer"]
-visible = false
-position = Vector2(51.5, 14)
-scale = Vector2(0.1, 0.101)
-texture = ExtResource("4_gu47o")
-script = SubResource("GDScript_5juve")
+position = Vector2(52, 14)
+scale = Vector2(0.2, 0.2)
+texture = ExtResource("4_3eo47")
 
 [node name="Life-2" type="Sprite2D" parent="player/UI/Left_eye_control/HBoxContainer"]
-visible = false
-position = Vector2(152.5, 14)
-scale = Vector2(0.1, 0.101)
-texture = ExtResource("4_gu47o")
-script = SubResource("GDScript_5juve")
+position = Vector2(112, 14)
+scale = Vector2(0.2, 0.2)
+texture = ExtResource("4_3eo47")
 
 [node name="Life-3" type="Sprite2D" parent="player/UI/Left_eye_control/HBoxContainer"]
-visible = false
-position = Vector2(101.5, 14)
-scale = Vector2(0.1, 0.101)
-texture = ExtResource("4_gu47o")
-script = SubResource("GDScript_5juve")
+position = Vector2(173, 14)
+scale = Vector2(0.2, 0.2)
+texture = ExtResource("4_3eo47")
+
+[node name="Barra" type="Sprite2D" parent="player/UI/Left_eye_control/HBoxContainer"]
+position = Vector2(223, -41)
+scale = Vector2(0.371149, 0.289753)
+texture = ExtResource("5_kjohx")
+
+[node name="circulo1" type="Sprite2D" parent="player/UI/Left_eye_control"]
+position = Vector2(-310, -337)
+scale = Vector2(0.024, 0.0180001)
+
+[node name="circulo2" type="Sprite2D" parent="player/UI/Left_eye_control"]
+position = Vector2(-236, -337)
+scale = Vector2(0.024, 0.0180001)
+
+[node name="circulo3" type="Sprite2D" parent="player/UI/Left_eye_control"]
+position = Vector2(-163, -337)
+scale = Vector2(0.024, 0.0180001)
+
+[node name="circulo4" type="Sprite2D" parent="player/UI/Left_eye_control"]
+position = Vector2(-89.9999, -337)
+scale = Vector2(0.024, 0.0180001)
+
+[node name="circulo5" type="Sprite2D" parent="player/UI/Left_eye_control"]
+position = Vector2(-15.9999, -335)
+scale = Vector2(0.024, 0.0180001)
 
 [node name="Right_eye_control" type="Control" parent="player/UI"]
 layout_mode = 3
@@ -167,67 +192,63 @@ grow_vertical = 2
 pivot_offset = Vector2(256, 256)
 texture = SubResource("ViewportTexture_j2r7a")
 
-[node name="Left_handposeState" type="Label" parent="player/UI/Right_eye_control"]
-layout_mode = 0
-offset_left = 127.0
-offset_top = -224.0
-offset_right = 257.0
-offset_bottom = -193.0
-text = "LHPS: None"
+[node name="BackGround-Timer" type="Sprite2D" parent="player/UI/Right_eye_control"]
+position = Vector2(382.875, -336.875)
+scale = Vector2(0.211699, 0.20583)
+texture = ExtResource("6_lslbq")
 
-[node name="right_handposeState" type="Label" parent="player/UI/Right_eye_control"]
-layout_mode = 0
-offset_left = 126.0
-offset_top = -192.0
-offset_right = 256.0
-offset_bottom = -161.0
-text = "RHPS: None"
+[node name="BackGround-Score" type="Sprite2D" parent="player/UI/Right_eye_control"]
+position = Vector2(384, -287.25)
+scale = Vector2(0.214821, 0.213781)
+texture = ExtResource("6_lslbq")
 
 [node name="Timer" type="Label" parent="player/UI/Right_eye_control"]
 layout_mode = 0
-offset_left = 268.0
-offset_top = -365.0
-offset_right = 398.0
-offset_bottom = -334.0
+offset_left = 267.0
+offset_top = -349.0
+offset_right = 397.0
+offset_bottom = -316.0
 text = "Timer:"
 
 [node name="Score" type="Label" parent="player/UI/Right_eye_control"]
 layout_mode = 0
-offset_left = 271.0
-offset_top = -346.0
-offset_right = 401.0
-offset_bottom = -315.0
-text = "Pontos:  0"
+offset_left = 268.0
+offset_top = -300.0
+offset_right = 398.0
+offset_bottom = -269.0
+text = "Score:  0"
 
 [node name="SubViewport" type="SubViewport" parent="player"]
 
 [node name="GyroCam" type="Camera3D" parent="player/SubViewport" node_paths=PackedStringArray("left_eye_control", "right_eye_control", "subview_port")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 13, 0)
-script = ExtResource("6_223my")
+script = ExtResource("7_ga8du")
 left_eye_control = NodePath("../../UI/Left_eye_control")
 right_eye_control = NodePath("../../UI/Right_eye_control")
 subview_port = NodePath("..")
 
 [node name="Hands" type="Node2D" parent="player/SubViewport/GyroCam"]
-script = ExtResource("7_17rhs")
+script = ExtResource("8_aqtpa")
 
-[node name="carga" parent="." instance=ExtResource("8_8j1ou")]
-transform = Transform3D(5.1423, 3.51508, 5.02006, 0, 6.55322, -4.58861, -6.12836, 2.9495, 4.21232, -1.549, 13.733, -5.6)
+[node name="Spritederrota" type="Sprite3D" parent="player/SubViewport"]
+transform = Transform3D(0.2, 0, 0, 0, 0.2, 0, 0, 0, 0.2, -0.0120927, 13.2963, -2.55716)
+texture = ExtResource("9_osnjv")
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
-transform = Transform3D(0.02, 0, 0, 0, 0.0181261, -0.00845239, 0, 0.00845239, 0.0181261, 1.018, 13.424, -5.6)
-mesh = ExtResource("9_o3hm7")
-script = ExtResource("10_xpof7")
-
-[node name="Area3D" type="Area3D" parent="MeshInstance3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.51577, 0, 0)
-script = ExtResource("11_302uq")
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="MeshInstance3D/Area3D"]
-transform = Transform3D(66, 0, 0, 0, 66, 1.90735e-06, 0, -1.90735e-06, 66, 0, 39.8081, 0.438416)
-shape = SubResource("SphereShape3D_n4bvh")
+[node name="Spritevitoria" type="Sprite3D" parent="player/SubViewport"]
+transform = Transform3D(0.2, 0, 0, 0, 0.2, 0, 0, 0, 0.2, 0, 0, 0)
+texture = ExtResource("10_tfi5u")
 
 [node name="Timer" type="Timer" parent="."]
 
+[node name="RedomaArea3D" type="Area3D" parent="." node_paths=PackedStringArray("redoma")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 12.9204, 0)
+script = ExtResource("11_xxmf0")
+asteroid_scene = ExtResource("12_bq4wd")
+terra_scene = ExtResource("13_1cs63")
+nave_scene = ExtResource("14_lu8w1")
+redoma = NodePath("CollisionShape3D")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="RedomaArea3D"]
+shape = SubResource("CylinderShape3D_vuhtq")
+
 [connection signal="pressed" from="player/UI/Left_eye_control/Button" to="player/SubViewport/GyroCam" method="reset_rotation"]
-[connection signal="area_entered" from="MeshInstance3D/Area3D" to="MeshInstance3D/Area3D" method="_on_area_entered"]

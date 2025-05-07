@@ -1,7 +1,7 @@
 [gd_scene load_steps=4 format=3 uid="uid://cjmuqiwpikx53"]
 
 [ext_resource type="ArrayMesh" uid="uid://dxgo6tpfqsoef" path="res://images/ricks ufo.obj" id="1_n7v7f"]
-[ext_resource type="Script" path="res://carga.gd" id="2_xhthf"]
+[ext_resource type="Script" uid="uid://cfbtovo11eon5" path="res://scripts/carga.gd" id="2_xhthf"]
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_vuhtq"]
 

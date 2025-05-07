@@ -2,7 +2,7 @@
 
 [ext_resource type="PackedScene" uid="uid://b77fwdtlfrip8" path="res://Object 3D/Asteroid (1).glb" id="1_upjwc"]
 [ext_resource type="Script" uid="uid://bosorxvhxb2vp" path="res://Object 3D/asteroid_(1).gd" id="2_8noaq"]
-[ext_resource type="Script" uid="uid://csh48km2cl0a5" path="res://colisao_asteroid.gd" id="3_63mid"]
+[ext_resource type="Script" uid="uid://csh48km2cl0a5" path="res://scripts/colisao_asteroid.gd" id="3_63mid"]
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_kmxbb"]
 

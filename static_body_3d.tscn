@@ -1,7 +1,0 @@
-[gd_scene load_steps=0 format=3 uid="uid://b5gdvrw52n5k8"]
-
-[node name="StaticBody3D" type="StaticBody3D"]
-
-[node name="Area3D" type="Area3D" parent="."]
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D"]
