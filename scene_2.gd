@@ -26,8 +26,8 @@ var circulo = {
 @onready var gyro_cam = $player/SubViewport/GyroCam
 @onready var victorysprite = $player/SubViewport/Spritevitoria
  
-@onready var barra = get_node_or_null("player/UI/Left_eye_control/conteiner")
-@onready var itens = get_node_or_null("player/UI/Right_eye_control/conteiner")
+#@onready var barra = get_node_or_null("player/UI/Left_eye_control/conteiner")
+#@onready var itens = get_node_or_null("player/UI/Right_eye_control/conteiner")
 @onready var jogo_tela = get_node_or_null("RedomaArea3D")
  
 var game = true
@@ -36,8 +36,8 @@ var score = 0
 var current_stage = 1
 var validacao = 0
 var timer_connected = false
- 
-var visibilidade 
+var _visibilidade
+
  
 
 func _ready():
@@ -77,7 +77,7 @@ func _process(delta: float):
 			else:
 				marcar_erro()
 				oxygen -= 1
-				update_life_sprites()
+			
 				if oxygen <= 0:
 					game_over()
  
@@ -97,9 +97,7 @@ func marcar_erro():
 		current["status"] = "vermelho"
 	print("Erro! Marcado na fase", current_stage)
  
-func update_life_sprites():
-	for i in sprites:
-		sprites[i].visible = (oxygen >= i)
+
  
 func update_score_display():
 	if score_sprite:
@@ -108,12 +106,17 @@ func update_score_display():
 func game_over():
 	game = false
 	print("Game Over!")
+	mostrar_meshes_da_redoma()
 	chamarteladerrota()
+	esconder_meshes_da_redoma()
+	visibilidade()
  
 func game_over_vitoria():
 	game = false
 	print("Você venceu!")
 	chamartelavitoria()
+	esconder_meshes_da_redoma()
+	visibilidade()
  
 func _on_timer_timeout():
 	timer_sprite.text = "Timer: Stop"
@@ -183,4 +186,15 @@ func mostrar_meshes_da_redoma():
 
 
 
+func visibilidade():
+	var barra = get_node("player/UI/Right_eye_control/conteiner")
+	var itens = get_node("player/UI/Left_eye_control/conteiner")
+	_visibilidade !=_visibilidade
+	if _visibilidade:
+		barra.hide()
+		itens.hide()	
+	else:
+		barra.show()
+		itens.show()
 	
+		

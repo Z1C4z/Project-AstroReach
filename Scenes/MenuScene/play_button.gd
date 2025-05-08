@@ -78,6 +78,7 @@ func atualizar_icone():
 # Funções específicas para cada objeto
 func play():
 	get_parent().mostrar_meshes_da_redoma()
+	get_parent().visibilidade()
 	
 		
 
