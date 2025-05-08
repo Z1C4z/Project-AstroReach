@@ -77,7 +77,7 @@ func _process(delta: float):
 			else:
 				marcar_erro()
 				oxygen -= 1
-
+				update_life_sprites()
 				if oxygen <= 0:
 					game_over()
  
@@ -97,6 +97,9 @@ func marcar_erro():
 		current["status"] = "vermelho"
 	print("Erro! Marcado na fase", current_stage)
  
+func update_life_sprites():
+	for i in sprites:
+		sprites[i].visible = (oxygen >= i)
  
 func update_score_display():
 	if score_sprite:
@@ -143,7 +146,17 @@ func chamartelavitoria():
 	victorysprite.look_at(gyro_cam.global_position, Vector3.UP)
 	victorysprite.rotate_y(deg_to_rad(180))
 	victorysprite.visible = true
-
+ 
+func visivel():
+	jogo_tela = get_node_or_null("RedomaArea3D")
+	
+	if jogo_tela == null:
+		print("Node RedomaArea3D não encontrado!")
+		return
+	
+	print("Filhos de RedomaArea3D:")
+	for child in jogo_tela.get_children():
+		print(" - ", child.name, " (", child.get_class(), ")")
 		
 func esconder_meshes_da_redoma():
 	var redoma = get_node("RedomaArea3D")
@@ -155,6 +168,7 @@ func esconder_meshes_da_redoma():
 				for subfilho in filho.get_children():
 					if subfilho is MeshInstance3D:
 						subfilho.hide()
+						
 						
 func mostrar_meshes_da_redoma():
 	var redoma = get_node("RedomaArea3D")

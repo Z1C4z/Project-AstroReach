@@ -39,9 +39,31 @@ func atualizar_barra(progresso):
 
 func concluir_carregamento():
 	cancelar_carregamento()
-	play()
+	executar_acao()
 
-
+func executar_acao():
+	print("Carregamento concluído! Executando ação para:", name)
+	
+	# Executa uma função diferente com base no nome do objeto
+	match name:
+		"PlayButton":
+			play()
+			
+			# Esconder ExitButton ao iniciar o jogo
+			var exit_button = get_parent().get_node_or_null("ExitButton")
+			if exit_button:
+				exit_button.visible = false
+			
+			# Instancia o script principal e chama a função visível (se necessário)
+			visibilidade = visibilidade.instantiate()
+			await visibilidade.visivel()
+			
+		"ExitButton":
+			exit()
+		_:
+			print("Nome do objeto não reconhecido:", name)
+	
+	self.queue_free()
 
 func atualizar_icone():
 	# Altera o ícone no TextureRect com base no nome do objeto
@@ -56,6 +78,8 @@ func atualizar_icone():
 # Funções específicas para cada objeto
 func play():
 	get_parent().mostrar_meshes_da_redoma()
+	
+		
 
 	# Adicione a lógica específica para o objeto1 aqui
 
