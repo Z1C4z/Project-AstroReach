@@ -39,23 +39,9 @@ func atualizar_barra(progresso):
 
 func concluir_carregamento():
 	cancelar_carregamento()
-	executar_acao()
+	play()
 
-func executar_acao():
-	print("Carregamento concluído! Executando ação para:", name)
-	
-	# Executa uma função diferente com base no nome do objeto
-	match name:
-		"PlayButton":
-			play()
-			visibilidade = visibilidade.instantiate()
-			await visibilidade.visivel()
-		"ExitButton":
-			exit()
-		_:
-			print("Nome do objeto não reconhecido:", name)
-	
-	self.queue_free()
+
 
 func atualizar_icone():
 	# Altera o ícone no TextureRect com base no nome do objeto
@@ -69,7 +55,8 @@ func atualizar_icone():
 
 # Funções específicas para cada objeto
 func play():
-	print("Executando ação personalizada para objeto1")
+	get_parent().mostrar_meshes_da_redoma()
+
 	# Adicione a lógica específica para o objeto1 aqui
 
 func exit():

@@ -42,6 +42,9 @@ var visibilidade
 
 func _ready():
 	esconderteladerrota()
+	esconder_meshes_da_redoma()
+
+
 	for stage in fase_status:
 		fase_status[stage]["local"].texture = null
 		fase_status[stage]["status"] = "null"
@@ -74,7 +77,7 @@ func _process(delta: float):
 			else:
 				marcar_erro()
 				oxygen -= 1
-				update_life_sprites()
+
 				if oxygen <= 0:
 					game_over()
  
@@ -94,9 +97,6 @@ func marcar_erro():
 		current["status"] = "vermelho"
 	print("Erro! Marcado na fase", current_stage)
  
-func update_life_sprites():
-	for i in sprites:
-		sprites[i].visible = (oxygen >= i)
  
 func update_score_display():
 	if score_sprite:
@@ -143,20 +143,30 @@ func chamartelavitoria():
 	victorysprite.look_at(gyro_cam.global_position, Vector3.UP)
 	victorysprite.rotate_y(deg_to_rad(180))
 	victorysprite.visible = true
- 
-func visivel():
-	barra = get_node_or_null("player/UI/Left_eye_control/conteiner")
-	itens = get_node_or_null("player/UI/Right_eye_control/conteiner")
-	jogo_tela = get_node_or_null("RedomaArea3D")
-	visibilidade !=visibilidade
-	if visibilidade:
-		jogo_tela.show()
-		itens.show()
-		barra.show()
-		print("começo")
-	else:
-		jogo_tela.hide()
-		itens.hide()
-		barra.hide()
-		print("final")
+
+		
+func esconder_meshes_da_redoma():
+	var redoma = get_node("RedomaArea3D")
+	if redoma:
+		for filho in redoma.get_children():
+			if filho is MeshInstance3D:
+				filho.hide()
+			elif filho is Node3D:
+				for subfilho in filho.get_children():
+					if subfilho is MeshInstance3D:
+						subfilho.hide()
+						
+func mostrar_meshes_da_redoma():
+	var redoma = get_node("RedomaArea3D")
+	if redoma:
+		for filho in redoma.get_children():
+			if filho is MeshInstance3D:
+				filho.show()
+			elif filho is Node3D:
+				for subfilho in filho.get_children():
+					if subfilho is MeshInstance3D:
+						subfilho.show()
+
+
+
 	
