@@ -28,7 +28,7 @@ var circulo = {
 @onready var victorysprite = $player/SubViewport/Spritevitoria
 
 @onready var jogo_tela = get_node_or_null("RedomaArea3D")
-var _visibilidade
+
 var game = true
 var oxygen = 3
 var score = 0
@@ -105,11 +105,28 @@ func game_over():
 	oxygen = 3
 	update_life_sprites()
 	game = true
+		
+	
 
 func game_over_vitoria():
 	game = false
 	print("Você venceu!")
+	esconder_meshes_da_redoma()
 	chamartelavitoria()
+	await get_tree().create_timer(5.0).timeout
+	escondertelavitoria()
+	invisibilidade()
+
+	fase_status = {
+	1: {"status": "null", "local": $player/UI/Left_eye_control/circulo1},
+	2: {"status": "null", "local": $player/UI/Left_eye_control/circulo2},
+	3: {"status": "null", "local": $player/UI/Left_eye_control/circulo3},
+	4: {"status": "null", "local": $player/UI/Left_eye_control/circulo4},
+	5: {"status": "null", "local": $player/UI/Left_eye_control/circulo5}
+}
+
+	
+	
 
 func _on_timer_timeout():
 	timer_sprite.text = "Timer: Stop"
@@ -129,6 +146,8 @@ func add_point(points):
 
 func esconderteladerrota():
 	defeatsprite.visible = false
+func escondertelavitoria():
+	victorysprite.visible = false
 
 func chamarteladerrota():
 	print("entrou na derrota") #so pra teste ok, pode tirar isso aqui depois
@@ -182,11 +201,17 @@ func mostrar_meshes_da_redoma():
 func visibilidade():
 	var barra = get_node("player/UI/Right_eye_control/conteiner")
 	var itens = get_node("player/UI/Left_eye_control/conteiner")
-	_visibilidade !=_visibilidade
-	if _visibilidade:
-		barra.hide()
-		itens.hide()	
-	else:
-		barra.show()
-		itens.show()
+	barra.show()
+	itens.show()
+
+func invisibilidade():
+	var barra = get_node("player/UI/Right_eye_control/conteiner")
+	var itens = get_node("player/UI/Left_eye_control/conteiner")
+	barra.hide()
+	itens.hide()	
+	var exit_button = get_parent().get_node_or_null("ExitButton")
+	var play_button = get_parent().get_node_or_null("PlayButton")
+	exit_button.visible = true
+	play_button.visible = true
+	esconder_meshes_da_redoma()
 	
