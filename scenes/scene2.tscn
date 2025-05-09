@@ -1,4 +1,4 @@
-[gd_scene load_steps=29 format=3 uid="uid://djjy4m0r80nm8"]
+[gd_scene load_steps=28 format=3 uid="uid://djjy4m0r80nm8"]
 
 [ext_resource type="Script" uid="uid://dtqjme0rmkq35" path="res://scripts/scene_2.gd" id="1_6x8df"]
 [ext_resource type="Texture2D" uid="uid://dgvu6kmn18i2w" path="res://images/NightSkyHDR1013_2K.jpg" id="2_aoyh8"]
@@ -8,7 +8,6 @@
 [ext_resource type="Texture2D" uid="uid://yw3bcbdghdl1" path="res://images/Add a subheading.png" id="6_lslbq"]
 [ext_resource type="Script" uid="uid://p2ytx5hw7rd8" path="res://scripts/VR_camera.gd" id="7_ga8du"]
 [ext_resource type="Script" uid="uid://bn24ovxotme33" path="res://scripts/hands.gd" id="8_aqtpa"]
-[ext_resource type="Texture2D" uid="uid://bweesr32oqu6y" path="res://images/teladerrotacorreta.png" id="9_osnjv"]
 [ext_resource type="Texture2D" uid="uid://cm1vdn15q4eos" path="res://images/BOA!.png" id="10_tfi5u"]
 [ext_resource type="Script" uid="uid://bi13b4wj555jt" path="res://scripts/redoma_area_3d.gd" id="11_xxmf0"]
 [ext_resource type="PackedScene" uid="uid://dlh05laiopdk3" path="res://Object 3D/asteroid_(1).tscn" id="12_bq4wd"]
@@ -29,16 +28,6 @@ tonemap_mode = 2
 glow_enabled = true
 
 [sub_resource type="GDScript" id="GDScript_kup1q"]
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_a612y"]
-albedo_color = Color(1, 1, 0.560784, 1)
-
-[sub_resource type="SphereMesh" id="SphereMesh_3fuc5"]
-material = SubResource("StandardMaterial3D_a612y")
-radius = 4.0
-height = 7.0
-radial_segments = 8
-rings = 8
 
 [sub_resource type="Gradient" id="Gradient_0nfo8"]
 colors = PackedColorArray(0, 0, 0, 1, 0, 0, 0, 1)
@@ -63,6 +52,16 @@ viewport_path = NodePath("SubViewport")
 [sub_resource type="ViewportTexture" id="ViewportTexture_x38j3"]
 viewport_path = NodePath("SubViewport")
 
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_a612y"]
+albedo_color = Color(1, 1, 0.560784, 1)
+
+[sub_resource type="SphereMesh" id="SphereMesh_3fuc5"]
+material = SubResource("StandardMaterial3D_a612y")
+radius = 4.0
+height = 7.0
+radial_segments = 8
+rings = 8
+
 [node name="Node3D" type="Node3D"]
 script = ExtResource("1_6x8df")
 
@@ -73,10 +72,6 @@ script = SubResource("GDScript_kup1q")
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(-0.999328, 0.0337307, -0.0143178, -0.0195542, -0.16043, 0.986854, 0.0309903, 0.986471, 0.160982, 0, 29.8726, 0)
 shadow_enabled = true
-
-[node name="planet" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 6, 0)
-mesh = SubResource("SphereMesh_3fuc5")
 
 [node name="player" type="CharacterBody3D" parent="." node_paths=PackedStringArray("gyroCam")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 11.7708, 0)
@@ -230,12 +225,9 @@ subview_port = NodePath("..")
 [node name="Hands" type="Node2D" parent="player/SubViewport/GyroCam"]
 script = ExtResource("8_aqtpa")
 
-[node name="Spritederrota" type="Sprite3D" parent="player/SubViewport"]
-transform = Transform3D(0.2, 0, 0, 0, 0.2, 0, 0, 0, 0.2, -0.0120927, 13.2963, -2.55716)
-texture = ExtResource("9_osnjv")
-
 [node name="Spritevitoria" type="Sprite3D" parent="player/SubViewport"]
 transform = Transform3D(0.2, 0, 0, 0, 0.2, 0, 0, 0, 0.2, 0, 0, 0)
+visible = false
 texture = ExtResource("10_tfi5u")
 
 [node name="Timer" type="Timer" parent="."]
@@ -258,5 +250,12 @@ texture = SubResource("ViewportTexture_aoyh8")
 [node name="ExitButton" parent="." instance=ExtResource("15_aoyh8")]
 transform = Transform3D(0.951207, 0.0708565, -0.300306, 0, 0.973275, 0.229642, 0.308552, -0.218437, 0.925786, 2.60865, 12.2736, -4.93522)
 texture = SubResource("ViewportTexture_x38j3")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+
+[node name="planet" type="MeshInstance3D" parent="CollisionShape3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 6, 0)
+mesh = SubResource("SphereMesh_3fuc5")
+skeleton = NodePath("../..")
 
 [connection signal="pressed" from="player/UI/Left_eye_control/Button" to="player/SubViewport/GyroCam" method="reset_rotation"]

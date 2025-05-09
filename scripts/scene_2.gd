@@ -205,13 +205,13 @@ func visibilidade():
 	itens.show()
 
 func invisibilidade():
+	var play_button = get_parent().get_node_or_null("PlayButton")
+	var exit_button = get_parent().get_node_or_null("ExitButton")
 	var barra = get_node("player/UI/Right_eye_control/conteiner")
 	var itens = get_node("player/UI/Left_eye_control/conteiner")
 	barra.hide()
 	itens.hide()	
-	var exit_button = get_parent().get_node_or_null("ExitButton")
-	var play_button = get_parent().get_node_or_null("PlayButton")
-	exit_button.visible = true
-	play_button.visible = true
+	exit_button.show()
+	play_button.show()
 	esconder_meshes_da_redoma()
 	
