@@ -1,4 +1,4 @@
-[gd_scene load_steps=30 format=3 uid="uid://djjy4m0r80nm8"]
+[gd_scene load_steps=29 format=3 uid="uid://djjy4m0r80nm8"]
 
 [ext_resource type="Script" uid="uid://dtqjme0rmkq35" path="res://scripts/scene_2.gd" id="1_6x8df"]
 [ext_resource type="Texture2D" uid="uid://dgvu6kmn18i2w" path="res://images/NightSkyHDR1013_2K.jpg" id="2_aoyh8"]
@@ -15,7 +15,6 @@
 [ext_resource type="PackedScene" uid="uid://d4k4evgyiq1eo" path="res://Object 3D/earth_(1).tscn" id="13_1cs63"]
 [ext_resource type="PackedScene" uid="uid://cjmuqiwpikx53" path="res://Object 3D/carga.tscn" id="14_lu8w1"]
 [ext_resource type="PackedScene" uid="uid://k2urpqp3uaof" path="res://scenes/MenuScene/button.tscn" id="15_aoyh8"]
-[ext_resource type="PackedScene" uid="uid://sny3jsjbpu3r" path="res://node_3d.tscn" id="16_x38j3"]
 
 [sub_resource type="PanoramaSkyMaterial" id="PanoramaSkyMaterial_cucev"]
 panorama = ExtResource("2_aoyh8")
@@ -150,6 +149,7 @@ position = Vector2(-15.9999, -335)
 scale = Vector2(0.024, 0.0180001)
 
 [node name="conteiner" type="Panel" parent="player/UI/Left_eye_control"]
+visible = false
 layout_mode = 0
 
 [node name="Life-1" type="Sprite2D" parent="player/UI/Left_eye_control/conteiner"]
@@ -258,7 +258,5 @@ texture = SubResource("ViewportTexture_aoyh8")
 [node name="ExitButton" parent="." instance=ExtResource("15_aoyh8")]
 transform = Transform3D(0.951207, 0.0708565, -0.300306, 0, 0.973275, 0.229642, 0.308552, -0.218437, 0.925786, 2.60865, 12.2736, -4.93522)
 texture = SubResource("ViewportTexture_x38j3")
-
-[node name="Node3D" parent="." instance=ExtResource("16_x38j3")]
 
 [connection signal="pressed" from="player/UI/Left_eye_control/Button" to="player/SubViewport/GyroCam" method="reset_rotation"]

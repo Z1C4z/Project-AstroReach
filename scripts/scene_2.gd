@@ -15,9 +15,9 @@ var circulo = {
 }
 
 @onready var sprites = {
-	1: $"player/UI/Left_eye_control/HBoxContainer/Life-1",
-	2: $"player/UI/Left_eye_control/HBoxContainer/Life-2",
-	3: $"player/UI/Left_eye_control/HBoxContainer/Life-3"
+	1: $"player/UI/Left_eye_control/conteiner/Life-1",
+	2: $"player/UI/Left_eye_control/conteiner/Life-2",
+	3: $"player/UI/Left_eye_control/conteiner/Life-3"
 }
 
 @onready var timer_sprite = $player/UI/Right_eye_control/Timer
