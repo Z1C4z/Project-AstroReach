@@ -1,0 +1,47 @@
+[
+    {
+        "pontos_ganhar": 10,
+        "pontos_perder": 5,
+        "pontos_replay": 6,
+        "estado": "desconhecido",
+        "duracao": 60,
+        "distancia": 7,
+        "obstaculos": 1
+    },
+    {
+        "pontos_ganhar": 15,
+        "pontos_perder": 7,
+        "pontos_replay": 10,
+        "estado": "desconhecido",
+        "duracao": 50,
+        "distancia": 7.5,
+        "obstaculos": 3
+    },
+    {
+        "pontos_ganhar": 20,
+        "pontos_perder": 10,
+        "pontos_replay": 15,
+        "estado": "desconhecido",
+        "duracao": 40,
+        "distancia": 8.2,
+        "obstaculos": 5
+    },
+    {
+        "pontos_ganhar": 25,
+        "pontos_perder": 12,
+        "pontos_replay": 19,
+        "estado": "desconhecido",
+        "duracao": 30,
+        "distancia": 9.1,
+        "obstaculos": 7
+    },
+    {
+        "pontos_ganhar": 30,
+        "pontos_perder": 15,
+        "pontos_replay": 22,
+        "estado": "desconhecido",
+        "duracao": 25,
+        "distancia": 10,
+        "obstaculos": 9
+    }
+]

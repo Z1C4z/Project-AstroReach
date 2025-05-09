@@ -1,4 +1,4 @@
-[gd_scene load_steps=26 format=3 uid="uid://djjy4m0r80nm8"]
+[gd_scene load_steps=29 format=3 uid="uid://djjy4m0r80nm8"]
 
 [ext_resource type="Script" uid="uid://dtqjme0rmkq35" path="res://scripts/scene_2.gd" id="1_6x8df"]
 [ext_resource type="Texture2D" uid="uid://dgvu6kmn18i2w" path="res://images/NightSkyHDR1013_2K.jpg" id="2_aoyh8"]
@@ -14,6 +14,7 @@
 [ext_resource type="PackedScene" uid="uid://dlh05laiopdk3" path="res://Object 3D/asteroid_(1).tscn" id="12_bq4wd"]
 [ext_resource type="PackedScene" uid="uid://d4k4evgyiq1eo" path="res://Object 3D/earth_(1).tscn" id="13_1cs63"]
 [ext_resource type="PackedScene" uid="uid://cjmuqiwpikx53" path="res://Object 3D/carga.tscn" id="14_lu8w1"]
+[ext_resource type="PackedScene" uid="uid://k2urpqp3uaof" path="res://scenes/MenuScene/button.tscn" id="15_aoyh8"]
 
 [sub_resource type="PanoramaSkyMaterial" id="PanoramaSkyMaterial_cucev"]
 panorama = ExtResource("2_aoyh8")
@@ -55,6 +56,12 @@ viewport_path = NodePath("player/SubViewport")
 margin = 0.0
 height = 6.5
 radius = 6.0
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_aoyh8"]
+viewport_path = NodePath("SubViewport")
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_x38j3"]
+viewport_path = NodePath("SubViewport")
 
 [node name="Node3D" type="Node3D"]
 script = ExtResource("1_6x8df")
@@ -121,41 +128,6 @@ offset_right = 8.0
 offset_bottom = -171.0
 text = "Reset Camera Rotation"
 
-[node name="HBoxContainer" type="HBoxContainer" parent="player/UI/Left_eye_control"]
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -393.0
-offset_top = -316.0
-offset_right = -141.0
-offset_bottom = -245.0
-grow_horizontal = 2
-grow_vertical = 2
-theme_override_constants/separation = -100
-
-[node name="Life-1" type="Sprite2D" parent="player/UI/Left_eye_control/HBoxContainer"]
-position = Vector2(52, 14)
-scale = Vector2(0.2, 0.2)
-texture = ExtResource("4_3eo47")
-
-[node name="Life-2" type="Sprite2D" parent="player/UI/Left_eye_control/HBoxContainer"]
-position = Vector2(112, 14)
-scale = Vector2(0.2, 0.2)
-texture = ExtResource("4_3eo47")
-
-[node name="Life-3" type="Sprite2D" parent="player/UI/Left_eye_control/HBoxContainer"]
-position = Vector2(173, 14)
-scale = Vector2(0.2, 0.2)
-texture = ExtResource("4_3eo47")
-
-[node name="Barra" type="Sprite2D" parent="player/UI/Left_eye_control/HBoxContainer"]
-position = Vector2(223, -41)
-scale = Vector2(0.371149, 0.289753)
-texture = ExtResource("5_kjohx")
-
 [node name="circulo1" type="Sprite2D" parent="player/UI/Left_eye_control"]
 position = Vector2(-310, -337)
 scale = Vector2(0.024, 0.0180001)
@@ -176,6 +148,30 @@ scale = Vector2(0.024, 0.0180001)
 position = Vector2(-15.9999, -335)
 scale = Vector2(0.024, 0.0180001)
 
+[node name="conteiner" type="Panel" parent="player/UI/Left_eye_control"]
+visible = false
+layout_mode = 0
+
+[node name="Life-1" type="Sprite2D" parent="player/UI/Left_eye_control/conteiner"]
+position = Vector2(-321, -282)
+scale = Vector2(0.2, 0.2)
+texture = ExtResource("4_3eo47")
+
+[node name="Barra" type="Sprite2D" parent="player/UI/Left_eye_control/conteiner"]
+position = Vector2(-150, -337)
+scale = Vector2(0.371149, 0.289753)
+texture = ExtResource("5_kjohx")
+
+[node name="Life-3" type="Sprite2D" parent="player/UI/Left_eye_control/conteiner"]
+position = Vector2(-200, -282)
+scale = Vector2(0.2, 0.2)
+texture = ExtResource("4_3eo47")
+
+[node name="Life-2" type="Sprite2D" parent="player/UI/Left_eye_control/conteiner"]
+position = Vector2(-261, -282)
+scale = Vector2(0.2, 0.2)
+texture = ExtResource("4_3eo47")
+
 [node name="Right_eye_control" type="Control" parent="player/UI"]
 layout_mode = 3
 anchors_preset = 0
@@ -192,17 +188,21 @@ grow_vertical = 2
 pivot_offset = Vector2(256, 256)
 texture = SubResource("ViewportTexture_j2r7a")
 
-[node name="BackGround-Timer" type="Sprite2D" parent="player/UI/Right_eye_control"]
-position = Vector2(382.875, -336.875)
-scale = Vector2(0.211699, 0.20583)
-texture = ExtResource("6_lslbq")
+[node name="conteiner" type="Panel" parent="player/UI/Right_eye_control"]
+visible = false
+layout_mode = 0
 
-[node name="BackGround-Score" type="Sprite2D" parent="player/UI/Right_eye_control"]
+[node name="BackGround-Score" type="Sprite2D" parent="player/UI/Right_eye_control/conteiner"]
 position = Vector2(384, -287.25)
 scale = Vector2(0.214821, 0.213781)
 texture = ExtResource("6_lslbq")
 
-[node name="Timer" type="Label" parent="player/UI/Right_eye_control"]
+[node name="BackGround-Timer" type="Sprite2D" parent="player/UI/Right_eye_control/conteiner"]
+position = Vector2(382.875, -336.875)
+scale = Vector2(0.211699, 0.20583)
+texture = ExtResource("6_lslbq")
+
+[node name="Timer" type="Label" parent="player/UI/Right_eye_control/conteiner"]
 layout_mode = 0
 offset_left = 267.0
 offset_top = -349.0
@@ -210,7 +210,7 @@ offset_right = 397.0
 offset_bottom = -316.0
 text = "Timer:"
 
-[node name="Score" type="Label" parent="player/UI/Right_eye_control"]
+[node name="Score" type="Label" parent="player/UI/Right_eye_control/conteiner"]
 layout_mode = 0
 offset_left = 268.0
 offset_top = -300.0
@@ -250,5 +250,13 @@ redoma = NodePath("CollisionShape3D")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="RedomaArea3D"]
 shape = SubResource("CylinderShape3D_vuhtq")
+
+[node name="PlayButton" parent="." instance=ExtResource("15_aoyh8")]
+transform = Transform3D(1, 0, 0, 0, 0.973275, 0.229642, 0, -0.229642, 0.973275, -0.874573, 12.3584, -4.4782)
+texture = SubResource("ViewportTexture_aoyh8")
+
+[node name="ExitButton" parent="." instance=ExtResource("15_aoyh8")]
+transform = Transform3D(0.951207, 0.0708565, -0.300306, 0, 0.973275, 0.229642, 0.308552, -0.218437, 0.925786, 2.60865, 12.2736, -4.93522)
+texture = SubResource("ViewportTexture_x38j3")
 
 [connection signal="pressed" from="player/UI/Left_eye_control/Button" to="player/SubViewport/GyroCam" method="reset_rotation"]

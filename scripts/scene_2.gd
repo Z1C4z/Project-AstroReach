@@ -27,6 +27,8 @@ var circulo = {
 @onready var gyro_cam = $player/SubViewport/GyroCam
 @onready var victorysprite = $player/SubViewport/Spritevitoria
 
+@onready var jogo_tela = get_node_or_null("RedomaArea3D")
+var _visibilidade
 var game = true
 var oxygen = 3
 var score = 0
@@ -35,6 +37,7 @@ var validacao = 0
 var timer_connected = false
 
 func _ready():
+	esconder_meshes_da_redoma()
 	esconderteladerrota()
 	for stage in fase_status:
 		fase_status[stage]["local"].texture = null
@@ -139,3 +142,51 @@ func chamartelavitoria():
 	victorysprite.look_at(gyro_cam.global_position, Vector3.UP)
 	victorysprite.rotate_y(deg_to_rad(180))
 	victorysprite.visible = true
+	
+func visivel():
+	jogo_tela = get_node_or_null("RedomaArea3D")
+	
+	if jogo_tela == null:
+		print("Node RedomaArea3D não encontrado!")
+		return
+	
+	print("Filhos de RedomaArea3D:")
+	for child in jogo_tela.get_children():
+		print(" - ", child.name, " (", child.get_class(), ")")
+		
+func esconder_meshes_da_redoma():
+	var redoma = get_node("RedomaArea3D")
+	if redoma:
+		for filho in redoma.get_children():
+			if filho is MeshInstance3D:
+				filho.hide()
+			elif filho is Node3D:
+				for subfilho in filho.get_children():
+					if subfilho is MeshInstance3D:
+						subfilho.hide()
+						
+						
+func mostrar_meshes_da_redoma():
+	var redoma = get_node("RedomaArea3D")
+	if redoma:
+		for filho in redoma.get_children():
+			if filho is MeshInstance3D:
+				filho.show()
+			elif filho is Node3D:
+				for subfilho in filho.get_children():
+					if subfilho is MeshInstance3D:
+						subfilho.show()
+
+
+
+func visibilidade():
+	var barra = get_node("player/UI/Right_eye_control/conteiner")
+	var itens = get_node("player/UI/Left_eye_control/conteiner")
+	_visibilidade !=_visibilidade
+	if _visibilidade:
+		barra.hide()
+		itens.hide()	
+	else:
+		barra.show()
+		itens.show()
+	
